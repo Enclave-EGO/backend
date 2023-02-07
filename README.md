@@ -1,15 +1,15 @@
-## EGO-project
+## EGO Project - Backend
 
 #### 1. Clone project
 
 ```bash
-$ git clone https://github.com/huynhducthanhtuan/EGO-project.git
+$ git clone https://github.com/Enclave-EGO/backend.git
 ```
 
-#### 2. Change directory to folder EGO-project
+#### 2. Change directory to folder backend
 
 ```bash
-$ cd EGO-project
+$ cd backend
 ```
 
 #### 3. Install dependencies
