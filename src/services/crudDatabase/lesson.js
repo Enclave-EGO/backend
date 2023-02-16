@@ -1,4 +1,4 @@
-import { Lesson } from "../../models/lessonmodel.js";
+import Lesson from "../../models/LessonModel.js";
 
 const checkExistedLesson = async (name) => {
 	const isExisted = await Lesson.exists({ name }).lean();

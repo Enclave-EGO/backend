@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
-dotenv.config();
+import { MONGO_URL } from "../../constants/index.js";
 
 const connectDatabase = (app) => {
     mongoose
     .set("strictQuery", false)
-    .connect(process.env.MONGO_URL)
+    .connect(MONGO_URL)
     .then(() => {
         console.log('Connected to DB');
     })

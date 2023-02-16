@@ -1,17 +1,15 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import dotenv from "dotenv";
 import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import cookieParse from "cookie-parser";
 import routing from "./routes/index.js";
 import connectDatabase from "./configs/connectDatabase/index.js";
-
+import { PORT } from "./constants/index.js";
 const app = express();
-dotenv.config();
 
-const PORT = process.env.PORT || 4000;
+
 // Config Swagger
 // const swaggerOptions = {
 // 	definition: {

@@ -1,9 +1,9 @@
-import userRouter from "./user.js";
-import lesson from "../routes/lesson.js";
+import UserRouter from "./UserRouter.js";
+import LessonRouter from "./LessonRouter.js";
 
 function routing(app) {
-	app.use("/user", userRouter);
-	app.use('/lesson', lesson);
+	app.use("/user", UserRouter);
+	app.use("/lesson", LessonRouter);
 }
 
 export default routing;

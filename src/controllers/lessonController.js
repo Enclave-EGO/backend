@@ -1,8 +1,8 @@
-import { Lesson } from "../models/lessonmodel.js";
+import Lesson from "../models/LessonModel.js";
 import { checkExistedLesson } from "../services/crudDatabase/lesson.js";
 import { validateLesson } from "../validators/lessonValidate.js";
 
-const lessonController = {
+const LessonController = {
 	//[Post] add a lesson
 	createLesson: async (req, res) => {
 		const { status, error } = await validateLesson(req, res);
@@ -36,4 +36,4 @@ const lessonController = {
 	}
 };
 
-export default lessonController;
+export default LessonController;
