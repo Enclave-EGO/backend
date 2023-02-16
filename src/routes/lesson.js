@@ -2,10 +2,8 @@ import express from "express";
 import lessonController from "../controllers/lessonController.js";
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.send('hello');
-});
+// router.get('/', );
 
-router.post('/', lessonController.createLesson);
+router.post("/", lessonController.createLesson);
 
 export default router;

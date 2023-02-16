@@ -11,6 +11,7 @@ import connectDatabase from "./configs/connectDatabase/index.js";
 const app = express();
 dotenv.config();
 
+const PORT = process.env.PORT || 4000;
 // Config Swagger
 // const swaggerOptions = {
 // 	definition: {
@@ -43,5 +44,7 @@ app.use(cookieParse());
 connectDatabase(app);
 routing(app);
 
-
-
+app.listen(PORT, () => {
+	console.log(`Server is listening at http://localhost:${PORT}/`);
+	console.log(`API Documentation: http://localhost:${PORT}/api-docs/`);
+});
