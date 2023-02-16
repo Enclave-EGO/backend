@@ -1,17 +1,39 @@
 import { Lesson } from "../models/lessonmodel.js";
+import { checkExistedLesson } from "../services/crudDatabase/lesson.js";
+import { validateLesson } from "../validators/lessonValidate.js";
 
 const lessonController = {
-    
-    //[Post] add a lesson
-    createLesson: async (req, res) => {
-        try {
-            const newLesson = new Lesson(req.body);
-            const saveLesson = await newLesson.save();
-            res.status(200).json(saveLesson);
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    }
+	//[Post] add a lesson
+	createLesson: async (req, res) => {
+		const { status, error } = await validateLesson(req, res);
+		const { name, description, videoId, courseId } = req.body;
+
+		if (status === "failed")
+			return res.status(400).json({
+				message: error,
+				error: error
+			});
+
+		const checkName = await checkExistedLesson(name);
+		if (checkName) {
+			return res.status(404).json({
+				message: "Name-Lesson-existed",
+				error: "Name-Lesson-existed"
+			});
+		}
+		try {
+			const newLesson = new Lesson({
+				name,
+				description,
+				videoId,
+				courseId
+			});
+			const saveLesson = await newLesson.save();
+			res.status(200).json(saveLesson);
+		} catch (err) {
+			res.status(500).json(err);
+		}
+	}
 };
 
 export default lessonController;
