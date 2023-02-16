@@ -7,7 +7,7 @@ import swaggerJsDoc from "swagger-jsdoc";
 import cookieParse from "cookie-parser";
 import routing from "./routes/index.js";
 import connectDatabase from "./configs/connectDatabase/index.js";
-
+import lesson from "./routes/lesson.js";
 const PORT = process.env.PORT || 4000;
 const app = express();
 dotenv.config();
@@ -43,6 +43,8 @@ app.use(cookieParse());
 // Connect DB & Routing
 connectDatabase();
 routing(app);
+
+app.use('/lesson', lesson);
 
 app.listen(PORT, () => {
 	console.log(`Server is listening at http://localhost:${PORT}/`);

@@ -1,3 +1,5 @@
-const connectDatabase = () => {};
+const connectDatabase = () => {
+    
+};
 
 export default connectDatabase;
