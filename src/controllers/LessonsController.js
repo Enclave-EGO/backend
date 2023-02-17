@@ -1,6 +1,7 @@
 import Lesson from "../models/LessonModel.js";
-import { checkExistedLesson } from "../services/crudDatabase/lesson.js";
+import { checkExistedLessonName, checkExistedVideoID } from "../services/crudDatabase/lesson.js";
 import { validateLesson } from "../validators/lessonValidate.js";
+import { createNewLesson } from "../services/crudDatabase/lesson.js";
 
 const LessonController = {
 	//[Post] add a lesson
@@ -14,21 +15,17 @@ const LessonController = {
 				error: error
 			});
 
-		const checkName = await checkExistedLesson(name);
-		if (checkName) {
+		const isExistedName = await checkExistedLessonName(name);
+		const isExistedVideoId = await checkExistedVideoID(videoId);
+		if (isExistedName || isExistedVideoId) {
 			return res.status(404).json({
-				message: "Name-Lesson-existed",
-				error: "Name-Lesson-existed"
+				message: "Name lesson or Video ID existed",
+				error: "Name lesson or Video ID existed"
 			});
 		}
 		try {
-			const newLesson = new Lesson({
-				name,
-				description,
-				videoId,
-				courseId
-			});
-			const saveLesson = await newLesson.save();
+			const newLesson = { name, description, videoId, courseId };
+			const saveLesson = await createNewLesson(newLesson);
 			res.status(200).json(saveLesson);
 		} catch (err) {
 			res.status(500).json(err);
