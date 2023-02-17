@@ -1,16 +1,13 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import dotenv from "dotenv";
 import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import cookieParse from "cookie-parser";
 import routing from "./routes/index.js";
 import connectDatabase from "./configs/connectDatabase/index.js";
-
-const PORT = process.env.PORT || 4000;
+import { PORT, SWAGGER_URL, LOCALHOST_URL } from "./constants/index.js";
 const app = express();
-dotenv.config();
 
 // Config Swagger
 const swaggerOptions = {
@@ -18,12 +15,12 @@ const swaggerOptions = {
 		openapi: "3.0.3",
 		info: {
 			title: "SwaggerUI",
-			version: "1.0.0",
+			version: "2.0.0",
 			description: "A simple Express Library API"
 		},
 		servers: [
 			{
-				url: "http://localhost:4000/",
+				url: LOCALHOST_URL,
 				description: "Development"
 			}
 		]
@@ -41,10 +38,10 @@ app.use(express.json());
 app.use(cookieParse());
 
 // Connect DB & Routing
-connectDatabase();
+connectDatabase(app);
 routing(app);
 
 app.listen(PORT, () => {
-	console.log(`Server is listening at http://localhost:${PORT}/`);
-	console.log(`API Documentation: http://localhost:${PORT}/api-docs/`);
+	console.log(`Server is listening at ${LOCALHOST_URL}`);
+	console.log(`API Documentation: ${SWAGGER_URL}`);
 });
