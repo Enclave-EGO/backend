@@ -11,13 +11,16 @@
                         $ref: "#/components/schemas/Lesson"
         responses:
             "200":
-                description: successful operation
+                description: Successful
                 content:
                     application/json:
                         schema:
                         $ref: "#/components/schemas/LessonResponse"
-            "405":
-                description: Invalid input
+            "400":
+                description: Bad request
+            "500":
+                description: Server Error
+
 components:
     schemas:
         Lesson:
