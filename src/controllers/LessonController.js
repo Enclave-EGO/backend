@@ -1,7 +1,8 @@
 import Lesson from "../models/LessonModel.js";
 import {
 	checkExistedLessonName,
-	checkExistedVideoID
+	checkExistedVideoId,
+	checkExistedCourseId
 } from "../services/crudDatabase/lesson.js";
 import { validateLesson } from "../validators/lessonValidate.js";
 import { createNewLesson } from "../services/crudDatabase/lesson.js";
@@ -19,11 +20,15 @@ const LessonController = {
 			});
 
 		const isExistedName = await checkExistedLessonName(name);
-		const isExistedVideoId = await checkExistedVideoID(videoId);
-		if (isExistedName || isExistedVideoId) {
-			return res.status(404).json({
-				message: "Name lesson or Video ID existed",
-				error: "Name lesson or Video ID existed"
+		const isExistedVideoId = await checkExistedVideoId(videoId);
+		const isNotExistedCourseId = !(await checkExistedCourseId(courseId));
+
+		const isInvalidLesson =
+			isExistedName || isExistedVideoId || isNotExistedCourseId;
+		if (isInvalidLesson) {
+			return res.status(400).json({
+				message: "Lesson Error",
+				error: "Lesson Error"
 			});
 		}
 		try {

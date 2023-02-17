@@ -5,8 +5,13 @@ const checkExistedLessonName = async (name) => {
 	return Boolean(isExisted);
 };
 
-const checkExistedVideoID = async (videoId) => {
+const checkExistedVideoId = async (videoId) => {
 	const isExisted = await Lesson.exists({ videoId }).lean();
+	return Boolean(isExisted);
+};
+
+const checkExistedCourseId = async (courseId) => {
+	const isExisted = await Lesson.exists({ courseId }).lean();
 	return Boolean(isExisted);
 };
 
@@ -15,4 +20,9 @@ const createNewLesson = async (lesson) => {
 	const saveLesson = await newLesson.save();
 	return saveLesson;
 };
-export { checkExistedLessonName, checkExistedVideoID, createNewLesson };
+export {
+	checkExistedLessonName,
+	checkExistedVideoId,
+	checkExistedCourseId,
+	createNewLesson
+};
