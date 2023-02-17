@@ -11,4 +11,3 @@ const validateLesson = async (req, res) => {
 };
 
 export { validateLesson };
-
