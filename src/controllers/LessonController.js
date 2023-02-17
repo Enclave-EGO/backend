@@ -21,10 +21,10 @@ const LessonController = {
 
 		const isExistedName = await checkExistedLessonName(name);
 		const isExistedVideoId = await checkExistedVideoId(videoId);
-		const isNotExistedCourseId = !(await checkExistedCourseId(courseId));
+		const isExistedCourseId = await checkExistedCourseId(courseId);
 
 		const isInvalidLesson =
-			isExistedName || isExistedVideoId || isNotExistedCourseId;
+			isExistedName || isExistedVideoId || isExistedCourseId == false;
 		if (isInvalidLesson) {
 			return res.status(400).json({
 				message: "Lesson Error",

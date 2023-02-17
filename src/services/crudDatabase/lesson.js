@@ -1,4 +1,5 @@
 import Lesson from "../../models/LessonModel.js";
+import Course from "../../models/CourseModel.js";
 
 const checkExistedLessonName = async (name) => {
 	const isExisted = await Lesson.exists({ name }).lean();
@@ -10,8 +11,10 @@ const checkExistedVideoId = async (videoId) => {
 	return Boolean(isExisted);
 };
 
-const checkExistedCourseId = async (courseId) => {
-	const isExisted = await Lesson.exists({ courseId }).lean();
+const checkExistedCourseId = async (_id) => {
+	const isExisted = await Course.exists({ _id }).lean();
+	console.log(Course);
+	console.log(isExisted);
 	return Boolean(isExisted);
 };
 
