@@ -1,5 +1,8 @@
 import Lesson from "../models/LessonModel.js";
-import { checkExistedLessonName, checkExistedVideoID } from "../services/crudDatabase/lesson.js";
+import {
+	checkExistedLessonName,
+	checkExistedVideoID
+} from "../services/crudDatabase/lesson.js";
 import { validateLesson } from "../validators/lessonValidate.js";
 import { createNewLesson } from "../services/crudDatabase/lesson.js";
 

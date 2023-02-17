@@ -9,7 +9,6 @@ import connectDatabase from "./configs/connectDatabase/index.js";
 import { PORT } from "./constants/index.js";
 const app = express();
 
-
 // Config Swagger
 // const swaggerOptions = {
 // 	definition: {

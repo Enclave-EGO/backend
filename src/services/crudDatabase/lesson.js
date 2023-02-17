@@ -10,14 +10,9 @@ const checkExistedVideoID = async (videoId) => {
 	return Boolean(isExisted);
 };
 
-
 const createNewLesson = async (lesson) => {
 	const newLesson = new Lesson(lesson);
 	const saveLesson = await newLesson.save();
 	return saveLesson;
 };
-export {
-	checkExistedLessonName,
-	checkExistedVideoID,
-	createNewLesson
-};
+export { checkExistedLessonName, checkExistedVideoID, createNewLesson };
