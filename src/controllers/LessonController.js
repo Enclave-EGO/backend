@@ -19,18 +19,20 @@ const LessonController = {
 				error: error
 			});
 
-		const isExistedName = await checkExistedLessonName(name);
-		const isExistedVideoId = await checkExistedVideoId(videoId);
-		const isNotExistedCourseId = !(await checkExistedCourseId(courseId));
-
+		const [isExistedName, isExistedVideoId, isExistedCourseId] = await Promise.all([
+			checkExistedLessonName(name),
+			checkExistedVideoId(videoId),
+			checkExistedCourseId(courseId)
+		]);
 		const isInvalidLesson =
-			isExistedName || isExistedVideoId || isNotExistedCourseId;
+			isExistedName || isExistedVideoId || isExistedCourseId == false;
 		if (isInvalidLesson) {
 			return res.status(400).json({
 				message: "Lesson Error",
 				error: "Lesson Error"
 			});
 		}
+		
 		try {
 			const newLesson = { name, description, videoId, courseId };
 			const saveLesson = await createNewLesson(newLesson);

@@ -1,26 +1,27 @@
 import mongoose from "mongoose";
-
 const { ObjectId } = mongoose.Schema.Types;
 
-const lessonSchema = new mongoose.Schema(
+const courseSchema = new mongoose.Schema(
 	{
 		name: {
 			type: String,
 			required: true
 		},
+		cost: {
+			type: Number
+		},
 		description: {
 			type: String
 		},
-		videoId: {
-			type: String,
-			required: true
+		thumbnail: {
+			type: String
 		},
-		courseId: {
+		userId: {
 			type: ObjectId,
-			ref: "Course"
+			ref: "User"
 		}
 	},
 	{ timestamps: true }
 );
-const LessonModel = mongoose.model("Lesson", lessonSchema);
-export default LessonModel;
+const CourseModel = mongoose.model("Course", courseSchema);
+export default CourseModel;

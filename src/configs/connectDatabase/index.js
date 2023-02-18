@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import { MONGO_URL } from "../../constants/index.js";
+import { MONGO_URI } from "../../constants/index.js";
 
 const connectDatabase = () => {
 	mongoose
 		.set("strictQuery", false)
-		.connect(MONGO_URL)
+		.connect(MONGO_URI)
 		.then(() => {
 			console.log("Connected to DB");
 		})
