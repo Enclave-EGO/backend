@@ -13,8 +13,6 @@ const checkExistedVideoId = async (videoId) => {
 
 const checkExistedCourseId = async (_id) => {
 	const isExisted = await Course.exists({ _id }).lean();
-	console.log(Course);
-	console.log(isExisted);
 	return Boolean(isExisted);
 };
 
