@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-const { ObjectId } = mongoose.Schema.Types;
 
 const courseSchema = new mongoose.Schema(
 	{
@@ -17,11 +16,13 @@ const courseSchema = new mongoose.Schema(
 			type: String
 		},
 		userId: {
-			type: ObjectId,
+			type: String,
 			ref: "User"
 		}
 	},
 	{ timestamps: true }
 );
+
 const CourseModel = mongoose.model("Course", courseSchema);
+
 export default CourseModel;

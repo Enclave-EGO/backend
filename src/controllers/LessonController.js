@@ -19,11 +19,12 @@ const LessonController = {
 				error: error
 			});
 
-		const [isExistedName, isExistedVideoId, isExistedCourseId] = await Promise.all([
-			checkExistedLessonName(name),
-			checkExistedVideoId(videoId),
-			checkExistedCourseId(courseId)
-		]);
+		const [isExistedName, isExistedVideoId, isExistedCourseId] =
+			await Promise.all([
+				checkExistedLessonName(name),
+				checkExistedVideoId(videoId),
+				checkExistedCourseId(courseId)
+			]);
 		const isInvalidLesson =
 			isExistedName || isExistedVideoId || isExistedCourseId == false;
 		if (isInvalidLesson) {
@@ -32,7 +33,7 @@ const LessonController = {
 				error: "Lesson Error"
 			});
 		}
-		
+
 		try {
 			const newLesson = { name, description, videoId, courseId };
 			const saveLesson = await createNewLesson(newLesson);
