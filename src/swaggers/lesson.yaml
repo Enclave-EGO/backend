@@ -11,24 +11,16 @@
             $ref: "#/components/schemas/Lesson"
     responses:
       "200":
-<<<<<<< HEAD
-        description: successful operation
-=======
         description: Successful
->>>>>>> aceb4588f02944e3869c43f816a6ed05c26b657b
         content:
           application/json:
             schema:
             $ref: "#/components/schemas/LessonResponse"
-<<<<<<< HEAD
-      "405":
-        description: Invalid input
-=======
       "400":
         description: Bad request
       "500":
         description: Server Error
->>>>>>> aceb4588f02944e3869c43f816a6ed05c26b657b
+
   get:
     tags:
       - Lesson
