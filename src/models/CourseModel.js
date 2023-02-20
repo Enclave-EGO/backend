@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+const { ObjectId } = mongoose.Schema.Types;
+
 const courseSchema = new mongoose.Schema(
   {
     name: {
@@ -16,7 +18,7 @@ const courseSchema = new mongoose.Schema(
       type: String
     },
     userId: {
-      type: String,
+      type: ObjectId,
       ref: "User"
     }
   },

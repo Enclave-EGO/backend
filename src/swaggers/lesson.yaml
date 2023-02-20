@@ -1,59 +1,113 @@
 /lesson:
-    post:
-        tags:
-            - Lesson
-        summary: Create a Lesson
-        description: Create a Lesson
-        requestBody:
-            content:
-                application/json:
-                    schema:
-                        $ref: "#/components/schemas/Lesson"
-        responses:
-            "200":
-                description: successful operation
-                content:
-                    application/json:
-                        schema:
-                        $ref: "#/components/schemas/LessonResponse"
-            "405":
-                description: Invalid input
+  post:
+    tags:
+      - Lesson
+    summary: Create a Lesson
+    description: Create a Lesson
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Lesson"
+    responses:
+      "200":
+        description: Successful
+        content:
+          application/json:
+            schema:
+            $ref: "#/components/schemas/LessonResponse"
+      "400":
+        description: Bad request
+      "500":
+        description: Server Error
+
+  get:
+    tags:
+      - Lesson
+    summary: Get all Lessons
+    description: Get all Lessons
+    responses:
+      "200":
+        description: Successful
+      "400":
+        description: Bad request
+      "500":
+        description: Server Error
+
+/lesson/{Id}:
+  get:
+    tags:
+      - Lesson
+    summary: Get a Lesson
+    description: Get a Lesson
+    parameters:
+      - in: path
+        name: Id
+        description: ID of the lesson
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Successful
+      "400":
+        description: Bad request
+
+/lesson/OfCourse/{courseId}:
+  get:
+    tags:
+      - Lesson
+    summary: Get list lesson by course ID
+    description: Get list lesson by course ID
+    parameters:
+      - in: path
+        name: courseId
+        description: ID of the course
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Successful
+      "400":
+        description: Bad request
+
 components:
-    schemas:
-        Lesson:
-            type: object
-            properties:
-                name:
-                    type: string
-                    example: "Học JS cơ bản"
-                description:
-                    type: string
-                    example: "Đây là phần mô tả bài học"
-                videoId:
-                    type: string
-                    example: "123456789ab"
-                courseId:
-                    type: string
-                    example: "63da29aae447df24915d7870"
-        LessonResponse:
-            type: object
-            properties:
-                name:
-                    type: string
-                    example: "Học JS cơ bản"
-                description:
-                    type: string
-                videoId:
-                    type: string
-                    example: "123456789ab"
-                courseId:
-                    type: string
-                    example: "63da29aae447df24915d7870"
-                createdAt:
-                    type: string
-                    format: date-time
-                    example: "2023-02-16T08:42:14.245+00:00"
-                updatedAt:
-                    type: string
-                    format: date-time
-                    example: "2023-02-16T08:42:14.245+00:00"
+  schemas:
+    Lesson:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Học JS cơ bản"
+        description:
+          type: string
+          example: "Đây là phần mô tả bài học"
+        videoId:
+          type: string
+          example: "123456789ab"
+        courseId:
+          type: string
+          example: "63da29aae447df24915d7870"
+    LessonResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Học JS cơ bản"
+        description:
+          type: string
+        videoId:
+          type: string
+          example: "123456789ab"
+        courseId:
+          type: string
+          example: "63da29aae447df24915d7870"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-02-16T08:42:14.245+00:00"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2023-02-16T08:42:14.245+00:00"

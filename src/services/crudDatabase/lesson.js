@@ -22,9 +22,27 @@ const createNewLesson = async (lesson) => {
   return saveLesson;
 };
 
+const findLessons = async () => {
+  const lessons = await Lesson.find().lean();
+  return lessons;
+};
+
+const findLessonById = async (id) => {
+  const lesson = await Lesson.findById(id).lean();
+  return lesson;
+};
+
+const findListLessonsByCourse = async (courseId) => {
+  const lessons = await Lesson.find({ courseId: courseId }).lean();
+  return lessons;
+};
+
 export {
   checkExistedLessonName,
   checkExistedVideoId,
   checkExistedCourseId,
+  findLessons,
+  findLessonById,
+  findListLessonsByCourse,
   createNewLesson
 };
