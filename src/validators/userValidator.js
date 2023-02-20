@@ -13,6 +13,12 @@ export const validateUser = async (req) => {
     validateNameUser(req),
     validateEmail(req)
   ]);
-  
+
+  return returnValidationResult(req);
+};
+
+export const validateSignIn = async (req) => {
+  await Promise.all([validateUsername(req), validatePassword(req)]);
+
   return returnValidationResult(req);
 };
