@@ -47,6 +47,46 @@
         description: Success
       "400":
         description: Bad request
+  delete:
+    tags:
+      - Course
+    summary: Delete course by ID
+    description: Delete course by ID
+    parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad request
+
+/course:
+  delete:
+    tags:
+      - Course
+    summary: Delete many courses by IDs
+    description: Delete many courses by IDs
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - courseIds
+            properties:
+              courseIds:
+                type: array
+            example:
+              courseIds: ["63kk291a2e1807d7370e9700", "63kk291a2e1807d7370e9701"]
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad request
 
 components:
   schemas:

@@ -15,4 +15,14 @@ const getCourseById = async (courseId) => {
 	return course;
 };
 
-export { getAllCourses, getAllCoursesOfUser, getCourseById };
+const deleteCourseById = async (courseId) => {
+	const course = await Course.findOneAndDelete({ _id: courseId }).lean();
+	return course;
+};
+
+const deleteManyCourses = async (courseIds) => {
+	const deleteInfo = await Course.deleteMany({ _id: { $in: courseIds } }).lean();
+	return deleteInfo;
+};
+
+export { getAllCourses, getAllCoursesOfUser, getCourseById, deleteCourseById, deleteManyCourses };
