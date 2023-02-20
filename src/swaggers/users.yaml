@@ -1,4 +1,4 @@
-/user/sign-up:
+/users/:
   post:
     tags:
       - User
@@ -11,15 +11,16 @@
             $ref: "#/components/schemas/User"
     responses:
       "200":
-        description: Successful
+        description: Success
         content:
           application/json:
             schema:
             $ref: "#/components/schemas/LessonResponse"
       "400":
-        description: Bad request
+        description: Bad Request
       "500":
         description: Server Error
+
 components:
   schemas:
     User:

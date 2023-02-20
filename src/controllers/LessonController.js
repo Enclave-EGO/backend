@@ -3,10 +3,9 @@ import {
   checkExistedVideoId,
   checkExistedCourseId,
   findLessonById,
-  findListLessonsByCourse,
-  findLessons
+  findListLessons
 } from "../services/crudDatabase/lesson.js";
-import { validateLesson } from "../validators/lessonValidate.js";
+import { validateLesson } from "../validators/lessonValidator.js";
 import { createNewLesson } from "../services/crudDatabase/lesson.js";
 
 const LessonController = {
@@ -17,8 +16,9 @@ const LessonController = {
 
     if (status === "failed")
       return res.status(400).json({
-        message: error,
-        error: error
+        status: "Fail",
+        error: error,
+        data: null
       });
 
     const [isExistedName, isExistedVideoId, isExistedCourseId] =
@@ -27,43 +27,53 @@ const LessonController = {
         checkExistedVideoId(videoId),
         checkExistedCourseId(courseId)
       ]);
+
     const isInvalidLesson =
       isExistedName || isExistedVideoId || isExistedCourseId == false;
+
     if (isInvalidLesson) {
       return res.status(400).json({
-        message: "Lesson Error",
-        error: "Lesson Error"
+        status: "Fail",
+        error: "Invalid Lesson",
+        data: null
       });
     }
 
     try {
       const newLesson = { name, description, videoId, courseId };
       const saveLesson = await createNewLesson(newLesson);
-      res.status(200).json(saveLesson);
-    } catch (err) {
-      res.status(500).json(err);
+
+      return res
+        .status(200)
+        .json({ status: "Success", error: null, data: saveLesson });
+    } catch (error) {
+      return res.status(500).json({ status: "Fail", error: error, data: null });
     }
   },
 
-  //[GET] View all lesson
+  // [GET] View list lessons (by courseID)
   getLessons: async (req, res) => {
     try {
-      const lessons = await findLessons();
+      const courseId = req.query.courseId;
+      const lessons = await findListLessons(courseId);
 
       if (lessons) {
-        res.status(200).json({
-          message: "Success",
+        return res.status(200).json({
+          status: "Success",
+          error: null,
           data: lessons
         });
       } else {
         return res.status(400).json({
-          message: "Fail",
+          status: "Fail",
+          error: null,
           data: null
         });
       }
-    } catch (err) {
+    } catch (error) {
       return res.status(400).json({
-        message: "Fail",
+        status: "Fail",
+        error: error,
         data: null
       });
     }
@@ -75,43 +85,22 @@ const LessonController = {
       const lesson = await findLessonById(req.params.id);
 
       if (lesson) {
-        res.status(200).json({
-          message: "Success",
+        return res.status(200).json({
+          status: "Success",
+          error: null,
           data: lesson
         });
       } else {
         return res.status(400).json({
-          message: "Fail",
+          status: "Fail",
+          error: null,
           data: null
         });
       }
-    } catch (err) {
+    } catch (error) {
       return res.status(400).json({
-        message: "Fail",
-        data: null
-      });
-    }
-  },
-  //[GET] View list lessons by courseId
-  getListLessonsByCourse: async (req, res) => {
-    try {
-      const courseId = req.params.courseId;
-      const lessons = await findListLessonsByCourse(courseId);
-
-      if (lessons) {
-        res.status(200).json({
-          message: "Success",
-          data: lessons
-        });
-      } else {
-        return res.status(400).json({
-          message: "Fail",
-          data: null
-        });
-      }
-    } catch (err) {
-      return res.status(400).json({
-        message: "Fail",
+        status: "Fail",
+        error: error,
         data: null
       });
     }

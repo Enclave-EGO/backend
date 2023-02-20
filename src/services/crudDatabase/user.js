@@ -1,5 +1,5 @@
-import { hashPassword } from "../authentication/index.js";
 import UserModel from "../../models/UserModel.js";
+import { hashPassword } from "../authentication/index.js";
 
 export const checkExistedUsername = async (username) => {
   const user = await UserModel.findOne({ username });
@@ -21,6 +21,7 @@ export const createNewUser = async (user) => {
     username: username,
     ...data
   });
+  
   const output = await newUser
     .save()
     .then((user) => {

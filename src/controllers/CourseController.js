@@ -1,54 +1,33 @@
 import {
-  getAllCourses,
-  getAllCoursesOfUser,
+  findListCourses,
   getCourseById,
   deleteCourseById,
   deleteManyCourses
 } from "../services/crudDatabase/course.js";
 
 const LessonController = {
-  getAllCourses: async (req, res) => {
+  getCourses: async (req, res) => {
     try {
-      const courses = await getAllCourses();
+      const userId = req.query.userId;
+      const courses = await findListCourses(userId);
 
       if (courses) {
         return res.status(200).json({
-          message: "Success",
+          status: "Success",
+          error: null,
           data: courses
         });
       } else {
         return res.status(400).json({
-          message: "Fail",
+          status: "Fail",
+          error: null,
           data: null
         });
       }
     } catch (error) {
       return res.status(400).json({
-        message: "Fail",
-        data: null
-      });
-    }
-  },
-
-  getAllCoursesOfUser: async (req, res) => {
-    try {
-      const userId = req.params.userId;
-      const courses = await getAllCoursesOfUser(userId);
-
-      if (courses) {
-        return res.status(200).json({
-          message: "Success",
-          data: courses
-        });
-      } else {
-        return res.status(400).json({
-          message: "Fail",
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        message: "Fail",
+        status: "Fail",
+        error: null,
         data: null
       });
     }
@@ -61,18 +40,21 @@ const LessonController = {
 
       if (course) {
         return res.status(200).json({
-          message: "Success",
+          status: "Success",
+          error: null,
           data: course
         });
       } else {
         return res.status(400).json({
-          message: "Fail",
+          status: "Fail",
+          error: null,
           data: null
         });
       }
     } catch (error) {
       return res.status(400).json({
-        message: "Fail",
+        status: "Fail",
+        error: null,
         data: null
       });
     }
@@ -85,18 +67,21 @@ const LessonController = {
 
       if (course) {
         return res.status(200).json({
-          message: "Success",
+          status: "Success",
+          error: null,
           data: course
         });
       } else {
         return res.status(400).json({
-          message: "Fail",
+          status: "Fail",
+          error: null,
           data: null
         });
       }
     } catch (error) {
       return res.status(400).json({
-        message: "Fail",
+        status: "Fail",
+        error: null,
         data: null
       });
     }
@@ -110,18 +95,21 @@ const LessonController = {
 
       if (deletedCount > 0) {
         return res.status(200).json({
-          message: "Success",
+          status: "Success",
+          error: null,
           data: deletedCount
         });
       } else {
         return res.status(400).json({
-          message: "Fail",
+          status: "Fail",
+          error: null,
           data: deletedCount
         });
       }
     } catch (error) {
       return res.status(400).json({
-        message: "Fail",
+        status: "Fail",
+        error: null,
         data: null
       });
     }

@@ -1,39 +1,26 @@
 # Online Swagger yaml file formatter: https://editor.swagger.io/
 
-/course/all/user/{userId}:
+/courses:
   get:
     tags:
-      - Course
-    summary: Get courses by user ID
-    description: Get courses by user ID
+      - Courses
+    summary: Get courses (by user ID)
+    description: Get courses (by user ID)
     parameters:
-      - in: path
+      - in: query
         name: userId
         schema:
           type: string
-        required: true
     responses:
       "200":
         description: Success
       "400":
-        description: Bad request
+        description: Bad Request
 
-/course/all:
+/courses/{courseId}:
   get:
     tags:
-      - Course
-    summary: Get all courses
-    description: Get all courses
-    responses:
-      "200":
-        description: Success
-      "400":
-        description: Bad request
-
-/course/{courseId}:
-  get:
-    tags:
-      - Course
+      - Courses
     summary: Get course by ID
     description: Get course by ID
     parameters:
@@ -46,10 +33,10 @@
       "200":
         description: Success
       "400":
-        description: Bad request
+        description: Bad Request
   delete:
     tags:
-      - Course
+      - Courses
     summary: Delete course by ID
     description: Delete course by ID
     parameters:
@@ -62,12 +49,12 @@
       "200":
         description: Success
       "400":
-        description: Bad request
+        description: Bad Request
 
-/course:
+/courses/:
   delete:
     tags:
-      - Course
+      - Courses
     summary: Delete many courses by IDs
     description: Delete many courses by IDs
     requestBody:
@@ -81,12 +68,13 @@
               courseIds:
                 type: array
             example:
-              courseIds: ["63kk291a2e1807d7370e9700", "63kk291a2e1807d7370e9701"]
+              courseIds:
+                ["63kk291a2e1807d7370e9700", "63kk291a2e1807d7370e9701"]
     responses:
       "200":
         description: Success
       "400":
-        description: Bad request
+        description: Bad Request
 
 components:
   schemas:

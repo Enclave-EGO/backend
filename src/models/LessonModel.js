@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
-
 const { ObjectId } = mongoose.Schema.Types;
 
-const lessonSchema = new mongoose.Schema(
+const LessonSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -22,5 +21,7 @@ const lessonSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-const LessonModel = mongoose.model("Lesson", lessonSchema);
+
+const LessonModel = mongoose.model("Lesson", LessonSchema);
+
 export default LessonModel;

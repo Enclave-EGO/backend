@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
-
 const { ObjectId } = mongoose.Schema.Types;
 
-const courseSchema = new mongoose.Schema(
+const CourseSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -25,6 +24,6 @@ const courseSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const CourseModel = mongoose.model("Course", courseSchema);
+const CourseModel = mongoose.model("Course", CourseSchema);
 
 export default CourseModel;
