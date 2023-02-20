@@ -4,9 +4,9 @@ const validateNameLesson = async (req) => {
   await body("name")
     .trim()
     .notEmpty()
-    .withMessage("Name lesson required")
+    .withMessage("Name lesson is required")
     .matches(`[A-Za-z]+`)
-    .withMessage("Name lesson included A-Z")
+    .withMessage("Name lesson must include A-Z")
     .isLength({ min: 10, max: 100 })
     .withMessage("Name lesson must from 10 to 100 characters")
     .run(req);
@@ -16,9 +16,9 @@ const validateVideoID = async (req) => {
   await body("videoId")
     .trim()
     .notEmpty()
-    .withMessage("Video ID required")
+    .withMessage("Video ID is required")
     .isLength(11)
-    .withMessage("Video ID invalid")
+    .withMessage("Video ID is invalid")
     .run(req);
 };
 
@@ -42,9 +42,7 @@ const validatePassword = async (req) => {
     .isLength({ min: 8 })
     .withMessage("Password must have at least 8 characters")
     .matches("([A-Za-z]+[0-9]|[0-9]+[A-Za-z])[A-Za-z0-9]*")
-    .withMessage(
-      "Password must include at least 1 number and 1 character in a string"
-    )
+    .withMessage("Password must include at least 1 number and 1 character")
     .run(req);
 };
 
@@ -64,14 +62,14 @@ const validateEmail = async (req) => {
     .notEmpty()
     .withMessage("Email is required")
     .matches("([a-zA-Z0-9_.+-])@[a-zA-Z0-9_._-]+.[a-zA-Z0-9_.+-]")
-    .withMessage("Email Format is incorrect")
+    .withMessage("Email format is invalid")
     .run(req);
 };
 
 const returnValidationResult = (req) => {
   const errors = validationResult(req);
   return {
-    status: errors.isEmpty() ? "successfully" : "failed",
+    status: errors.isEmpty() ? "Success" : "Fail",
     error: errors.array()[0]?.msg
   };
 };

@@ -4,10 +4,7 @@ import {
   validateVideoID
 } from "./index.js";
 
-const validateLesson = async (req) => {
-  await validateNameLesson(req);
-  await validateVideoID(req);
+export const validateLesson = async (req) => {
+  await Promise.all([validateNameLesson(req), validateVideoID(req)]);
   return returnValidationResult(req);
 };
-
-export { validateLesson };

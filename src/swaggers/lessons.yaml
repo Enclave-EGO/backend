@@ -1,4 +1,4 @@
-/lesson:
+/lessons:
   post:
     tags:
       - Lesson
@@ -11,13 +11,13 @@
             $ref: "#/components/schemas/Lesson"
     responses:
       "200":
-        description: Successful
+        description: Success
         content:
           application/json:
             schema:
-            $ref: "#/components/schemas/LessonResponse"
+              $ref: "#/components/schemas/LessonResponse"
       "400":
-        description: Bad request
+        description: Bad Request
       "500":
         description: Server Error
 
@@ -26,15 +26,21 @@
       - Lesson
     summary: Get all Lessons
     description: Get all Lessons
+    parameters:
+      - in: query
+        name: courseId
+        description: ID of the course
+        schema:
+          type: string
     responses:
       "200":
-        description: Successful
+        description: Success
       "400":
-        description: Bad request
+        description: Bad Request
       "500":
         description: Server Error
 
-/lesson/{Id}:
+/lessons/{Id}:
   get:
     tags:
       - Lesson
@@ -49,28 +55,9 @@
           type: string
     responses:
       "200":
-        description: Successful
+        description: Success
       "400":
-        description: Bad request
-
-/lesson/OfCourse/{courseId}:
-  get:
-    tags:
-      - Lesson
-    summary: Get list lesson by course ID
-    description: Get list lesson by course ID
-    parameters:
-      - in: path
-        name: courseId
-        description: ID of the course
-        required: true
-        schema:
-          type: string
-    responses:
-      "200":
-        description: Successful
-      "400":
-        description: Bad request
+        description: Bad Request
 
 components:
   schemas:

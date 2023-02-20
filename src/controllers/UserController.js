@@ -1,4 +1,4 @@
-import { validateUser } from "../validators/userValidate.js";
+import { validateUser } from "../validators/userValidator.js";
 import {
   checkExistedEmail,
   checkExistedUsername,
@@ -12,8 +12,9 @@ const UserController = {
 
     if (status === "failed")
       return res.status(400).json({
-        message: error,
-        error: error
+        status: "Fail",
+        error: error,
+        data: null
       });
 
     const { password, username, name, email, role } = req.body;
@@ -25,8 +26,9 @@ const UserController = {
     const isExistedUser = isExistedEmail || isExistedUsername;
     if (isExistedUser) {
       return res.status(404).json({
-        message: "Username or Email existed",
-        error: "Username or Email existed"
+        status: "Fail",
+        error: "Username or Email existed",
+        data: null
       });
     }
 
@@ -41,13 +43,14 @@ const UserController = {
 
       const output = await createNewUser(newUser);
 
-      const payload = { _id: output._id, role };
+      const payload = { _id: output._id, role: role };
       const token = await generateAccessToken(payload);
 
-      res.status(200).json({ ...output, token });
+      return res
+        .status(200)
+        .json({ status: "Success", error: null, data: { ...output, token } });
     } catch (error) {
-      console.log(error);
-      res.status(500).json(error);
+      return res.status(500).json({ status: "Fail", error: error, data: null });
     }
   }
 };

@@ -3,9 +3,9 @@ import LessonRouter from "./LessonRouter.js";
 import CourseRouter from "./CourseRouter.js";
 
 function routing(app) {
-  app.use("/user", UserRouter);
-  app.use("/lesson", LessonRouter);
-  app.use("/course", CourseRouter);
+  app.use("/users", UserRouter);
+  app.use("/lessons", LessonRouter);
+  app.use("/courses", CourseRouter);
 
   // Notfound routes
   app.use("*", (req, res) => {

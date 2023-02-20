@@ -13,5 +13,6 @@ export const validateUser = async (req) => {
     validateNameUser(req),
     validateEmail(req)
   ]);
+  
   return returnValidationResult(req);
 };
