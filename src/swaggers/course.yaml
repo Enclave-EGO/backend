@@ -1,0 +1,70 @@
+# Online Swagger yaml file formatter: https://editor.swagger.io/
+
+/course/all/user/{userId}:
+  get:
+    tags:
+      - Course
+    summary: Get courses by user ID
+    description: Get courses by user ID
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+        required: true
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad request
+
+/course/all:
+  get:
+    tags:
+      - Course
+    summary: Get all courses
+    description: Get all courses
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad request
+
+/course/{courseId}:
+  get:
+    tags:
+      - Course
+    summary: Get course by ID
+    description: Get course by ID
+    parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad request
+
+components:
+  schemas:
+    Course:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "TypeScript cơ bản"
+        cost:
+          type: integer
+          example: 1000000
+        description:
+          type: string
+          example: "Khoá học TypeScript cơ bản cho người mới bắt đầu"
+        thumbnail:
+          type: string
+          example: "http://localhost:4001/image.png"
+        userId:
+          type: string
+          example: "63kk291a2e1807d7370e9700"
