@@ -11,21 +11,21 @@ const app = express();
 
 // Config Swagger
 const swaggerOptions = {
-	definition: {
-		openapi: "3.0.3",
-		info: {
-			title: "SwaggerUI",
-			version: "2.0.0",
-			description: "A simple Express Library API"
-		},
-		servers: [
-			{
-				url: LOCALHOST_URL,
-				description: "Development"
-			}
-		]
-	},
-	apis: ["**/*.yaml"]
+  definition: {
+    openapi: "3.0.3",
+    info: {
+      title: "SwaggerUI",
+      version: "2.0.0",
+      description: "A simple Express Library API"
+    },
+    servers: [
+      {
+        url: LOCALHOST_URL,
+        description: "Development"
+      }
+    ]
+  },
+  apis: ["**/*.yaml"]
 };
 const swaggerSpecs = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
@@ -42,6 +42,6 @@ connectDatabase(app);
 routing(app);
 
 app.listen(PORT, () => {
-	console.log(`Server is listening at ${LOCALHOST_URL}`);
-	console.log(`API Documentation: ${SWAGGER_URL}`);
+  console.log(`Server is listening at ${LOCALHOST_URL}`);
+  console.log(`API Documentation: ${SWAGGER_URL}`);
 });
