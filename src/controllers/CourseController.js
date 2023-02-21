@@ -20,7 +20,7 @@ const LessonController = {
       } else {
         return res.status(400).json({
           status: "Fail",
-          error: error,
+          error: null,
           data: null
         });
       }
@@ -47,7 +47,7 @@ const LessonController = {
       } else {
         return res.status(400).json({
           status: "Fail",
-          error: error,
+          error: null,
           data: null
         });
       }
