@@ -1,7 +1,7 @@
 /lessons:
   post:
     tags:
-      - Lesson
+      - Lessons
     summary: Create a Lesson
     description: Create a Lesson
     requestBody:
@@ -12,10 +12,6 @@
     responses:
       "200":
         description: Success
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/LessonResponse"
       "400":
         description: Bad Request
       "500":
@@ -23,7 +19,7 @@
 
   get:
     tags:
-      - Lesson
+      - Lessons
     summary: Get all Lessons
     description: Get all Lessons
     parameters:
@@ -40,19 +36,60 @@
       "500":
         description: Server Error
 
-/lessons/{Id}:
+/lessons/{lessonId}:
   get:
     tags:
-      - Lesson
+      - Lessons
     summary: Get a Lesson
     description: Get a Lesson
     parameters:
       - in: path
-        name: Id
+        name: lessonId
         description: ID of the lesson
         required: true
         schema:
           type: string
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+  delete:
+    tags:
+      - Lessons
+    summary: Delete lesson by ID
+    description: Delete lesson by ID
+    parameters:
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+        required: true
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+
+/lessons/:
+  delete:
+    tags:
+      - Lessons
+    summary: Delete many lessons by IDs
+    description: Delete many lessons by IDs
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - lessonIds
+            properties:
+              lessonIds:
+                type: array
+            example:
+              lessonIds:
+                ["63kk291a2e1807d7370e9700", "63kk291a2e1807d7370e9701"]
     responses:
       "200":
         description: Success

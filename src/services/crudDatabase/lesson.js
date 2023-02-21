@@ -1,5 +1,4 @@
 import LessonModel from "../../models/LessonModel.js";
-import CourseModel from "../../models/CourseModel.js";
 
 const checkExistedLessonName = async (name) => {
   const isExisted = await LessonModel.exists({ name }).lean();
@@ -11,19 +10,16 @@ const checkExistedVideoId = async (videoId) => {
   return Boolean(isExisted);
 };
 
-const checkExistedCourseId = async (_id) => {
-  const isExisted = await CourseModel.exists({ _id }).lean();
-  return Boolean(isExisted);
-};
-
+//[POST]
 const createNewLesson = async (lesson) => {
   const newLesson = new LessonModel(lesson);
   const saveLesson = await newLesson.save();
   return saveLesson;
 };
 
-const findLessonById = async (id) => {
-  const lesson = await LessonModel.findById(id).lean();
+//[GET]
+const findLessonById = async (lessonId) => {
+  const lesson = await LessonModel.findById(lessonId).lean();
   return lesson;
 };
 
@@ -33,11 +29,25 @@ const findListLessons = async (courseId) => {
   return lessons;
 };
 
+//[DELETE]
+const deleteLessonById = async (lessonId) => {
+  const lesson = await LessonModel.findOneAndDelete({ _id: lessonId }).lean();
+  return lesson;
+};
+
+const deleteManyLessons = async (lessonIds) => {
+  const deleteInfo = await LessonModel.deleteMany({
+    _id: { $in: lessonIds }
+  }).lean();
+  return deleteInfo;
+};
+
 export {
   checkExistedLessonName,
   checkExistedVideoId,
-  checkExistedCourseId,
+  createNewLesson,
   findLessonById,
   findListLessons,
-  createNewLesson
+  deleteLessonById,
+  deleteManyLessons
 };

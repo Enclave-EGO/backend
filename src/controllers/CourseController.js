@@ -88,7 +88,7 @@ const CourseController = {
     } catch (error) {
       return res.status(400).json({
         status: "Fail",
-        error: null,
+        error: error,
         data: null
       });
     }
@@ -115,7 +115,7 @@ const CourseController = {
     } catch (error) {
       return res.status(400).json({
         status: "Fail",
-        error: null,
+        error: error,
         data: null
       });
     }
@@ -142,7 +142,7 @@ const CourseController = {
     } catch (error) {
       return res.status(400).json({
         status: "Fail",
-        error: null,
+        error: error,
         data: null
       });
     }
@@ -170,7 +170,7 @@ const CourseController = {
     } catch (error) {
       return res.status(400).json({
         status: "Fail",
-        error: null,
+        error: error,
         data: null
       });
     }

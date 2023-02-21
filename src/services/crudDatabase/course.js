@@ -1,5 +1,10 @@
 import CourseModel from "../../models/CourseModel.js";
 
+const checkExistedCourseId = async (courseId) => {
+  const isExisted = await CourseModel.exists({ _id: courseId }).lean();
+  return Boolean(isExisted);
+};
+
 const checkExistedCourseName = async (name) => {
   const isExisted = await CourseModel.exists({ name: name }).lean();
   return Boolean(isExisted);
@@ -35,6 +40,7 @@ const deleteManyCourses = async (courseIds) => {
 };
 
 export {
+  checkExistedCourseId,
   checkExistedCourseName,
   createNewCourse,
   findListCourses,
