@@ -16,6 +16,68 @@
         description: Success
       "400":
         description: Bad Request
+  post:
+    tags:
+      - Courses
+    summary: Create new course
+    description: Create new course
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                required: true
+              cost:
+                type: integer
+                required: true
+              description:
+                type: string
+                required: true
+              thumbnail:
+                type: string
+                required: true
+              userId:
+                type: string
+                required: true
+            example:
+              name: "Tên khóa học"
+              cost: 1000000
+              description: "Mô tả khóa học"
+              thumbnail: "https://example.com/image.png"
+              userId: "63f208ab4c52335ac1ec1fe1"
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+      "404":
+        description: Not Found
+  delete:
+    tags:
+      - Courses
+    summary: Delete many courses by IDs
+    description: Delete many courses by IDs
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - courseIds
+            properties:
+              courseIds:
+                type: array
+            example:
+              courseIds:
+                ["63kk291a2e1807d7370e9700", "63kk291a2e1807d7370e9701"]
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
 
 /courses/{courseId}:
   get:
@@ -51,31 +113,6 @@
       "400":
         description: Bad Request
 
-/courses/:
-  delete:
-    tags:
-      - Courses
-    summary: Delete many courses by IDs
-    description: Delete many courses by IDs
-    requestBody:
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - courseIds
-            properties:
-              courseIds:
-                type: array
-            example:
-              courseIds:
-                ["63kk291a2e1807d7370e9700", "63kk291a2e1807d7370e9701"]
-    responses:
-      "200":
-        description: Success
-      "400":
-        description: Bad Request
-
 components:
   schemas:
     Course:
@@ -83,16 +120,16 @@ components:
       properties:
         name:
           type: string
-          example: "TypeScript cơ bản"
+          example: "Tên khóa học"
         cost:
           type: integer
           example: 1000000
         description:
           type: string
-          example: "Khoá học TypeScript cơ bản cho người mới bắt đầu"
+          example: "Mô tả khóa học"
         thumbnail:
           type: string
-          example: "http://localhost:4001/image.png"
+          example: "https://example.com/image.png"
         userId:
           type: string
-          example: "63kk291a2e1807d7370e9700"
+          example: "63f208ab4c52335ac1ec1fe1"
