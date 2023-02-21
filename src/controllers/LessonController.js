@@ -9,12 +9,12 @@ import { validateLesson } from "../validators/lessonValidator.js";
 import { createNewLesson } from "../services/crudDatabase/lesson.js";
 
 const LessonController = {
-  //[Post] add a lesson
+  // [POST] Add a lesson
   createLesson: async (req, res) => {
     const { status, error } = await validateLesson(req, res);
     const { name, description, videoId, courseId } = req.body;
 
-    if (status === "failed")
+    if (status === "Fail")
       return res.status(400).json({
         status: "Fail",
         error: error,

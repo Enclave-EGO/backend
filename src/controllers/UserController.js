@@ -10,7 +10,7 @@ const UserController = {
   createUser: async (req, res) => {
     const { status, error } = await validateUser(req, res);
 
-    if (status === "failed")
+    if (status === "Fail")
       return res.status(400).json({
         status: "Fail",
         error: error,
@@ -27,7 +27,7 @@ const UserController = {
     if (isExistedUser) {
       return res.status(404).json({
         status: "Fail",
-        error: "Username or Email existed",
+        error: "Username or email is existed",
         data: null
       });
     }

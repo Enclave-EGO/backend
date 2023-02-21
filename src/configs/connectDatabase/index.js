@@ -6,10 +6,10 @@ const connectDatabase = () => {
     .set("strictQuery", false)
     .connect(MONGO_URI)
     .then(() => {
-      console.log("Connected to DB");
+      console.log("Connected to database");
     })
-    .catch((err) => {
-      console.log("err", err);
+    .catch((error) => {
+      console.log("Connect to database failed", error);
     });
 };
 
