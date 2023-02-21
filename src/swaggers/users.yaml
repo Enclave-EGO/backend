@@ -21,6 +21,30 @@
       "500":
         description: Server Error
 
+/users/signin:
+  post:
+    tags:
+      - User
+    summary: Sign in
+    description: Sign in
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                example: "username"
+              password:
+                type: string
+                example: "password123"
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+
 components:
   schemas:
     User:

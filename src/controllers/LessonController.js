@@ -14,7 +14,7 @@ const LessonController = {
     const { status, error } = await validateLesson(req, res);
     const { name, description, videoId, courseId } = req.body;
 
-    if (status === "failed")
+    if (status === "Fail")
       return res.status(400).json({
         status: "Fail",
         error: error,
