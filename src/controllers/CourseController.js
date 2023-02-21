@@ -20,14 +20,14 @@ const LessonController = {
       } else {
         return res.status(400).json({
           status: "Fail",
-          error: null,
+          error: error,
           data: null
         });
       }
     } catch (error) {
       return res.status(400).json({
         status: "Fail",
-        error: null,
+        error: error,
         data: null
       });
     }
@@ -47,14 +47,14 @@ const LessonController = {
       } else {
         return res.status(400).json({
           status: "Fail",
-          error: null,
+          error: error,
           data: null
         });
       }
     } catch (error) {
       return res.status(400).json({
         status: "Fail",
-        error: null,
+        error: error,
         data: null
       });
     }
@@ -81,7 +81,7 @@ const LessonController = {
     } catch (error) {
       return res.status(400).json({
         status: "Fail",
-        error: null,
+        error: error,
         data: null
       });
     }
@@ -109,7 +109,7 @@ const LessonController = {
     } catch (error) {
       return res.status(400).json({
         status: "Fail",
-        error: null,
+        error: error,
         data: null
       });
     }

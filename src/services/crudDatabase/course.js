@@ -1,5 +1,10 @@
 import CourseModel from "../../models/CourseModel.js";
 
+const checkExistedCourseId = async (courseId) => {
+  const isExisted = await CourseModel.exists({ _id: courseId }).lean();
+  return Boolean(isExisted);
+};
+
 const findListCourses = async (userId) => {
   const queryCondition = userId ? { userId: userId } : {};
   const courses = await CourseModel.find(queryCondition).lean();
@@ -17,11 +22,17 @@ const deleteCourseById = async (courseId) => {
 };
 
 const deleteManyCourses = async (courseIds) => {
-  const deleteInfo = await Course.deleteMany({
+  const deleteInfo = await CourseModel.deleteMany({
     _id: { $in: courseIds }
   }).lean();
 
   return deleteInfo;
 };
 
-export { findListCourses, getCourseById, deleteCourseById, deleteManyCourses };
+export {
+  checkExistedCourseId,
+  findListCourses,
+  getCourseById,
+  deleteCourseById,
+  deleteManyCourses
+};
