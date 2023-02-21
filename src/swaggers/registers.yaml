@@ -1,0 +1,25 @@
+/registers:
+  post:
+    tags:
+      - Register course
+    summary: Register course
+    description: Register course
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                example: "63f208ab4c52335ac1ec1fe1"
+              courseId:
+                type: string
+                example: "63f1a504ec4c6d99de2315fc"
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+      "500":
+        description: Server Error
