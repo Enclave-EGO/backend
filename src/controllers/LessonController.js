@@ -1,12 +1,14 @@
 import {
   checkExistedLessonName,
   checkExistedVideoId,
-  checkExistedCourseId,
+  createNewLesson,
   findLessonById,
-  findListLessons
+  findListLessons,
+  deleteLessonById,
+  deleteManyLessons
 } from "../services/crudDatabase/lesson.js";
+import { checkExistedCourseId } from "../services/crudDatabase/course.js";
 import { validateLesson } from "../validators/lessonValidator.js";
-import { createNewLesson } from "../services/crudDatabase/lesson.js";
 
 const LessonController = {
   //[Post] add a lesson
@@ -95,6 +97,63 @@ const LessonController = {
           status: "Fail",
           error: null,
           data: null
+        });
+      }
+    } catch (error) {
+      return res.status(400).json({
+        status: "Fail",
+        error: error,
+        data: null
+      });
+    }
+  },
+
+  //[DELETE] Delete a lesson by id
+  deleteLesson: async (req, res) => {
+    try {
+      const lessonId = req.params.id;
+      const lesson = await deleteLessonById(lessonId);
+
+      if (lesson) {
+        return res.status(200).json({
+          status: "Success",
+          error: null,
+          data: lesson
+        });
+      } else {
+        return res.status(400).json({
+          status: "Fail",
+          error: null,
+          data: null
+        });
+      }
+    } catch (error) {
+      return res.status(400).json({
+        status: "Fail",
+        error: error,
+        data: null
+      });
+    }
+  },
+
+  //[DELETE] Delete lessons
+  deleteLessons: async (req, res) => {
+    try {
+      const lessonIds = req.body.lessonIds;
+      const deleteInfo = await deleteManyLessons(lessonIds);
+      const deletedCount = deleteInfo.deletedCount;
+
+      if (deletedCount > 0) {
+        return res.status(200).json({
+          status: "Success",
+          error: null,
+          data: deletedCount
+        });
+      } else {
+        return res.status(400).json({
+          status: "Fail",
+          error: null,
+          data: deletedCount
         });
       }
     } catch (error) {

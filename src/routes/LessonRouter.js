@@ -5,5 +5,6 @@ const router = express.Router();
 router.post("/", LessonController.createLesson);
 router.get("/", LessonController.getLessons);
 router.get("/:id", LessonController.getLesson);
-
+router.delete("/:id", LessonController.deleteLesson);
+router.delete("/", LessonController.deleteLessons);
 export default router;
