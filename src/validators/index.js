@@ -117,6 +117,51 @@ const validateCourseUserId = async (req) => {
     .run(req);
 };
 
+const validateCourseNameOptional = async (req) => {
+  await body("name")
+    .optional({ checkFalsy: true, nullable: true })
+    .trim()
+    .notEmpty()
+    .withMessage("Course name is required")
+    .matches(`[A-Za-z]+`)
+    .withMessage("Course name must include A-Z")
+    .run(req);
+};
+
+const validateCourseCostOptional = async (req) => {
+  await body("cost")
+    .optional({ checkFalsy: true, nullable: true })
+    .notEmpty()
+    .withMessage(`Course cost is required`)
+    .matches(/^[1-9][0-9]*$/)
+    .withMessage(`Course cost must grater than 0`)
+    .run(req);
+};
+
+const validateCourseDescriptionOptional = async (req) => {
+  await body("description")
+    .optional({ checkFalsy: true, nullable: true })
+    .trim()
+    .notEmpty()
+    .withMessage("Course description is required")
+    .matches(`[A-Za-z]+`)
+    .withMessage("Course description must include A-Z")
+    .run(req);
+};
+
+const validateCourseThumbnailOptional = async (req) => {
+  await body("thumbnail")
+    .optional({ checkFalsy: true, nullable: true })
+    .trim()
+    .notEmpty()
+    .withMessage("Course thumbnail is required")
+    .matches(
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+    )
+    .withMessage("Course thumbnail is invalid")
+    .run(req);
+};
+
 const returnValidationResult = (req) => {
   const errors = validationResult(req);
   return {
@@ -137,5 +182,9 @@ export {
   validateCourseDescription,
   validateCourseThumbnail,
   validateCourseUserId,
+  validateCourseNameOptional,
+  validateCourseCostOptional,
+  validateCourseDescriptionOptional,
+  validateCourseThumbnailOptional,
   returnValidationResult
 };

@@ -1,10 +1,25 @@
+import mongoose from "mongoose";
 import CourseModel from "../../models/CourseModel.js";
 
 const checkExistedCourseId = async (courseId) => {
-  const isExisted = await CourseModel.exists({ _id: courseId }).lean();
+  const isExisted = await CourseModel.exists({
+    _id: new mongoose.Types.ObjectId(courseId)
+  }).lean();
+
   return Boolean(isExisted);
 };
 
+// Check if exists course by name. Except this course.
+const checkExistedOtherCourseName = async (courseId, courseName) => {
+  const course = await CourseModel.findOne({
+    name: courseName
+  }).lean();
+
+  // If above course is exist and it has _id other than above courseId
+  if (course && course._id !== courseId) return true;
+  else return false;
+}
+  
 const checkExistedCourseName = async (name) => {
   const isExisted = await CourseModel.exists({ name: name }).lean();
   return Boolean(isExisted);
@@ -26,6 +41,15 @@ const getCourseById = async (courseId) => {
   return course;
 };
 
+const updateExistedCourse = async (courseId, courseInfo) => {
+  const course = await CourseModel.findOneAndUpdate(
+    { _id: courseId },
+    courseInfo
+  ).lean();
+
+  return course;
+};
+
 const deleteCourseById = async (courseId) => {
   const course = await CourseModel.findOneAndDelete({ _id: courseId }).lean();
   return course;
@@ -42,9 +66,11 @@ const deleteManyCourses = async (courseIds) => {
 export {
   checkExistedCourseId,
   checkExistedCourseName,
+  checkExistedOtherCourseName,
   createNewCourse,
   findListCourses,
   getCourseById,
+  updateExistedCourse,
   deleteCourseById,
   deleteManyCourses
 };
