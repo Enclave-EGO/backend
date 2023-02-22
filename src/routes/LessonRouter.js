@@ -14,7 +14,12 @@ router.get(
   LessonController.getLessons
 );
 
-router.get("/:id", LessonController.getLesson);
+router.get(
+  "/:id",
+  jwtGuard,
+  Roles(Role.LEARNER, Role.TEACHER),
+  LessonController.getLesson
+);
 
 router.delete(
   "/:id",
