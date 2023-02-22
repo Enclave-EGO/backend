@@ -10,7 +10,10 @@ import {
   checkExistedOtherCourseName
 } from "../services/crudDatabase/course.js";
 import { checkExistedUserId } from "../services/crudDatabase/user.js";
-import { validateCourse, validateUpdateCourse } from "../validators/courseValidator.js";
+import {
+  validateCourse,
+  validateUpdateCourse
+} from "../validators/courseValidator.js";
 
 const CourseController = {
   createCourse: async (req, res) => {
