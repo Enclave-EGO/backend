@@ -1,9 +1,18 @@
+import mongoose from "mongoose";
 import UserModel from "../../models/UserModel.js";
 import {
   generateAccessToken,
   hashPassword,
   comparePassword
 } from "../authentication/index.js";
+
+export const checkExistedUserId = async (userId) => {
+  const isExistedUser = await UserModel.exists({
+    _id: new mongoose.Types.ObjectId(userId)
+  });
+
+  return Boolean(isExistedUser);
+};
 
 export const checkExistedUsername = async (username) => {
   const user = await UserModel.findOne({ username });

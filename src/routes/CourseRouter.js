@@ -3,6 +3,7 @@ import CourseController from "../controllers/CourseController.js";
 
 const router = express.Router();
 
+router.post("/", CourseController.createCourse);
 router.get("/", CourseController.getCourses);
 router.get("/:courseId", CourseController.getCourseById);
 router.patch("/:courseId", CourseController.updateCourse);
