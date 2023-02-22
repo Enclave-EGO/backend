@@ -21,6 +21,13 @@ router.get(
   LessonController.getLesson
 );
 
+router.patch(
+  "/:id",
+  jwtGuard,
+  Roles(Role.TEACHER),
+  LessonController.updateLesson
+);
+
 router.delete(
   "/:id",
   jwtGuard,
