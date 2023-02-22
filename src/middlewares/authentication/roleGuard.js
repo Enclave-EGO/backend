@@ -1,3 +1,5 @@
+// Check if the user's role is allowed
+// permittedRoles: permitted roles array
 export const Roles = (...permittedRoles) => {
   return (req, res, next) => {
     if (permittedRoles.length === 0) next();
