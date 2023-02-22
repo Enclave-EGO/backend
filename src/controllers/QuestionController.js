@@ -9,8 +9,7 @@ const QuestionController = {
   createQuestion: async (req, res) => {
     try {
       const { status, error } = await validateCreateQuestion(req);
-      const { testId, content, isMultiChoice, answers, correctAnswer } =
-        req.body;
+      const { testId, content } = req.body;
 
       if (status === "Fail")
         return res.status(400).json({
@@ -23,7 +22,7 @@ const QuestionController = {
         checkExistedTestId(testId),
         checkExistedQuestionContent(content)
       ]);
-      if (isExistedTestId) {
+      if (isExistedTestId === false) {
         return res.status(400).json({
           status: "Fail",
           error: "Test ID is not existed",

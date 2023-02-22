@@ -2,12 +2,13 @@ import mongoose from "mongoose";
 import AnswerModel from "../../models/AnswerModel.js";
 
 export const createNewAnswer = async (answer) => {
-  const newAnswer = await AnswerModel.create(answer).lean();
+  const newAnswer = await AnswerModel.create(answer);
   return newAnswer;
 };
 
 export const handleCreateNewAnswers = async (questionId, answers) => {
-  const promises = answers.map((answer) => {
+  // below promises is an array of promises
+  const promises = answers.map(async (answer) => {
     const newAnswer = {
       questionId: new mongoose.Types.ObjectId(questionId),
       content: answer.content,
@@ -16,5 +17,6 @@ export const handleCreateNewAnswers = async (questionId, answers) => {
     return createNewAnswer(newAnswer);
   });
 
-  await Promise.all(promises);
+  const resultArray = await Promise.all(promises);
+  return resultArray;
 };

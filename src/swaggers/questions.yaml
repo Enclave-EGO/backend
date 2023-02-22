@@ -10,27 +10,29 @@
           schema:
             type: object
             properties:
-              name:
+              testId:
                 type: string
                 required: true
-              cost:
-                type: integer
-                required: true
-              description:
+              content:
                 type: string
                 required: true
-              thumbnail:
-                type: string
+              isMultiChoice:
+                type: boolean
                 required: true
-              userId:
-                type: string
+              answers:
+                type: array
                 required: true
             example:
-              name: "Tên khóa học"
-              cost: 1000000
-              description: "Mô tả khóa học"
-              thumbnail: "https://example.com/image.png"
-              userId: "63f208ab4c52335ac1ec1fe1"
+              testId: "63f6181b24a3e1d7cadbfa47"
+              content: "Nội dung câu hỏi"
+              isMultiChoice: false
+              answers:
+                [
+                  { content: "Nội dung đáp án 1", isCorrect: false },
+                  { content: "Nội dung đáp án 2", isCorrect: true },
+                  { content: "Nội dung đáp án 3", isCorrect: false },
+                  { content: "Nội dung đáp án 4", isCorrect: false }
+                ]
     responses:
       "200":
         description: Success

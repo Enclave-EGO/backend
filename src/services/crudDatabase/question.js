@@ -11,7 +11,7 @@ export const checkExistedQuestionContent = async (content) => {
 };
 
 export const createNewQuestion = async (question) => {
-  const newQuestion = await QuestionModel.create(question).lean();
+  const newQuestion = await QuestionModel.create(question);
   return newQuestion;
 };
 
@@ -22,14 +22,23 @@ export const handleCreateNewQuestion = async (question) => {
   const newQuestion = {
     testId: new mongoose.Types.ObjectId(testId),
     content: content,
-    isMultiChoice: isMultiChoice,
-    score: score
+    isMultiChoice: isMultiChoice
   };
-  const saveQuestion = await createNewQuestion(newQuestion);
+  const savedQuestion = await createNewQuestion(newQuestion);
 
   // 2. Create answers
-  const questionId = saveQuestion._id;
-  await handleCreateNewAnswers(questionId, answers);
+  const questionId = savedQuestion._id;
+  const createdAnswers = await handleCreateNewAnswers(questionId, answers);
 
-  return saveQuestion;
+  // 3. Return result
+  const isCreatedQuestionAndAnswers =
+    savedQuestion && createdAnswers.includes(null) === false;
+  const result = isCreatedQuestionAndAnswers
+    ? {
+        question: savedQuestion,
+        answers: createdAnswers
+      }
+    : null;
+
+  return result;
 };
