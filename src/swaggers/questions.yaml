@@ -1,0 +1,40 @@
+/questions/:
+  post:
+    tags:
+      - Questions
+    summary: Create new question
+    description: Create new question
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                required: true
+              cost:
+                type: integer
+                required: true
+              description:
+                type: string
+                required: true
+              thumbnail:
+                type: string
+                required: true
+              userId:
+                type: string
+                required: true
+            example:
+              name: "Tên khóa học"
+              cost: 1000000
+              description: "Mô tả khóa học"
+              thumbnail: "https://example.com/image.png"
+              userId: "63f208ab4c52335ac1ec1fe1"
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+      "404":
+        description: Not Found
