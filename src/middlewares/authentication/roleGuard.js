@@ -2,7 +2,7 @@ export const Roles = (...permittedRoles) => {
   return (req, res, next) => {
     if (permittedRoles.length === 0) next();
 
-    const { user } = req;
+    const user = req.user;
 
     if (user && permittedRoles.includes(user.role)) {
       next();

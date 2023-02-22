@@ -1,10 +1,10 @@
 import passport from "passport";
-import pkg, { ExtractJwt } from "passport-jwt";
+import pkg from "passport-jwt";
 import { JWT_SECRET_KEY } from "../../constants/index.js";
-const JwtStrategy = pkg.Strategy;
+const { Strategy, ExtractJwt } = pkg;
 
 passport.use(
-  new JwtStrategy(
+  new Strategy(
     {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken("Authorization"),
       secretOrKey: JWT_SECRET_KEY
