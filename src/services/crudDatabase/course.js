@@ -5,6 +5,16 @@ const checkExistedCourseId = async (courseId) => {
   return Boolean(isExisted);
 };
 
+const checkExistedCourseName = async (name) => {
+  const isExisted = await CourseModel.exists({ name: name }).lean();
+  return Boolean(isExisted);
+};
+
+const createNewCourse = async (course) => {
+  const newCourse = await CourseModel.create(course);
+  return newCourse;
+};
+
 const findListCourses = async (userId) => {
   const queryCondition = userId ? { userId: userId } : {};
   const courses = await CourseModel.find(queryCondition).lean();
@@ -31,6 +41,8 @@ const deleteManyCourses = async (courseIds) => {
 
 export {
   checkExistedCourseId,
+  checkExistedCourseName,
+  createNewCourse,
   findListCourses,
   getCourseById,
   deleteCourseById,
