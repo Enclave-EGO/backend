@@ -21,7 +21,7 @@ export const validateCourse = async (req) => {
   ]);
   return returnValidationResult(req);
 };
-  
+
 export const validateUpdateCourse = async (req) => {
   await Promise.all([
     validateCourseNameOptional(req),

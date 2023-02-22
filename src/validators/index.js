@@ -1,6 +1,6 @@
 import { body, validationResult } from "express-validator";
 
-const validateNameLesson = async (req) => {
+const validateLessonName = async (req) => {
   await body("name")
     .trim()
     .notEmpty()
@@ -12,8 +12,32 @@ const validateNameLesson = async (req) => {
     .run(req);
 };
 
-const validateVideoID = async (req) => {
+const validateVideoId = async (req) => {
   await body("videoId")
+    .trim()
+    .notEmpty()
+    .withMessage("Video Id is required")
+    .isLength(11)
+    .withMessage("Video Id is invalid")
+    .run(req);
+};
+
+const validateLessonNameOptional = async (req) => {
+  await body("name")
+    .optional({ checkFalsy: true, nullable: true })
+    .trim()
+    .notEmpty()
+    .withMessage("Name lesson is required")
+    .matches(`[A-Za-z]+`)
+    .withMessage("Name lesson must include A-Z")
+    .isLength({ min: 10, max: 100 })
+    .withMessage("Name lesson must from 10 to 100 characters")
+    .run(req);
+};
+
+const validateVideoIdOptional = async (req) => {
+  await body("videoId")
+    .optional({ checkFalsy: true, nullable: true })
     .trim()
     .notEmpty()
     .withMessage("Video ID is required")
@@ -171,8 +195,10 @@ const returnValidationResult = (req) => {
 };
 
 export {
-  validateNameLesson,
-  validateVideoID,
+  validateLessonName,
+  validateVideoId,
+  validateVideoIdOptional,
+  validateLessonNameOptional,
   validateUsername,
   validatePassword,
   validateNameUser,

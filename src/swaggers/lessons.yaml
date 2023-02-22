@@ -71,6 +71,44 @@
       "400":
         description: Bad Request
 
+  patch:
+    tags:
+      - Lessons
+    summary: Update lesson by ID
+    description: Update lesson by ID
+    parameters:
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+          required: true
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                required: false
+                example: "Học JS cơ bản"
+              description:
+                type: string
+                required: false
+                example: "Đây là phần mô tả bài học"
+              videoId:
+                type: string
+                required: false
+                example: "123456789ab"
+              courseId:
+                type: string
+                example: "63da29aae447df24915d7870"
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+
 /lessons/:
   delete:
     tags:

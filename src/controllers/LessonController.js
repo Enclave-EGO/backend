@@ -5,10 +5,16 @@ import {
   findLessonById,
   findListLessons,
   deleteLessonById,
-  deleteManyLessons
+  deleteManyLessons,
+  checkExistedLessonId,
+  checkExistedOtherLessonName,
+  updateExistedLesson
 } from "../services/crudDatabase/lesson.js";
 import { checkExistedCourseId } from "../services/crudDatabase/course.js";
-import { validateLesson } from "../validators/lessonValidator.js";
+import {
+  validateLesson,
+  validateUpdateLesson
+} from "../validators/lessonValidator.js";
 
 const LessonController = {
   //[Post] add a lesson
@@ -86,6 +92,74 @@ const LessonController = {
     try {
       const lesson = await findLessonById(req.params.id);
 
+      if (lesson) {
+        return res.status(200).json({
+          status: "Success",
+          error: null,
+          data: lesson
+        });
+      } else {
+        return res.status(400).json({
+          status: "Fail",
+          error: null,
+          data: null
+        });
+      }
+    } catch (error) {
+      return res.status(400).json({
+        status: "Fail",
+        error: error,
+        data: null
+      });
+    }
+  },
+
+  //[PATCH] Update a lesson
+  updateLesson: async (req, res) => {
+    try {
+      const lessonId = req.params.id;
+      const { name, courseId } = req.body;
+
+      const { status, error } = await validateUpdateLesson(req);
+      if (status === "Fail")
+        return res.status(400).json({
+          status: "Fail",
+          error: error,
+          data: null
+        });
+
+      const [
+        isExistedLessonId,
+        isExistedOtherLessonName,
+        ischeckExistedCourseId
+      ] = await Promise.all([
+        checkExistedLessonId(lessonId),
+        checkExistedOtherLessonName(lessonId, name),
+        checkExistedCourseId(courseId)
+      ]);
+      if (isExistedLessonId === false) {
+        return res.status(400).json({
+          status: "Fail",
+          error: "Lesson ID is not existed",
+          data: null
+        });
+      }
+      if (isExistedOtherLessonName) {
+        return res.status(400).json({
+          status: "Fail",
+          error: "Lesson name is existed",
+          data: null
+        });
+      }
+      if (ischeckExistedCourseId === false) {
+        return res.status(400).json({
+          status: "Fail",
+          error: "Course ID is not existed",
+          data: null
+        });
+      }
+
+      const lesson = await updateExistedLesson(lessonId, req.body);
       if (lesson) {
         return res.status(200).json({
           status: "Success",
