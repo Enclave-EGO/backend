@@ -40,9 +40,9 @@ const validateVideoIdOptional = async (req) => {
     .optional({ checkFalsy: true, nullable: true })
     .trim()
     .notEmpty()
-    .withMessage("Video ID is required")
+    .withMessage("Video Id is required")
     .isLength(11)
-    .withMessage("Video ID is invalid")
+    .withMessage("Video Id is invalid")
     .run(req);
 };
 

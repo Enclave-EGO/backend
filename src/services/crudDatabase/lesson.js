@@ -50,9 +50,6 @@ const findListLessons = async (courseId) => {
 
 //[PATCH]
 const updateExistedLesson = async (lessonId, lessonInfo) => {
-  console.log("lessonId 2", lessonId);
-  console.log("lessonInfo 3", lessonInfo);
-
   const lesson = await LessonModel.findOneAndUpdate(
     { _id: lessonId },
     lessonInfo

@@ -5,8 +5,7 @@ const checkExistedCourseId = async (courseId) => {
   const isExisted = await CourseModel.exists({
     _id: new mongoose.Types.ObjectId(courseId)
   }).lean();
-  const r = Boolean(isExisted);
-  console.log("checkExistedCourseId ", r);
+
   return Boolean(isExisted);
 };
 

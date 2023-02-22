@@ -118,7 +118,7 @@ const LessonController = {
   updateLesson: async (req, res) => {
     try {
       const lessonId = req.params.id;
-      const { name, courseId } = req.body;
+      const name = req.body.name;
 
       const { status, error } = await validateUpdateLesson(req);
       if (status === "Fail")
@@ -128,14 +128,9 @@ const LessonController = {
           data: null
         });
 
-      const [
-        isExistedLessonId,
-        isExistedOtherLessonName,
-        ischeckExistedCourseId
-      ] = await Promise.all([
+      const [isExistedLessonId, isExistedOtherLessonName] = await Promise.all([
         checkExistedLessonId(lessonId),
-        checkExistedOtherLessonName(lessonId, name),
-        checkExistedCourseId(courseId)
+        checkExistedOtherLessonName(lessonId, name)
       ]);
       if (isExistedLessonId === false) {
         return res.status(400).json({
@@ -148,13 +143,6 @@ const LessonController = {
         return res.status(400).json({
           status: "Fail",
           error: "Lesson name is existed",
-          data: null
-        });
-      }
-      if (ischeckExistedCourseId === false) {
-        return res.status(400).json({
-          status: "Fail",
-          error: "Course ID is not existed",
           data: null
         });
       }
