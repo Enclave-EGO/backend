@@ -17,7 +17,6 @@ const checkExistedOtherCourseName = async (courseId, courseName) => {
 
   // If above course is exist and it has _id other than above courseId
   if (course && course._id !== courseId) return true;
-  // Above courseName is haven't existed yet
   else return false;
 };
 
