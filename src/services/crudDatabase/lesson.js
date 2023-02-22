@@ -29,14 +29,12 @@ const checkExistedOtherLessonName = async (lessonId, lessonName) => {
   else return false;
 };
 
-//[POST]
 const createNewLesson = async (lesson) => {
   const newLesson = new LessonModel(lesson);
   const saveLesson = await newLesson.save();
   return saveLesson;
 };
 
-//[GET]
 const findLessonById = async (lessonId) => {
   const lesson = await LessonModel.findById(lessonId).lean();
   return lesson;
@@ -48,7 +46,6 @@ const findListLessons = async (courseId) => {
   return lessons;
 };
 
-//[PATCH]
 const updateExistedLesson = async (lessonId, lessonInfo) => {
   const lesson = await LessonModel.findOneAndUpdate(
     { _id: lessonId },
@@ -57,7 +54,7 @@ const updateExistedLesson = async (lessonId, lessonInfo) => {
 
   return lesson;
 };
-//[DELETE]
+
 const deleteLessonById = async (lessonId) => {
   const lesson = await LessonModel.findOneAndDelete({ _id: lessonId }).lean();
   return lesson;
