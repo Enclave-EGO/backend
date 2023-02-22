@@ -21,5 +21,43 @@
         description: Success
       "400":
         description: Bad Request
-      "500":
-        description: Server Error
+
+  delete:
+    tags:
+      - Register course
+    summary: Delete many registers
+    description: Delete many registers
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              registerIds:
+                type: Array
+                example:
+                  ["63f208ab4c52335ac1ec1fe1", "63f1a504ec4c6d99de2315fc"]
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+
+registers/{registerId}:
+  delete:
+    tags:
+      - Register course
+    summary: Delete register by Id
+    description: Delete register by Id
+    parameters:
+      - in: path
+        name: registerId
+        description: ID of the register
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
