@@ -21,8 +21,6 @@
         description: Success
       "400":
         description: Bad Request
-      "500":
-        description: Server Error
 
   delete:
     tags:
@@ -44,8 +42,6 @@
         description: Success
       "400":
         description: Bad Request
-      "500":
-        description: Server Error
 
 registers/{registerId}:
   delete:
@@ -65,5 +61,3 @@ registers/{registerId}:
         description: Success
       "400":
         description: Bad Request
-      "500":
-        description: Server Error
