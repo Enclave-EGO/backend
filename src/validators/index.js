@@ -105,7 +105,7 @@ const validateCourseCost = async (req) => {
     .notEmpty()
     .withMessage(`Course cost is required`)
     .matches(/^[1-9][0-9]*$/)
-    .withMessage(`Course cost must grater than 0`)
+    .withMessage(`Course cost must greater than 0`)
     .run(req);
 };
 
@@ -158,7 +158,7 @@ const validateCourseCostOptional = async (req) => {
     .notEmpty()
     .withMessage(`Course cost is required`)
     .matches(/^[1-9][0-9]*$/)
-    .withMessage(`Course cost must grater than 0`)
+    .withMessage(`Course cost must greater than 0`)
     .run(req);
 };
 
@@ -191,16 +191,16 @@ const validateTestTimeLimit = async (req) => {
     .notEmpty()
     .withMessage(`Time limit is required`)
     .matches(/^[1-9][0-9]*$/)
-    .withMessage(`Time limit must grater than 0`)
+    .withMessage(`Time limit must greater than 0`)
     .run(req);
 };
 
 const validateTestScore = async (req) => {
   await body("score")
     .notEmpty()
-    .withMessage(`Time limit is required`)
+    .withMessage(`Score is required`)
     .matches(/^[1-9][0-9]*$/)
-    .withMessage(`Time limit must grater than 0`)
+    .withMessage(`Score must greater than 0`)
     .run(req);
 };
 
@@ -210,7 +210,45 @@ const validateTestDescription = async (req) => {
     .notEmpty()
     .withMessage("Test description is required")
     .matches(`[A-Za-z]+`)
-    .withMessage("Test description must include A-Z")
+    .withMessage("Test description must include A-Z");
+};
+
+const validateQuestionTestId = async (req) => {
+  await body("testId")
+    .trim()
+    .notEmpty()
+    .withMessage("Question testId is required")
+    .isLength({ min: 24, max: 24 })
+    .withMessage("Question testId must include 24 characters")
+    .run(req);
+};
+
+const validateQuestionContent = async (req) => {
+  await body("content")
+    .trim()
+    .notEmpty()
+    .withMessage("Question content is required")
+    .matches(`[A-Za-z]+`)
+    .withMessage("Question content must include A-Z")
+    .run(req);
+};
+
+const validateQuestionIsMultiChoice = async (req) => {
+  await body("isMultiChoice")
+    .trim()
+    .notEmpty()
+    .withMessage("Question isMultiChoice is required")
+    .isBoolean()
+    .withMessage("Question isMultiChoice must a boolean value")
+    .run(req);
+};
+
+const validateQuestionAnswers = async (req) => {
+  await body("answers")
+    .notEmpty()
+    .withMessage("Question answers is required")
+    .isArray({ min: 2, max: 5 })
+    .withMessage("Question answers must a array including 2-5 answers")
     .run(req);
 };
 
@@ -243,5 +281,9 @@ export {
   validateTestTimeLimit,
   validateTestScore,
   validateTestDescription,
+  validateQuestionTestId,
+  validateQuestionContent,
+  validateQuestionIsMultiChoice,
+  validateQuestionAnswers,
   returnValidationResult
 };

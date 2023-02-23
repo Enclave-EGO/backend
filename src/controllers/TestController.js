@@ -15,7 +15,6 @@ const TestController = {
           data: null
         });
       }
-      console.log("status ", status);
 
       const isExistedLessonId = await checkExistedLessonId(lessonId);
       if (isExistedLessonId === false) {

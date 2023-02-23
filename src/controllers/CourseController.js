@@ -32,7 +32,6 @@ const CourseController = {
         checkExistedCourseName(name),
         checkExistedUserId(userId)
       ]);
-
       if (isExistedCourseName) {
         return res.status(400).json({
           status: "Fail",
@@ -40,7 +39,6 @@ const CourseController = {
           data: null
         });
       }
-
       if (isExistedUserId === false) {
         return res.status(404).json({
           status: "Fail",
@@ -50,7 +48,6 @@ const CourseController = {
       }
 
       const course = await createNewCourse(req.body);
-
       if (course) {
         return res.status(200).json({
           status: "Success",
@@ -67,7 +64,7 @@ const CourseController = {
     } catch (error) {
       return res.status(400).json({
         status: "Fail",
-        error: null,
+        error: error,
         data: null
       });
     }

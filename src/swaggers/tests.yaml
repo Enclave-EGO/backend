@@ -14,8 +14,6 @@
         description: Success
       "400":
         description: Bad Request
-      "500":
-        description: Server Error
 
 components:
   schemas:
@@ -33,4 +31,4 @@ components:
           example: 10
         description:
           type: string
-          example: "Phân mô tả bài test"
+          example: "Phần mô tả bài test"
