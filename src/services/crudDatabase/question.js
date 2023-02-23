@@ -59,7 +59,7 @@ export const handleDeleteManyQuestions = async (questionIds) => {
     handleDeleteQuestionById(questionId)
   );
 
-  const promiseResult = await Promise.all([promises]);
+  const promiseResult = await Promise.all(promises);
 
   const isDeleted = promiseResult.includes(null) ? false : true;
   return isDeleted;
