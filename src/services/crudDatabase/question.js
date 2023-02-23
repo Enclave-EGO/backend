@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import QuestionModel from "../../models/QuestionModel.js";
-import { handleCreateNewAnswers } from "./answer.js";
+import { handleCreateNewAnswers, deleteAnswersOfQuestion } from "./answer.js";
 
 export const createNewQuestion = async (question) => {
   const newQuestion = await QuestionModel.create(question);
@@ -33,4 +33,35 @@ export const handleCreateNewQuestion = async (question) => {
     : null;
 
   return result;
+};
+
+export const deleteQuestionById = async (questionId) => {
+  const deletedQuestion = await QuestionModel.findOneAndDelete({
+    _id: new mongoose.Types.ObjectId(questionId)
+  }).lean();
+
+  return deletedQuestion;
+};
+
+export const handleDeleteQuestionById = async (questionId) => {
+  // 1. Delete question
+  const deletedQuestion = await deleteQuestionById(questionId);
+
+  // 2. Delete answers
+  const deletedAnswers = await deleteAnswersOfQuestion(questionId);
+
+  // 3. Return result
+  const isDeleted = deletedQuestion && deletedAnswers.deletedCount > 0;
+  return isDeleted;
+};
+
+export const handleDeleteManyQuestions = async (questionIds) => {
+  const promises = questionIds.map((questionId) =>
+    handleDeleteQuestionById(questionId)
+  );
+
+  const promiseResult = await Promise.all([promises]);
+
+  const isDeleted = promiseResult.includes(null) ? false : true;
+  return isDeleted;
 };
