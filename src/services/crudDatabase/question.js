@@ -44,13 +44,11 @@ export const deleteQuestionById = async (questionId) => {
 };
 
 export const handleDeleteQuestionById = async (questionId) => {
-  // 1. Delete question
-  const deletedQuestion = await deleteQuestionById(questionId);
+  const [deletedQuestion, deletedAnswers] = await Promise.all([
+    deleteQuestionById(questionId),
+    deleteAnswersOfQuestion(questionId)
+  ]);
 
-  // 2. Delete answers
-  const deletedAnswers = await deleteAnswersOfQuestion(questionId);
-
-  // 3. Return result
   const isDeleted = deletedQuestion && deletedAnswers.deletedCount > 0;
   return isDeleted;
 };
