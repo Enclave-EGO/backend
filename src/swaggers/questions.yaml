@@ -1,0 +1,42 @@
+/questions/:
+  post:
+    tags:
+      - Questions
+    summary: Create new question
+    description: Create new question
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              testId:
+                type: string
+                required: true
+              content:
+                type: string
+                required: true
+              isMultiChoice:
+                type: boolean
+                required: true
+              answers:
+                type: array
+                required: true
+            example:
+              testId: "63f6181b24a3e1d7cadbfa47"
+              content: "Nội dung câu hỏi"
+              isMultiChoice: false
+              answers:
+                [
+                  { content: "Nội dung đáp án 1", isCorrect: false },
+                  { content: "Nội dung đáp án 2", isCorrect: true },
+                  { content: "Nội dung đáp án 3", isCorrect: false },
+                  { content: "Nội dung đáp án 4", isCorrect: false }
+                ]
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+      "404":
+        description: Not Found
