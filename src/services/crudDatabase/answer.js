@@ -7,7 +7,7 @@ export const createNewAnswer = async (answer) => {
 };
 
 export const handleCreateNewAnswers = async (questionId, answers) => {
-  // below promises is an array of promises
+  // Below promises is an array of promises
   const promises = answers.map(async (answer) => {
     const newAnswer = {
       questionId: new mongoose.Types.ObjectId(questionId),

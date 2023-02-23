@@ -28,9 +28,10 @@ export const handleCreateNewQuestion = async (question) => {
 
   // 2. Create answers
   const questionId = savedQuestion._id;
+  console.log(answers);
   const createdAnswers = await handleCreateNewAnswers(questionId, answers);
 
-  // 3. Return result
+  // 3. Return result (saved question and answers)
   const isCreatedQuestionAndAnswers =
     savedQuestion && createdAnswers.includes(null) === false;
   const result = isCreatedQuestionAndAnswers

@@ -162,6 +162,45 @@ const validateCourseThumbnailOptional = async (req) => {
     .run(req);
 };
 
+const validateQuestionTestId = async (req) => {
+  await body("testId")
+    .trim()
+    .notEmpty()
+    .withMessage("Question testId is required")
+    .isLength({ min: 24, max: 24 })
+    .withMessage("Question testId must include 24 characters")
+    .run(req);
+};
+
+const validateQuestionContent = async (req) => {
+  await body("content")
+    .trim()
+    .notEmpty()
+    .withMessage("Question content is required")
+    .matches(`[A-Za-z]+`)
+    .withMessage("Question content must include A-Z")
+    .run(req);
+};
+
+const validateQuestionIsMultiChoice = async (req) => {
+  await body("isMultiChoice")
+    .trim()
+    .notEmpty()
+    .withMessage("Question isMultiChoice is required")
+    .isBoolean()
+    .withMessage("Question isMultiChoice must a boolean value")
+    .run(req);
+};
+
+const validateQuestionAnswers = async (req) => {
+  await body("answers")
+    .notEmpty()
+    .withMessage("Question answers is required")
+    .isArray({ min: 2, max: 5 })
+    .withMessage("Question answers must a array including 2-5 answers")
+    .run(req);
+};
+
 const returnValidationResult = (req) => {
   const errors = validationResult(req);
   return {
@@ -186,5 +225,9 @@ export {
   validateCourseCostOptional,
   validateCourseDescriptionOptional,
   validateCourseThumbnailOptional,
+  validateQuestionTestId,
+  validateQuestionContent,
+  validateQuestionIsMultiChoice,
+  validateQuestionAnswers,
   returnValidationResult
 };
