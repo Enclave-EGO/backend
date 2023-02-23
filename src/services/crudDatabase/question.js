@@ -2,14 +2,6 @@ import mongoose from "mongoose";
 import QuestionModel from "../../models/QuestionModel.js";
 import { handleCreateNewAnswers } from "./answer.js";
 
-export const checkExistedQuestionContent = async (content) => {
-  const isExisted = await QuestionModel.exists({
-    content: content
-  }).lean();
-
-  return Boolean(isExisted);
-};
-
 export const createNewQuestion = async (question) => {
   const newQuestion = await QuestionModel.create(question);
   return newQuestion;
@@ -28,7 +20,6 @@ export const handleCreateNewQuestion = async (question) => {
 
   // 2. Create answers
   const questionId = savedQuestion._id;
-  console.log(answers);
   const createdAnswers = await handleCreateNewAnswers(questionId, answers);
 
   // 3. Return result (saved question and answers)
