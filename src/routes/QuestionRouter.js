@@ -12,5 +12,7 @@ router.post(
   Roles(Role.TEACHER),
   QuestionController.createQuestion
 );
+router.delete("/:questionId", QuestionController.deleteQuestion);
+router.delete("/", QuestionController.deleteQuestions);
 
 export default router;

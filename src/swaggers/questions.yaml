@@ -40,3 +40,43 @@
         description: Bad Request
       "404":
         description: Not Found
+  delete:
+    tags:
+      - Questions
+    summary: Delete many questions by IDs
+    description: Delete many questions by IDs
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              questionIds:
+                type: array
+                required: true
+            example:
+              questionIds:
+                ["63kk291a2e1807d7370e9700", "63kk291a2e1807d7370e9701"]
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+
+/questions/{questionId}:
+  delete:
+    tags:
+      - Questions
+    summary: Delete question by ID
+    description: Delete question by ID
+    parameters:
+      - in: path
+        name: questionId
+        schema:
+          type: string
+          required: true
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
