@@ -151,25 +151,3 @@ components:
         courseId:
           type: string
           example: "63da29aae447df24915d7870"
-    LessonResponse:
-      type: object
-      properties:
-        name:
-          type: string
-          example: "Học JS cơ bản"
-        description:
-          type: string
-        videoId:
-          type: string
-          example: "123456789ab"
-        courseId:
-          type: string
-          example: "63da29aae447df24915d7870"
-        createdAt:
-          type: string
-          format: date-time
-          example: "2023-02-16T08:42:14.245+00:00"
-        updatedAt:
-          type: string
-          format: date-time
-          example: "2023-02-16T08:42:14.245+00:00"

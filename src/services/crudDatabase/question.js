@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import QuestionModel from "../../models/QuestionModel.js";
+import AnswerModel from "../../models/AnswerModel.js";
 import { handleCreateNewAnswers, deleteAnswersOfQuestion } from "./answer.js";
 
 export const createNewQuestion = async (question) => {
@@ -62,4 +63,19 @@ export const handleDeleteManyQuestions = async (questionIds) => {
 
   const isDeleted = promiseResult.includes(null) ? false : true;
   return isDeleted;
+}
+  
+export const getQuestionDetail = async (questionId) => {
+  const question = await QuestionModel.findOne(
+    { _id: questionId },
+    { _id: true, content: true, isMultiChoice: true }
+  ).lean();
+
+  const answers = await AnswerModel.find(
+    { questionId },
+    { _id: true, content: true, isCorrect: true }
+  ).lean();
+
+  const output = { ...question, answers };
+  return output;
 };

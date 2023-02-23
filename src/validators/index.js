@@ -105,7 +105,7 @@ const validateCourseCost = async (req) => {
     .notEmpty()
     .withMessage(`Course cost is required`)
     .matches(/^[1-9][0-9]*$/)
-    .withMessage(`Course cost must grater than 0`)
+    .withMessage(`Course cost must greater than 0`)
     .run(req);
 };
 
@@ -158,7 +158,7 @@ const validateCourseCostOptional = async (req) => {
     .notEmpty()
     .withMessage(`Course cost is required`)
     .matches(/^[1-9][0-9]*$/)
-    .withMessage(`Course cost must grater than 0`)
+    .withMessage(`Course cost must greater than 0`)
     .run(req);
 };
 
@@ -183,6 +183,34 @@ const validateCourseThumbnailOptional = async (req) => {
       /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
     )
     .withMessage("Course thumbnail is invalid")
+    .run(req);
+};
+
+const validateTestTimeLimit = async (req) => {
+  await body("timeLimit")
+    .notEmpty()
+    .withMessage(`Time limit is required`)
+    .matches(/^[1-9][0-9]*$/)
+    .withMessage(`Time limit must greater than 0`)
+    .run(req);
+};
+
+const validateTestScore = async (req) => {
+  await body("score")
+    .notEmpty()
+    .withMessage(`Score is required`)
+    .matches(/^[1-9][0-9]*$/)
+    .withMessage(`Score must greater than 0`)
+    .run(req);
+};
+
+const validateTestDescription = async (req) => {
+  await body("description")
+    .trim()
+    .notEmpty()
+    .withMessage("Test description is required")
+    .matches(`[A-Za-z]+`)
+    .withMessage("Test description must include A-Z")
     .run(req);
 };
 
@@ -251,6 +279,9 @@ export {
   validateCourseCostOptional,
   validateCourseDescriptionOptional,
   validateCourseThumbnailOptional,
+  validateTestTimeLimit,
+  validateTestScore,
+  validateTestDescription,
   validateQuestionTestId,
   validateQuestionContent,
   validateQuestionIsMultiChoice,
