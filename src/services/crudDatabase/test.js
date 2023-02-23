@@ -1,6 +1,6 @@
 import TestModel from "../../models/TestModel.js";
 import QuestionModel from "../../models/QuestionModel.js";
-import AnswerModel from "../../models/AnswerModel.js";
+import { getQuestionDetail } from "./question.js";
 
 const checkExistedTestId = async (testId) => {
   const isExisted = await TestModel.exists({
@@ -12,21 +12,6 @@ const checkExistedTestId = async (testId) => {
 const createNewTest = async (test) => {
   const newTest = await TestModel.create(test);
   return newTest;
-};
-
-const getQuestionDetail = async (questionId) => {
-  const question = await QuestionModel.findOne(
-    { _id: questionId },
-    { _id: true, content: true, isMultiChoice: true }
-  ).lean();
-
-  const answers = await AnswerModel.find(
-    { questionId },
-    { _id: true, content: true, isCorrect: true }
-  ).lean();
-
-  const output = { ...question, answers };
-  return output;
 };
 
 const getTestDetail = async (testId) => {
@@ -63,10 +48,4 @@ const getTestsByLesson = async (lessonId) => {
   return output;
 };
 
-export {
-  createNewTest,
-  checkExistedTestId,
-  getQuestionDetail,
-  getTestDetail,
-  getTestsByLesson
-};
+export { createNewTest, checkExistedTestId, getTestDetail, getTestsByLesson };
