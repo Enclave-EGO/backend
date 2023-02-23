@@ -186,6 +186,34 @@ const validateCourseThumbnailOptional = async (req) => {
     .run(req);
 };
 
+const validateTestTimeLimit = async (req) => {
+  await body("timeLimit")
+    .notEmpty()
+    .withMessage(`Time limit is required`)
+    .matches(/^[1-9][0-9]*$/)
+    .withMessage(`Time limit must grater than 0`)
+    .run(req);
+};
+
+const validateTestScore = async (req) => {
+  await body("score")
+    .notEmpty()
+    .withMessage(`Time limit is required`)
+    .matches(/^[1-9][0-9]*$/)
+    .withMessage(`Time limit must grater than 0`)
+    .run(req);
+};
+
+const validateTestDescription = async (req) => {
+  await body("description")
+    .trim()
+    .notEmpty()
+    .withMessage("Test description is required")
+    .matches(`[A-Za-z]+`)
+    .withMessage("Test description must include A-Z")
+    .run(req);
+};
+
 const returnValidationResult = (req) => {
   const errors = validationResult(req);
   return {
@@ -212,5 +240,8 @@ export {
   validateCourseCostOptional,
   validateCourseDescriptionOptional,
   validateCourseThumbnailOptional,
+  validateTestTimeLimit,
+  validateTestScore,
+  validateTestDescription,
   returnValidationResult
 };
