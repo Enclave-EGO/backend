@@ -7,9 +7,9 @@ const checkExistedTestId = async (testId) => {
 
   return Boolean(isExisted);
 };
-const handleCreateNewTest = async (test) => {
+const createNewTest = async (test) => {
   const newTest = await TestModel.create(test);
   return newTest;
 };
 
-export { handleCreateNewTest, checkExistedTestId };
+export { createNewTest, checkExistedTestId };

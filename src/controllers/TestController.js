@@ -1,5 +1,5 @@
 import { checkExistedLessonId } from "../services/crudDatabase/lesson.js";
-import { handleCreateNewTest } from "../services/crudDatabase/test.js";
+import { createNewTest } from "../services/crudDatabase/test.js";
 import { validateTest } from "../validators/testValidator.js";
 
 const TestController = {
@@ -18,14 +18,14 @@ const TestController = {
 
       const isExistedLessonId = await checkExistedLessonId(lessonId);
       if (isExistedLessonId === false) {
-        return res.status(400).json({
+        return res.status(404).json({
           status: "Fail",
           error: "Lesson Id is not existed",
           data: null
         });
       }
 
-      const test = await handleCreateNewTest(req.body);
+      const test = await createNewTest(req.body);
       if (test) {
         return res.status(200).json({
           status: "Success",
