@@ -210,7 +210,8 @@ const validateTestDescription = async (req) => {
     .notEmpty()
     .withMessage("Test description is required")
     .matches(`[A-Za-z]+`)
-    .withMessage("Test description must include A-Z");
+    .withMessage("Test description must include A-Z")
+    .run(req);
 };
 
 const validateQuestionTestId = async (req) => {
