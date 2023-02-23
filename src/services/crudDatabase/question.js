@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import QuestionModel from "../../models/QuestionModel.js";
+import AnswerModel from "../../models/AnswerModel.js";
 import { handleCreateNewAnswers } from "./answer.js";
 
 export const createNewQuestion = async (question) => {
@@ -33,4 +34,19 @@ export const handleCreateNewQuestion = async (question) => {
     : null;
 
   return result;
+};
+
+export const getQuestionDetail = async (questionId) => {
+  const question = await QuestionModel.findOne(
+    { _id: questionId },
+    { _id: true, content: true, isMultiChoice: true }
+  ).lean();
+
+  const answers = await AnswerModel.find(
+    { questionId },
+    { _id: true, content: true, isCorrect: true }
+  ).lean();
+
+  const output = { ...question, answers };
+  return output;
 };
