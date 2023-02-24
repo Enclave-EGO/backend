@@ -47,12 +47,12 @@ const findListLessons = async (courseId) => {
 };
 
 const updateExistedLesson = async (lessonId, lessonInfo) => {
-  const lesson = await LessonModel.findOneAndUpdate(
+  const updatedLesson = await LessonModel.findOneAndUpdate(
     { _id: lessonId },
     lessonInfo
   ).lean();
 
-  return lesson;
+  return updatedLesson;
 };
 
 const deleteLessonById = async (lessonId) => {

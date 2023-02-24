@@ -214,6 +214,37 @@ const validateTestDescription = async (req) => {
     .run(req);
 };
 
+const validateTestTimeLimitOptional = async (req) => {
+  await body("timeLimit")
+    .optional({ checkFalsy: true, nullable: true })
+    .notEmpty()
+    .withMessage(`Time limit is required`)
+    .matches(/^[1-9][0-9]*$/)
+    .withMessage(`Time limit must greater than 0`)
+    .run(req);
+};
+
+const validateTestScoreOptional = async (req) => {
+  await body("score")
+    .optional({ checkFalsy: true, nullable: true })
+    .notEmpty()
+    .withMessage(`Score is required`)
+    .matches(/^[1-9][0-9]*$/)
+    .withMessage(`Score must greater than 0`)
+    .run(req);
+};
+
+const validateTestDescriptionOptional = async (req) => {
+  await body("description")
+    .optional({ checkFalsy: true, nullable: true })
+    .trim()
+    .notEmpty()
+    .withMessage("Test description is required")
+    .matches(`[A-Za-z]+`)
+    .withMessage("Test description must include A-Z")
+    .run(req);
+};
+
 const validateQuestionTestId = async (req) => {
   await body("testId")
     .trim()
@@ -333,6 +364,9 @@ export {
   validateTestTimeLimit,
   validateTestScore,
   validateTestDescription,
+  validateTestTimeLimitOptional,
+  validateTestScoreOptional,
+  validateTestDescriptionOptional,
   validateQuestionTestId,
   validateQuestionContent,
   validateQuestionIsMultiChoice,

@@ -5,6 +5,8 @@ import { Roles } from "../middlewares/authentication/roleGuard.js";
 import { Role } from "../utils/index.js";
 const router = express.Router();
 
+router.post("/", TestController.createTest);
+router.patch("/:id", TestController.updateTest);
 router.get(
   "/",
   jwtGuard,
@@ -20,5 +22,19 @@ router.get(
 );
 
 router.post("/", jwtGuard, Roles(Role.TEACHER), TestController.createTest);
+
+router.delete(
+  "/:testId",
+  jwtGuard,
+  Roles(Role.TEACHER),
+  TestController.deleteTest
+);
+
+router.delete(
+  "/",
+  jwtGuard,
+  Roles(Role.TEACHER),
+  TestController.deleteManyTests
+);
 
 export default router;
