@@ -1,7 +1,8 @@
 import {
   handleCreateNewQuestion,
   handleDeleteQuestionById,
-  handleDeleteManyQuestions
+  handleDeleteManyQuestions,
+  getQuestionDetail
 } from "../services/crudDatabase/question.js";
 import { checkExistedTestId } from "../services/crudDatabase/test.js";
 import { validateCreateQuestion } from "../validators/questionValidator.js";
@@ -88,6 +89,34 @@ const QuestionController = {
           status: "Success",
           error: null,
           data: isDeleted
+        });
+      } else {
+        return res.status(400).json({
+          status: "Fail",
+          error: null,
+          data: null
+        });
+      }
+    } catch (error) {
+      return res.status(400).json({
+        status: "Fail",
+        error: error,
+        data: null
+      });
+    }
+  },
+
+  getQuestion: async (req, res) => {
+    const questionId = req.params.questionId;
+
+    try {
+      const questionDetail = await getQuestionDetail(questionId);
+
+      if (questionDetail) {
+        return res.status(200).json({
+          status: "Success",
+          error: null,
+          data: questionDetail
         });
       } else {
         return res.status(400).json({
