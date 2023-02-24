@@ -15,12 +15,48 @@
       "400":
         description: Bad Request
 
+  get:
+    tags:
+      - Tests
+    summary: Get all Tests by lessonId
+    description: Get all Tests by lessonId
+    parameters:
+      - in: query
+        name: lessonId
+        description: Id of the lesson
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+      "500":
+        description: Server Error
+
 /tests/{testId}:
+  get:
+    tags:
+      - Tests
+    summary: Get test by testId
+    description: Get test by testId
+    parameters:
+      - in: path
+        name: testId
+        schema:
+          type: string
+        required: true
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+        
   patch:
     tags:
       - Tests
-    summary: Update Test by Id
-    description: Update Test by Id
+    summary: Update test by Id
+    description: Update test by Id
     parameters:
       - in: path
         name: testId

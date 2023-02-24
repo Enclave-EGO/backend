@@ -1,13 +1,10 @@
 import { checkExistedLessonId } from "../services/crudDatabase/lesson.js";
 import {
-  checkExistedTestId,
   createNewTest,
-  updateExistedTest
+  getTestDetail,
+  getTestsByLesson
 } from "../services/crudDatabase/test.js";
-import {
-  validateTest,
-  validateUpdateTestOptional
-} from "../validators/testValidator.js";
+import { validateTest } from "../validators/testValidator.js";
 
 const TestController = {
   createTest: async (req, res) => {
@@ -38,6 +35,62 @@ const TestController = {
           status: "Success",
           error: null,
           data: test
+        });
+      } else {
+        return res.status(400).json({
+          status: "Fail",
+          error: null,
+          data: null
+        });
+      }
+    } catch (error) {
+      return res.status(400).json({
+        status: "Fail",
+        error: error,
+        data: null
+      });
+    }
+  },
+
+  getTestsByLesson: async (req, res) => {
+    const lessonId = req.query.lessonId;
+
+    try {
+      const listTests = await getTestsByLesson(lessonId);
+
+      if (listTests) {
+        return res.status(200).json({
+          status: "Success",
+          error: null,
+          data: listTests
+        });
+      } else {
+        return res.status(400).json({
+          status: "Fail",
+          error: null,
+          data: null
+        });
+      }
+    } catch (error) {
+      return res.status(400).json({
+        status: "Fail",
+        error: error,
+        data: null
+      });
+    }
+  },
+
+  getTestById: async (req, res) => {
+    const testId = req.params.testId;
+
+    try {
+      const testDetail = await getTestDetail(testId);
+
+      if (testDetail) {
+        return res.status(200).json({
+          status: "Success",
+          error: null,
+          data: testDetail
         });
       } else {
         return res.status(400).json({

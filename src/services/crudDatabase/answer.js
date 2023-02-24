@@ -20,3 +20,11 @@ export const handleCreateNewAnswers = async (questionId, answers) => {
   const resultArray = await Promise.all(promises);
   return resultArray;
 };
+
+export const deleteAnswersOfQuestion = async (questionId) => {
+  const deletedInfo = await AnswerModel.deleteMany({
+    questionId: new mongoose.Types.ObjectId(questionId)
+  }).lean();
+
+  return deletedInfo;
+};

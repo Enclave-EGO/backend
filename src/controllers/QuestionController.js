@@ -1,4 +1,8 @@
-import { handleCreateNewQuestion } from "../services/crudDatabase/question.js";
+import {
+  handleCreateNewQuestion,
+  handleDeleteQuestionById,
+  handleDeleteManyQuestions
+} from "../services/crudDatabase/question.js";
 import { checkExistedTestId } from "../services/crudDatabase/test.js";
 import { validateCreateQuestion } from "../validators/questionValidator.js";
 
@@ -30,6 +34,60 @@ const QuestionController = {
           status: "Success",
           error: null,
           data: course
+        });
+      } else {
+        return res.status(400).json({
+          status: "Fail",
+          error: null,
+          data: null
+        });
+      }
+    } catch (error) {
+      return res.status(400).json({
+        status: "Fail",
+        error: error,
+        data: null
+      });
+    }
+  },
+
+  deleteQuestion: async (req, res) => {
+    try {
+      const questionId = req.params.questionId;
+      const isDeleted = await handleDeleteQuestionById(questionId);
+
+      if (isDeleted) {
+        return res.status(200).json({
+          status: "Success",
+          error: null,
+          data: isDeleted
+        });
+      } else {
+        return res.status(400).json({
+          status: "Fail",
+          error: null,
+          data: null
+        });
+      }
+    } catch (error) {
+      return res.status(400).json({
+        status: "Fail",
+        error: error,
+        data: null
+      });
+    }
+  },
+
+  deleteQuestions: async (req, res) => {
+    try {
+      const questionIds = req.body.questionIds;
+      const isDeleted = await handleDeleteManyQuestions(questionIds);
+
+      if (isDeleted) {
+        return res.status(200).json({
+          status: "Success",
+          error: null,
+          data: isDeleted
         });
       } else {
         return res.status(400).json({
