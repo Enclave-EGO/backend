@@ -1,6 +1,10 @@
 import TestModel from "../../models/TestModel.js";
 import QuestionModel from "../../models/QuestionModel.js";
-import { getQuestionDetail } from "./question.js";
+import {
+  getQuestionDetail,
+  getQuestionsByTests,
+  handleDeleteManyQuestions
+} from "./question.js";
 
 const checkExistedTestId = async (testId) => {
   const isExisted = await TestModel.exists({
@@ -46,6 +50,28 @@ const getTestsByLesson = async (lessonId) => {
   const output = { count, tests: listTestDetails };
 
   return output;
+};
+
+export const deleteTestsByIds = async (testIds) => {
+  const output = await TestModel.deleteMany({
+    _id: { $in: testIds }
+  }).lean();
+  return output;
+};
+
+export const handleDeleteTests = async (testIds) => {
+  const listQuestions = await getQuestionsByTests(testIds);
+
+  const listQuestionIds = listQuestions.map((question) => question._id);
+
+  const [deleteTest, deleteQuestion] = await Promise.all([
+    deleteTestsByIds(testIds),
+    handleDeleteManyQuestions(listQuestionIds)
+  ]);
+
+  const isDeleted = Boolean(deleteTest.deletedCount) && Boolean(deleteQuestion);
+
+  return isDeleted;
 };
 
 export { createNewTest, checkExistedTestId, getTestDetail, getTestsByLesson };

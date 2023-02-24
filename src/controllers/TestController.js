@@ -2,7 +2,8 @@ import { checkExistedLessonId } from "../services/crudDatabase/lesson.js";
 import {
   createNewTest,
   getTestDetail,
-  getTestsByLesson
+  getTestsByLesson,
+  handleDeleteTests
 } from "../services/crudDatabase/test.js";
 import { validateTest } from "../validators/testValidator.js";
 
@@ -91,6 +92,63 @@ const TestController = {
           status: "Success",
           error: null,
           data: testDetail
+        });
+      } else {
+        return res.status(400).json({
+          status: "Fail",
+          error: null,
+          data: null
+        });
+      }
+    } catch (error) {
+      return res.status(400).json({
+        status: "Fail",
+        error: error,
+        data: null
+      });
+    }
+  },
+
+  deleteTest: async (req, res) => {
+    const testId = req.params.testId;
+
+    try {
+      const deleteTestArray = [testId];
+      const deleteInfo = await handleDeleteTests(deleteTestArray);
+
+      if (deleteInfo) {
+        return res.status(200).json({
+          status: "Success",
+          error: null,
+          data: deleteInfo
+        });
+      } else {
+        return res.status(400).json({
+          status: "Fail",
+          error: null,
+          data: null
+        });
+      }
+    } catch (error) {
+      return res.status(400).json({
+        status: "Fail",
+        error: error,
+        data: null
+      });
+    }
+  },
+
+  deleteManyTests: async (req, res) => {
+    const testIds = req.body.testIds;
+
+    try {
+      const deleteInfo = await handleDeleteTests(testIds);
+
+      if (deleteInfo) {
+        return res.status(200).json({
+          status: "Success",
+          error: null,
+          data: deleteInfo
         });
       } else {
         return res.status(400).json({

@@ -21,4 +21,18 @@ router.get(
 
 router.post("/", jwtGuard, Roles(Role.TEACHER), TestController.createTest);
 
+router.delete(
+  "/:testId",
+  jwtGuard,
+  Roles(Role.TEACHER),
+  TestController.deleteTest
+);
+
+router.delete(
+  "/",
+  jwtGuard,
+  Roles(Role.TEACHER),
+  TestController.deleteManyTests
+);
+
 export default router;
