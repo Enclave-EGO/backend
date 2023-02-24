@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import TestModel from "../../models/TestModel.js";
 import QuestionModel from "../../models/QuestionModel.js";
 import {
@@ -10,12 +11,20 @@ const checkExistedTestId = async (testId) => {
   const isExisted = await TestModel.exists({
     _id: new mongoose.Types.ObjectId(testId)
   }).lean();
-
   return Boolean(isExisted);
 };
+
 const createNewTest = async (test) => {
   const newTest = await TestModel.create(test);
   return newTest;
+};
+
+const updateExistedTest = async (testId, testInfo) => {
+  const updatedTest = await TestModel.findOneAndUpdate(
+    { _id: testId },
+    testInfo
+  ).lean();
+  return updatedTest;
 };
 
 const getTestDetail = async (testId) => {
@@ -52,14 +61,14 @@ const getTestsByLesson = async (lessonId) => {
   return output;
 };
 
-export const deleteTestsByIds = async (testIds) => {
+const deleteTestsByIds = async (testIds) => {
   const output = await TestModel.deleteMany({
     _id: { $in: testIds }
   }).lean();
   return output;
 };
 
-export const handleDeleteTests = async (testIds) => {
+const handleDeleteTests = async (testIds) => {
   const listQuestions = await getQuestionsByTests(testIds);
 
   const listQuestionIds = listQuestions.map((question) => question._id);
@@ -74,4 +83,11 @@ export const handleDeleteTests = async (testIds) => {
   return isDeleted;
 };
 
-export { createNewTest, checkExistedTestId, getTestDetail, getTestsByLesson };
+export {
+  checkExistedTestId,
+  createNewTest,
+  updateExistedTest,
+  getTestDetail,
+  getTestsByLesson,
+  handleDeleteTests
+};

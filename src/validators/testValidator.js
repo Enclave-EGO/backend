@@ -2,7 +2,10 @@ import {
   validateTestTimeLimit,
   validateTestDescription,
   validateTestScore,
-  returnValidationResult
+  returnValidationResult,
+  validateTestTimeLimitOptional,
+  validateTestDescriptionOptional,
+  validateTestScoreOptional
 } from "./index.js";
 
 export const validateTest = async (req) => {
@@ -10,6 +13,14 @@ export const validateTest = async (req) => {
     validateTestTimeLimit(req),
     validateTestDescription(req),
     validateTestScore(req)
+  ]);
+};
+
+export const validateUpdateTestOptional = async (req) => {
+  await Promise.all([
+    validateTestTimeLimitOptional(req),
+    validateTestDescriptionOptional(req),
+    validateTestScoreOptional(req)
   ]);
 
   return returnValidationResult(req);

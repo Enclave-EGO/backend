@@ -5,6 +5,8 @@ import { Roles } from "../middlewares/authentication/roleGuard.js";
 import { Role } from "../utils/index.js";
 const router = express.Router();
 
+router.post("/", TestController.createTest);
+router.patch("/:id", TestController.updateTest);
 router.get(
   "/",
   jwtGuard,
