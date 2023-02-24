@@ -34,6 +34,27 @@
       "500":
         description: Server Error
 
+  delete:
+    tags:
+      - Tests
+    summary: Delete many test by testIds
+    description: Delete many test by testIds
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              testIds:
+                type: Array
+                example:
+                  ["63f822358a8ae4ee2b1b2d36", "63f822408a8ae4ee2b1b2d37"]
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+
 /tests/{testId}:
   get:
     tags:
@@ -84,6 +105,24 @@
     responses:
       "200":
         description: Sucess
+      "400":
+        description: Bad Request
+
+  delete:
+    tags:
+      - Tests
+    summary: Delete test by Id
+    description: Delete test by Id
+    parameters:
+      - in: path
+        name: testId
+        description: Id of the test
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Success
       "400":
         description: Bad Request
 
