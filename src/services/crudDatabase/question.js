@@ -51,7 +51,7 @@ export const handleDeleteQuestionById = async (questionId) => {
   ]);
 
   const isDeleted = deletedQuestion && deletedAnswers.deletedCount > 0;
-  console.log(isDeleted);
+
   return isDeleted;
 };
 
