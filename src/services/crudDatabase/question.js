@@ -51,6 +51,7 @@ export const handleDeleteQuestionById = async (questionId) => {
   ]);
 
   const isDeleted = deletedQuestion && deletedAnswers.deletedCount > 0;
+
   return isDeleted;
 };
 
@@ -62,9 +63,19 @@ export const handleDeleteManyQuestions = async (questionIds) => {
   const promiseResult = await Promise.all(promises);
 
   const isDeleted = promiseResult.includes(null) ? false : true;
+
   return isDeleted;
-}
-  
+};
+
+export const getQuestionsByTests = async (testIds) => {
+  const listQuestions = await QuestionModel.find(
+    { testId: { $in: testIds } },
+    { _id: true }
+  ).lean();
+
+  return listQuestions;
+};
+
 export const getQuestionDetail = async (questionId) => {
   const question = await QuestionModel.findOne(
     { _id: questionId },
