@@ -1,11 +1,16 @@
+import { checkExistedTestId } from "../services/crudDatabase/test.js";
 import {
+  checkExistedQuestion,
   handleCreateNewQuestion,
+  handleUpdateQuestion,
   handleDeleteQuestionById,
   handleDeleteManyQuestions,
   getQuestionDetail
 } from "../services/crudDatabase/question.js";
-import { checkExistedTestId } from "../services/crudDatabase/test.js";
-import { validateCreateQuestion } from "../validators/questionValidator.js";
+import {
+  validateCreateQuestion,
+  validateUpdateQuestion
+} from "../validators/questionValidator.js";
 
 const QuestionController = {
   createQuestion: async (req, res) => {
@@ -35,6 +40,50 @@ const QuestionController = {
           status: "Success",
           error: null,
           data: course
+        });
+      } else {
+        return res.status(400).json({
+          status: "Fail",
+          error: null,
+          data: null
+        });
+      }
+    } catch (error) {
+      return res.status(400).json({
+        status: "Fail",
+        error: error,
+        data: null
+      });
+    }
+  },
+
+  updateQuestion: async (req, res) => {
+    try {
+      const questionId = req.params.questionId;
+
+      const { status, error } = await validateUpdateQuestion(req);
+      if (status === "Fail")
+        return res.status(400).json({
+          status: "Fail",
+          error: error,
+          data: null
+        });
+
+      const isExistedQuestion = await checkExistedQuestion(questionId);
+      if (isExistedQuestion === false) {
+        return res.status(400).json({
+          status: "Fail",
+          error: "Question is not existed",
+          data: null
+        });
+      }
+
+      const question = await handleUpdateQuestion(questionId, req.body);
+      if (question) {
+        return res.status(200).json({
+          status: "Success",
+          error: null,
+          data: question
         });
       } else {
         return res.status(400).json({

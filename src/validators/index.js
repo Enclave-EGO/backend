@@ -275,11 +275,62 @@ const validateQuestionIsMultiChoice = async (req) => {
     .run(req);
 };
 
+const validateQuestionScore = async (req) => {
+  await body("score")
+    .notEmpty()
+    .withMessage(`Question score is required`)
+    .matches(/^[1-9][0-9]*$/)
+    .withMessage(`Question score must greater than 0`)
+    .run(req);
+};
+
 const validateQuestionAnswers = async (req) => {
   await body("answers")
     .notEmpty()
     .withMessage("Question answers is required")
     .isArray({ min: 2, max: 5 })
+    .withMessage("Question answers must a array including 2-5 answers")
+    .run(req);
+};
+
+const validateQuestionContentOptional = async (req) => {
+  await body("content")
+    .optional({ checkFalsy: true, nullable: true })
+    .trim()
+    .notEmpty()
+    .withMessage("Question content is required")
+    .matches(`[A-Za-z]+`)
+    .withMessage("Question content must include A-Z")
+    .run(req);
+};
+
+const validateQuestionIsMultiChoiceOptional = async (req) => {
+  await body("isMultiChoice")
+    .optional({ checkFalsy: true, nullable: true })
+    .trim()
+    .notEmpty()
+    .withMessage("Question isMultiChoice is required")
+    .isBoolean()
+    .withMessage("Question isMultiChoice must a boolean value")
+    .run(req);
+};
+
+const validateQuestionScoreOptional = async (req) => {
+  await body("score")
+    .optional({ checkFalsy: true, nullable: true })
+    .notEmpty()
+    .withMessage(`Question score is required`)
+    .matches(/^[1-9][0-9]*$/)
+    .withMessage(`Question score must greater than 0`)
+    .run(req);
+};
+
+const validateQuestionAnswersOptional = async (req) => {
+  await body("answers")
+    .optional({ checkFalsy: true, nullable: true })
+    .notEmpty()
+    .withMessage("Question answers is required")
+    .isArray({ min: 1, max: 5 })
     .withMessage("Question answers must a array including 2-5 answers")
     .run(req);
 };
@@ -319,6 +370,11 @@ export {
   validateQuestionTestId,
   validateQuestionContent,
   validateQuestionIsMultiChoice,
+  validateQuestionScore,
   validateQuestionAnswers,
+  validateQuestionContentOptional,
+  validateQuestionIsMultiChoiceOptional,
+  validateQuestionScoreOptional,
+  validateQuestionAnswersOptional,
   returnValidationResult
 };

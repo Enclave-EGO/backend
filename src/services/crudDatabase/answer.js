@@ -7,7 +7,6 @@ export const createNewAnswer = async (answer) => {
 };
 
 export const handleCreateNewAnswers = async (questionId, answers) => {
-  // Below variable promises is an array of promises
   const promises = answers.map((answer) => {
     const newAnswer = {
       questionId: new mongoose.Types.ObjectId(questionId),
@@ -15,6 +14,31 @@ export const handleCreateNewAnswers = async (questionId, answers) => {
       isCorrect: answer.isCorrect
     };
     return createNewAnswer(newAnswer);
+  });
+
+  const resultArray = await Promise.all(promises);
+  return resultArray;
+};
+
+export const updateAnswer = async (answerId, answerInfo) => {
+  const updatedAnswer = await AnswerModel.findOneAndUpdate(
+    { _id: new mongoose.Types.ObjectId(answerId) },
+    answerInfo
+  );
+
+  return updatedAnswer;
+};
+
+export const handleUpdateAnswers = async (answers) => {
+  const promises = answers.map((answer) => {
+    const answerId = answer.answerId;
+
+    const answerInfo = {
+      content: answer.content,
+      isCorrect: answer.isCorrect
+    };
+
+    return updateAnswer(answerId, answerInfo);
   });
 
   const resultArray = await Promise.all(promises);
