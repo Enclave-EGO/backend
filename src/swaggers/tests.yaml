@@ -15,6 +15,42 @@
       "400":
         description: Bad Request
 
+/tests/{testId}:
+  patch:
+    tags:
+      - Tests
+    summary: Update Test by Id
+    description: Update Test by Id
+    parameters:
+      - in: path
+        name: testId
+        schema:
+          type: string
+          required: true
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              timeLimit:
+                type: interger
+                required: false
+                example: 100
+              score:
+                type: interger
+                required: false
+                example: 100
+              description:
+                type: string
+                required: false
+                example: "Mô tả của bài test"
+    responses:
+      "200":
+        description: Sucess
+      "400":
+        description: Bad Request
+
 components:
   schemas:
     Test:
