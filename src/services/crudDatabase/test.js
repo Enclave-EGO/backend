@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import TestModel from "../../models/TestModel.js";
 import QuestionModel from "../../models/QuestionModel.js";
 import { getQuestionDetail } from "./question.js";
@@ -9,6 +10,7 @@ const checkExistedTestId = async (testId) => {
 
   return Boolean(isExisted);
 };
+
 const createNewTest = async (test) => {
   const newTest = await TestModel.create(test);
   return newTest;

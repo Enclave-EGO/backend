@@ -7,14 +7,39 @@ export const createNewAnswer = async (answer) => {
 };
 
 export const handleCreateNewAnswers = async (questionId, answers) => {
-  // Below variable promises is an array of promises
   const promises = answers.map((answer) => {
     const newAnswer = {
       questionId: new mongoose.Types.ObjectId(questionId),
       content: answer.content,
-      isCorrect: answer.isCorrect
+      isCorrect: answer.isCorrect,
+      numericalOrder: answer.numericalOrder
     };
     return createNewAnswer(newAnswer);
+  });
+
+  const resultArray = await Promise.all(promises);
+  return resultArray;
+};
+
+export const updateAnswer = async (questionId, numericalOrder, answerInfo) => {
+  const updatedAnswer = await AnswerModel.findOneAndUpdate(
+    { questionId, numericalOrder },
+    answerInfo
+  );
+
+  return updatedAnswer;
+};
+
+export const handleUpdateAnswers = async (questionId, answers) => {
+  const promises = answers.map((answer) => {
+    const numericalOrder = answer.numericalOrder;
+
+    const answerInfo = {
+      content: answer.content,
+      isCorrect: answer.isCorrect
+    };
+
+    return updateAnswer(questionId, numericalOrder, answerInfo);
   });
 
   const resultArray = await Promise.all(promises);

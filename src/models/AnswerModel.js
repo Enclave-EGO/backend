@@ -15,6 +15,10 @@ const AnswerSchema = new mongoose.Schema(
     isCorrect: {
       type: Boolean,
       required: true
+    },
+    numericalOrder: {
+      type: Number,
+      required: true
     }
   },
   { timestamps: true }

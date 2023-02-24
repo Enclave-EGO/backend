@@ -6,12 +6,8 @@ import { Role } from "../utils/index.js";
 
 const router = express.Router();
 
-router.post(
-  "/",
-  jwtGuard,
-  Roles(Role.TEACHER),
-  QuestionController.createQuestion
-);
+router.post("/", QuestionController.createQuestion);
+router.patch("/:questionId", QuestionController.updateQuestion);
 router.delete("/:questionId", QuestionController.deleteQuestion);
 router.delete("/", QuestionController.deleteQuestions);
 

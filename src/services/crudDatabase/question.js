@@ -1,7 +1,19 @@
 import mongoose from "mongoose";
 import QuestionModel from "../../models/QuestionModel.js";
 import AnswerModel from "../../models/AnswerModel.js";
-import { handleCreateNewAnswers, deleteAnswersOfQuestion } from "./answer.js";
+import {
+  handleCreateNewAnswers,
+  handleUpdateAnswers,
+  deleteAnswersOfQuestion
+} from "./answer.js";
+
+export const checkExistedQuestion = async (questionId) => {
+  const isExisted = await QuestionModel.exists({
+    _id: new mongoose.Types.ObjectId(questionId)
+  }).lean();
+
+  return Boolean(isExisted);
+};
 
 export const createNewQuestion = async (question) => {
   const newQuestion = await QuestionModel.create(question);
@@ -9,13 +21,14 @@ export const createNewQuestion = async (question) => {
 };
 
 export const handleCreateNewQuestion = async (question) => {
-  const { testId, content, isMultiChoice, answers } = question;
+  const { testId, content, isMultiChoice, score, answers } = question;
 
   // 1. Create question
   const newQuestion = {
     testId: new mongoose.Types.ObjectId(testId),
     content: content,
-    isMultiChoice: isMultiChoice
+    isMultiChoice: isMultiChoice,
+    score: score
   };
   const savedQuestion = await createNewQuestion(newQuestion);
 
@@ -34,6 +47,37 @@ export const handleCreateNewQuestion = async (question) => {
     : null;
 
   return result;
+};
+
+export const updateQuestion = async (questionId, newQuestion) => {
+  const updatedQuestion = await QuestionModel.findOneAndUpdate(
+    { _id: questionId },
+    newQuestion
+  );
+
+  return updatedQuestion;
+};
+
+export const handleUpdateQuestion = async (questionId, questionInfo) => {
+  const { content, isMultiChoice, score, answers } = questionInfo;
+
+  // 1. Update question and its answers
+  const updateQuestionInfo = {
+    content,
+    isMultiChoice,
+    score
+  };
+
+  const [updatedQuestion, updatedAnswers] = await Promise.all([
+    updateQuestion(questionId, updateQuestionInfo),
+    handleUpdateAnswers(questionId, answers)
+  ]);
+
+  // 2. Return update status
+  const isUpdatedQuestionAndAnswers =
+    updatedQuestion && updatedAnswers.includes(null) === false;
+
+  return isUpdatedQuestionAndAnswers;
 };
 
 export const deleteQuestionById = async (questionId) => {
@@ -63,8 +107,8 @@ export const handleDeleteManyQuestions = async (questionIds) => {
 
   const isDeleted = promiseResult.includes(null) ? false : true;
   return isDeleted;
-}
-  
+};
+
 export const getQuestionDetail = async (questionId) => {
   const question = await QuestionModel.findOne(
     { _id: questionId },

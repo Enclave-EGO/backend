@@ -12,7 +12,8 @@ const TestSchema = new mongoose.Schema(
       type: Number
     },
     score: {
-      type: Number
+      type: Number,
+      default: 0
     },
     description: {
       type: String

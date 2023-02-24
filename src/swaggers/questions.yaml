@@ -19,6 +19,9 @@
               isMultiChoice:
                 type: boolean
                 required: true
+              score:
+                type: number
+                required: true
               answers:
                 type: array
                 required: true
@@ -26,12 +29,29 @@
               testId: "63f6181b24a3e1d7cadbfa47"
               content: "Nội dung câu hỏi"
               isMultiChoice: false
+              score: 100
               answers:
                 [
-                  { content: "Nội dung đáp án 1", isCorrect: false },
-                  { content: "Nội dung đáp án 2", isCorrect: true },
-                  { content: "Nội dung đáp án 3", isCorrect: false },
-                  { content: "Nội dung đáp án 4", isCorrect: false }
+                  {
+                    content: "Nội dung đáp án 1",
+                    isCorrect: false,
+                    numericalOrder: 1
+                  },
+                  {
+                    content: "Nội dung đáp án 2",
+                    isCorrect: true,
+                    numericalOrder: 2
+                  },
+                  {
+                    content: "Nội dung đáp án 3",
+                    isCorrect: false,
+                    numericalOrder: 3
+                  },
+                  {
+                    content: "Nội dung đáp án 4",
+                    isCorrect: false,
+                    numericalOrder: 4
+                  }
                 ]
     responses:
       "200":
@@ -64,6 +84,69 @@
         description: Bad Request
 
 /questions/{questionId}:
+  patch:
+    tags:
+      - Questions
+    summary: Update question
+    description: Update question including its answers
+    parameters:
+      - in: path
+        name: questionId
+        schema:
+          type: string
+          required: true
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              content:
+                type: string
+                required: false
+              isMultiChoice:
+                type: boolean
+                required: false
+              score:
+                type: number
+                required: false
+              answers:
+                type: array
+                required: false
+            example:
+              content: "Nội dung câu hỏi"
+              isMultiChoice: false
+              score: 100
+              answers:
+                [
+                  {
+                    content: "Nội dung đáp án 1",
+                    isCorrect: false,
+                    numericalOrder: 1
+                  },
+                  {
+                    content: "Nội dung đáp án 2",
+                    isCorrect: true,
+                    numericalOrder: 2
+                  },
+                  {
+                    content: "Nội dung đáp án 3",
+                    isCorrect: false,
+                    numericalOrder: 3
+                  },
+                  {
+                    content: "Nội dung đáp án 4",
+                    isCorrect: false,
+                    numericalOrder: 4
+                  }
+                ]
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+      "404":
+        description: Not Found
   delete:
     tags:
       - Questions
