@@ -14,5 +14,11 @@ router.post(
 );
 router.delete("/:questionId", QuestionController.deleteQuestion);
 router.delete("/", QuestionController.deleteQuestions);
+router.get(
+  "/:questionId",
+  jwtGuard,
+  Roles(Role.TEACHER, Role.LEARNER),
+  QuestionController.getQuestion
+);
 
 export default router;

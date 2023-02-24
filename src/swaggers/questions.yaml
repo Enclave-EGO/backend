@@ -80,3 +80,21 @@
         description: Success
       "400":
         description: Bad Request
+
+  get:
+    tags:
+      - Questions
+    summary: Get a Question
+    description: Get a Question
+    parameters:
+      - in: path
+        name: questionId
+        description: Id of the question
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
