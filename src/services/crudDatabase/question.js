@@ -51,26 +51,26 @@ export const handleCreateNewQuestion = async (question) => {
 
 export const updateQuestion = async (questionId, newQuestion) => {
   const updatedQuestion = await QuestionModel.findOneAndUpdate(
-    { _id: questionId },
+    { _id: new mongoose.Types.ObjectId(questionId) },
     newQuestion
   );
 
   return updatedQuestion;
 };
 
-export const handleUpdateQuestion = async (questionId, questionInfo) => {
-  const { content, isMultiChoice, score, answers } = questionInfo;
+export const handleUpdateQuestion = async (questionId, question) => {
+  const { content, isMultiChoice, score, answers } = question;
 
   // 1. Update question and its answers
-  const updateQuestionInfo = {
+  const questionInfo = {
     content,
     isMultiChoice,
     score
   };
 
   const [updatedQuestion, updatedAnswers] = await Promise.all([
-    updateQuestion(questionId, updateQuestionInfo),
-    handleUpdateAnswers(questionId, answers)
+    updateQuestion(questionId, questionInfo),
+    handleUpdateAnswers(answers)
   ]);
 
   // 2. Return update status

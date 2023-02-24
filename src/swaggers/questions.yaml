@@ -32,26 +32,10 @@
               score: 100
               answers:
                 [
-                  {
-                    content: "Nội dung đáp án 1",
-                    isCorrect: false,
-                    numericalOrder: 1
-                  },
-                  {
-                    content: "Nội dung đáp án 2",
-                    isCorrect: true,
-                    numericalOrder: 2
-                  },
-                  {
-                    content: "Nội dung đáp án 3",
-                    isCorrect: false,
-                    numericalOrder: 3
-                  },
-                  {
-                    content: "Nội dung đáp án 4",
-                    isCorrect: false,
-                    numericalOrder: 4
-                  }
+                  { content: "Nội dung đáp án 1", isCorrect: true },
+                  { content: "Nội dung đáp án 2", isCorrect: false },
+                  { content: "Nội dung đáp án 3", isCorrect: false },
+                  { content: "Nội dung đáp án 4", isCorrect: false }
                 ]
     responses:
       "200":
@@ -121,23 +105,23 @@
                 [
                   {
                     content: "Nội dung đáp án 1",
-                    isCorrect: false,
-                    numericalOrder: 1
+                    isCorrect: true,
+                    answerId: "60f83c918a1bc155595c0f42"
                   },
                   {
                     content: "Nội dung đáp án 2",
-                    isCorrect: true,
-                    numericalOrder: 2
+                    isCorrect: false,
+                    answerId: "60f83c918a1bc155595c0f42"
                   },
                   {
                     content: "Nội dung đáp án 3",
                     isCorrect: false,
-                    numericalOrder: 3
+                    answerId: "60f83c918a1bc155595c0f42"
                   },
                   {
                     content: "Nội dung đáp án 4",
                     isCorrect: false,
-                    numericalOrder: 4
+                    answerId: "60f83c918a1bc155595c0f42"
                   }
                 ]
     responses:

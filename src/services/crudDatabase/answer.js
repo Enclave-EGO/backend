@@ -11,8 +11,7 @@ export const handleCreateNewAnswers = async (questionId, answers) => {
     const newAnswer = {
       questionId: new mongoose.Types.ObjectId(questionId),
       content: answer.content,
-      isCorrect: answer.isCorrect,
-      numericalOrder: answer.numericalOrder
+      isCorrect: answer.isCorrect
     };
     return createNewAnswer(newAnswer);
   });
@@ -21,25 +20,25 @@ export const handleCreateNewAnswers = async (questionId, answers) => {
   return resultArray;
 };
 
-export const updateAnswer = async (questionId, numericalOrder, answerInfo) => {
+export const updateAnswer = async (answerId, answerInfo) => {
   const updatedAnswer = await AnswerModel.findOneAndUpdate(
-    { questionId, numericalOrder },
+    { _id: new mongoose.Types.ObjectId(answerId) },
     answerInfo
   );
 
   return updatedAnswer;
 };
 
-export const handleUpdateAnswers = async (questionId, answers) => {
+export const handleUpdateAnswers = async (answers) => {
   const promises = answers.map((answer) => {
-    const numericalOrder = answer.numericalOrder;
+    const answerId = answer.answerId;
 
     const answerInfo = {
       content: answer.content,
       isCorrect: answer.isCorrect
     };
 
-    return updateAnswer(questionId, numericalOrder, answerInfo);
+    return updateAnswer(answerId, answerInfo);
   });
 
   const resultArray = await Promise.all(promises);

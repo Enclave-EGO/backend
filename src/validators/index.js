@@ -330,7 +330,7 @@ const validateQuestionAnswersOptional = async (req) => {
     .optional({ checkFalsy: true, nullable: true })
     .notEmpty()
     .withMessage("Question answers is required")
-    .isArray({ min: 2, max: 5 })
+    .isArray({ min: 1, max: 5 })
     .withMessage("Question answers must a array including 2-5 answers")
     .run(req);
 };
