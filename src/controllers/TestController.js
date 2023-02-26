@@ -1,58 +1,41 @@
+import { checkExistedLessonId } from "../services/crudDatabase/lesson.js";
 import {
-  createNewCourse,
-  findListCourses,
-  getCourseById,
-  deleteCourseById,
-  deleteManyCourses,
-  updateExistedCourse,
-  checkExistedCourseId,
-  checkExistedCourseName,
-  checkExistedOtherCourseName
-} from "../services/crudDatabase/course.js";
-import { checkExistedUserId } from "../services/crudDatabase/user.js";
-import {
-  validateCourse,
-  validateUpdateCourse
-} from "../validators/courseValidator.js";
+  createNewTest,
+  getTestDetail,
+  getTestsByLesson,
+  handleDeleteTests
+} from "../services/crudDatabase/test.js";
+import { validateTest } from "../validators/testValidator.js";
 
-const CourseController = {
-  createCourse: async (req, res) => {
+const TestController = {
+  createTest: async (req, res) => {
     try {
-      const { status, error } = await validateCourse(req);
-      const { name, userId } = req.body;
+      const { status, error } = await validateTest(req, res);
+      const lessonId = req.body.lessonId;
 
-      if (status === "Fail")
+      if (status === "Fail") {
         return res.status(400).json({
           status: "Fail",
           error: error,
           data: null
         });
-
-      const [isExistedCourseName, isExistedUserId] = await Promise.all([
-        checkExistedCourseName(name),
-        checkExistedUserId(userId)
-      ]);
-      if (isExistedCourseName) {
-        return res.status(400).json({
-          status: "Fail",
-          error: "Course name is existed",
-          data: null
-        });
       }
-      if (isExistedUserId === false) {
+
+      const isExistedLessonId = await checkExistedLessonId(lessonId);
+      if (isExistedLessonId === false) {
         return res.status(404).json({
           status: "Fail",
-          error: "User ID is not existed",
+          error: "Lesson Id is not existed",
           data: null
         });
       }
 
-      const course = await createNewCourse(req.body);
-      if (course) {
+      const test = await createNewTest(req.body);
+      if (test) {
         return res.status(200).json({
           status: "Success",
           error: null,
-          data: course
+          data: test
         });
       } else {
         return res.status(400).json({
@@ -70,16 +53,17 @@ const CourseController = {
     }
   },
 
-  getCourses: async (req, res) => {
-    try {
-      const userId = req.query.userId;
-      const courses = await findListCourses(userId);
+  getTestsByLesson: async (req, res) => {
+    const lessonId = req.query.lessonId;
 
-      if (courses) {
+    try {
+      const listTests = await getTestsByLesson(lessonId);
+
+      if (listTests) {
         return res.status(200).json({
           status: "Success",
           error: null,
-          data: courses
+          data: listTests
         });
       } else {
         return res.status(400).json({
@@ -97,16 +81,17 @@ const CourseController = {
     }
   },
 
-  getCourseById: async (req, res) => {
-    try {
-      const courseId = req.params.courseId;
-      const course = await getCourseById(courseId);
+  getTestById: async (req, res) => {
+    const testId = req.params.testId;
 
-      if (course) {
+    try {
+      const testDetail = await getTestDetail(testId);
+
+      if (testDetail) {
         return res.status(200).json({
           status: "Success",
           error: null,
-          data: course
+          data: testDetail
         });
       } else {
         return res.status(400).json({
@@ -124,44 +109,62 @@ const CourseController = {
     }
   },
 
-  updateCourse: async (req, res) => {
+  updateTest: async (req, res) => {
     try {
-      const courseId = req.params.courseId;
-      const name = req.body.name;
+      const testId = req.params.id;
 
-      const { status, error } = await validateUpdateCourse(req);
-      if (status === "Fail")
+      const { status, error } = await validateUpdateTestOptional(req);
+      if (status === "Fail") {
         return res.status(400).json({
           status: "Fail",
           error: error,
           data: null
         });
-
-      const [isExistedCourseId, isExistedOtherCourseName] = await Promise.all([
-        checkExistedCourseId(courseId),
-        checkExistedOtherCourseName(courseId, name)
-      ]);
-      if (isExistedCourseId === false) {
-        return res.status(400).json({
-          status: "Fail",
-          error: "Course ID is not existed",
-          data: null
-        });
       }
-      if (isExistedOtherCourseName) {
-        return res.status(400).json({
+
+      const isExistedTestId = await checkExistedTestId(testId);
+      if (isExistedTestId === false) {
+        return res.status(404).json({
           status: "Fail",
-          error: "Course name is existed",
+          error: "Test Id is not existed",
           data: null
         });
       }
 
-      const course = await updateExistedCourse(courseId, req.body);
-      if (course) {
+      const test = await updateExistedTest(testId, req.body);
+      if (test) {
         return res.status(200).json({
           status: "Success",
           error: null,
-          data: course
+          data: test
+        });
+      } else {
+        return res.status(400).json({
+          status: "Fail",
+          error: null,
+          data: null
+        });
+      }
+    } catch (error) {
+      return res.status(400).json({
+        status: "Fail",
+        error: error,
+        data: null
+      });
+    }
+  },
+  deleteTest: async (req, res) => {
+    const testId = req.params.testId;
+
+    try {
+      const deleteTestArray = [testId];
+      const deleteInfo = await handleDeleteTests(deleteTestArray);
+
+      if (deleteInfo) {
+        return res.status(200).json({
+          status: "Success",
+          error: null,
+          data: deleteInfo
         });
       } else {
         return res.status(400).json({
@@ -179,50 +182,23 @@ const CourseController = {
     }
   },
 
-  deleteCourseById: async (req, res) => {
-    try {
-      const courseId = req.params.courseId;
-      const course = await deleteCourseById(courseId);
+  deleteManyTests: async (req, res) => {
+    const testIds = req.body.testIds;
 
-      if (course) {
+    try {
+      const deleteInfo = await handleDeleteTests(testIds);
+
+      if (deleteInfo) {
         return res.status(200).json({
           status: "Success",
           error: null,
-          data: course
+          data: deleteInfo
         });
       } else {
         return res.status(400).json({
           status: "Fail",
           error: null,
           data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
-
-  deleteManyCourses: async (req, res) => {
-    try {
-      const courseIds = req.body.courseIds;
-      const deleteInfo = await deleteManyCourses(courseIds);
-      const deletedCount = deleteInfo.deletedCount;
-
-      if (deletedCount > 0) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: deletedCount
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: deletedCount
         });
       }
     } catch (error) {
@@ -235,4 +211,4 @@ const CourseController = {
   }
 };
 
-export default CourseController;
+export default TestController;

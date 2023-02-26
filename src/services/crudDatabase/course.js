@@ -18,8 +18,8 @@ const checkExistedOtherCourseName = async (courseId, courseName) => {
   // If above course is exist and it has _id other than above courseId
   if (course && course._id !== courseId) return true;
   else return false;
-}
-  
+};
+
 const checkExistedCourseName = async (name) => {
   const isExisted = await CourseModel.exists({ name: name }).lean();
   return Boolean(isExisted);

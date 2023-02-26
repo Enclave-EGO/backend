@@ -10,14 +10,31 @@ const checkExistedVideoId = async (videoId) => {
   return Boolean(isExisted);
 };
 
-//[POST]
+const checkExistedLessonId = async (lessonId) => {
+  const isExisted = await LessonModel.exists({
+    _id: lessonId
+  }).lean();
+
+  return Boolean(isExisted);
+};
+
+// Check if exists lesson by name. Except this lesson.
+const checkExistedOtherLessonName = async (lessonId, lessonName) => {
+  const lesson = await LessonModel.findOne({
+    name: lessonName
+  }).lean();
+
+  // If above lesson is exist and it has _id other than above lessonId
+  if (lesson && lesson._id !== lessonId) return true;
+  else return false;
+};
+
 const createNewLesson = async (lesson) => {
   const newLesson = new LessonModel(lesson);
   const saveLesson = await newLesson.save();
   return saveLesson;
 };
 
-//[GET]
 const findLessonById = async (lessonId) => {
   const lesson = await LessonModel.findById(lessonId).lean();
   return lesson;
@@ -29,7 +46,15 @@ const findListLessons = async (courseId) => {
   return lessons;
 };
 
-//[DELETE]
+const updateExistedLesson = async (lessonId, lessonInfo) => {
+  const updatedLesson = await LessonModel.findOneAndUpdate(
+    { _id: lessonId },
+    lessonInfo
+  ).lean();
+
+  return updatedLesson;
+};
+
 const deleteLessonById = async (lessonId) => {
   const lesson = await LessonModel.findOneAndDelete({ _id: lessonId }).lean();
   return lesson;
@@ -45,9 +70,12 @@ const deleteManyLessons = async (lessonIds) => {
 export {
   checkExistedLessonName,
   checkExistedVideoId,
+  checkExistedLessonId,
+  checkExistedOtherLessonName,
   createNewLesson,
   findLessonById,
   findListLessons,
+  updateExistedLesson,
   deleteLessonById,
   deleteManyLessons
 };

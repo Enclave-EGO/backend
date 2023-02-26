@@ -45,7 +45,7 @@
     parameters:
       - in: path
         name: lessonId
-        description: ID of the lesson
+        description: Id of the lesson
         required: true
         schema:
           type: string
@@ -57,8 +57,8 @@
   delete:
     tags:
       - Lessons
-    summary: Delete lesson by ID
-    description: Delete lesson by ID
+    summary: Delete lesson by Id
+    description: Delete lesson by Id
     parameters:
       - in: path
         name: lessonId
@@ -71,12 +71,50 @@
       "400":
         description: Bad Request
 
+  patch:
+    tags:
+      - Lessons
+    summary: Update lesson by Id
+    description: Update lesson by Id
+    parameters:
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+          required: true
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                required: false
+                example: "Học JS cơ bản"
+              description:
+                type: string
+                required: false
+                example: "Đây là phần mô tả bài học"
+              videoId:
+                type: string
+                required: false
+                example: "123456789ab"
+              courseId:
+                type: string
+                example: "63da29aae447df24915d7870"
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+
 /lessons/:
   delete:
     tags:
       - Lessons
-    summary: Delete many lessons by IDs
-    description: Delete many lessons by IDs
+    summary: Delete many lessons by Ids
+    description: Delete many lessons by Ids
     requestBody:
       content:
         application/json:
@@ -113,25 +151,3 @@ components:
         courseId:
           type: string
           example: "63da29aae447df24915d7870"
-    LessonResponse:
-      type: object
-      properties:
-        name:
-          type: string
-          example: "Học JS cơ bản"
-        description:
-          type: string
-        videoId:
-          type: string
-          example: "123456789ab"
-        courseId:
-          type: string
-          example: "63da29aae447df24915d7870"
-        createdAt:
-          type: string
-          format: date-time
-          example: "2023-02-16T08:42:14.245+00:00"
-        updatedAt:
-          type: string
-          format: date-time
-          example: "2023-02-16T08:42:14.245+00:00"
