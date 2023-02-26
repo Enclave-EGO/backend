@@ -1,3 +1,4 @@
 {
-	"ext": ".js, .json, .yaml"
+  "ext": ".ts, .js, .json, .yaml",
+  "exec": "ts-node --files src/index.ts"
 }
