@@ -64,7 +64,7 @@ const RegisterController = {
     try {
       const deleteInfo = await deleteRegisterById(registerId);
 
-      if (output) {
+      if (deleteInfo) {
         return res.status(200).json({
           status: "Success",
           error: null,
