@@ -10,7 +10,7 @@ import { PORT, SWAGGER_URL, LOCALHOST_URL } from "./constants";
 const app: Express = express();
 
 // Config Swagger
-const swaggerOptions = {
+const swaggerOptions: swaggerJsDoc.Options = {
   definition: {
     openapi: "3.0.3",
     info: {
