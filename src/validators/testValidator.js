@@ -14,6 +14,8 @@ export const validateTest = async (req) => {
     validateTestDescription(req),
     validateTestScore(req)
   ]);
+
+  return returnValidationResult(req);
 };
 
 export const validateUpdateTestOptional = async (req) => {
