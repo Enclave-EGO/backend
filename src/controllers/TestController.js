@@ -3,9 +3,14 @@ import {
   createNewTest,
   getTestDetail,
   getTestsByLesson,
+  checkExistedTestId,
+  updateExistedTest,
   handleDeleteTests
 } from "../services/crudDatabase/test.js";
-import { validateTest } from "../validators/testValidator.js";
+import {
+  validateTest,
+  validateUpdateTestOptional
+} from "../validators/testValidator.js";
 
 const TestController = {
   createTest: async (req, res) => {
