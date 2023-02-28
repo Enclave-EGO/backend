@@ -22,6 +22,7 @@ const getScoreQuestion = async (questionId, answers) => {
 
   const correctAnswer = await getAnswersOfQuestion(questionId);
 
+  // Get a score by Comparing the array of correct answers with the array of user answers
   const score =
     JSON.stringify(correctAnswer) === JSON.stringify(answers)
       ? questionDetail.score
