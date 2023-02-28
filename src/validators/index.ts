@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { body, validationResult } from "express-validator";
 
 const validateLessonName = async (req: Request) => {
