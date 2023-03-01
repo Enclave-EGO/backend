@@ -1,9 +1,7 @@
 import {
   returnValidationResult,
   validateLessonName,
-  validateVideoId,
-  validateLessonNameOptional,
-  validateVideoIdOptional
+  validateVideoId
 } from "./index.js";
 
 export const validateLesson = async (req) => {
@@ -12,9 +10,11 @@ export const validateLesson = async (req) => {
 };
 
 export const validateUpdateLesson = async (req) => {
+  const isOptional = true;
+
   await Promise.all([
-    validateLessonNameOptional(req),
-    validateVideoIdOptional(req)
+    validateLessonName(req, isOptional),
+    validateVideoId(req, isOptional)
   ]);
   return returnValidationResult(req);
 };

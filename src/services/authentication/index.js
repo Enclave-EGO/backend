@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import pkg from "bcryptjs";
-const { hashSync, compareSync, genSaltSync } = pkg;
 import { EXPIRES_IN, JWT_SECRET_KEY } from "../../constants/index.js";
+const { hashSync, compareSync, genSaltSync } = pkg;
 
 export const generateAccessToken = async (payload) => {
   const expiresIn = EXPIRES_IN + `m`;

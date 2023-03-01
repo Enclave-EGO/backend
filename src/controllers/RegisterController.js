@@ -1,4 +1,3 @@
-import { checkExistedCourseId } from "../services/crudDatabase/course.js";
 import {
   checkRegisterById,
   checkRegisteredCourse,
@@ -6,6 +5,7 @@ import {
   registerCourse,
   deleteRegisterById
 } from "../services/crudDatabase/register.js";
+import { checkExistedCourseId } from "../services/crudDatabase/course.js";
 
 const RegisterController = {
   registerNewCourse: async (req, res) => {

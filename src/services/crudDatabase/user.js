@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import { ObjectId } from "../../constants/index.js";
 import UserModel from "../../models/UserModel.js";
 import {
   generateAccessToken,
@@ -8,7 +8,7 @@ import {
 
 export const checkExistedUserId = async (userId) => {
   const isExistedUser = await UserModel.exists({
-    _id: new mongoose.Types.ObjectId(userId)
+    _id: new ObjectId(userId)
   });
 
   return Boolean(isExistedUser);

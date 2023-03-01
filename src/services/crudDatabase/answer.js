@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import { ObjectId } from "../../constants/index.js";
 import AnswerModel from "../../models/AnswerModel.js";
 
 export const createNewAnswer = async (answer) => {
@@ -9,7 +9,7 @@ export const createNewAnswer = async (answer) => {
 export const handleCreateNewAnswers = async (questionId, answers) => {
   const promises = answers.map((answer) => {
     const newAnswer = {
-      questionId: new mongoose.Types.ObjectId(questionId),
+      questionId: new ObjectId(questionId),
       content: answer.content,
       isCorrect: answer.isCorrect
     };
@@ -22,7 +22,7 @@ export const handleCreateNewAnswers = async (questionId, answers) => {
 
 export const updateAnswer = async (answerId, answerInfo) => {
   const updatedAnswer = await AnswerModel.findOneAndUpdate(
-    { _id: new mongoose.Types.ObjectId(answerId) },
+    { _id: new ObjectId(answerId) },
     answerInfo
   );
 
@@ -47,7 +47,7 @@ export const handleUpdateAnswers = async (answers) => {
 
 export const deleteAnswersOfQuestion = async (questionId) => {
   const deletedInfo = await AnswerModel.deleteMany({
-    questionId: new mongoose.Types.ObjectId(questionId)
+    questionId: new ObjectId(questionId)
   }).lean();
 
   return deletedInfo;

@@ -3,7 +3,7 @@ import TestResultModel from "../../models/TestResultModel.js";
 import QuestionModel from "../../models/QuestionModel.js";
 import TestModel from "../../models/TestModel.js";
 
-const getAnswersOfQuestion = async (questionId) => {
+export const getAnswersOfQuestion = async (questionId) => {
   const answers = await AnswerModel.find(
     { questionId, isCorrect: true },
     { _id: true },
@@ -14,7 +14,7 @@ const getAnswersOfQuestion = async (questionId) => {
   return output;
 };
 
-const getScoreQuestion = async (questionId, answers) => {
+export const getScoreQuestion = async (questionId, answers) => {
   const questionDetail = await QuestionModel.findOne(
     { _id: questionId },
     { score: true }
@@ -31,7 +31,7 @@ const getScoreQuestion = async (questionId, answers) => {
   return score;
 };
 
-const handleScore = async (results) => {
+export const handleScore = async (results) => {
   const listScorePromise = results.map((result) => {
     const { questionId, answers } = result;
     return getScoreQuestion(questionId, answers.sort());

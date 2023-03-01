@@ -1,9 +1,9 @@
-import { checkExistedTestId } from "../services/crudDatabase/test.js";
-import { checkExistedUserId } from "../services/crudDatabase/user.js";
 import {
   checkDidTest,
   createTestResult
 } from "../services/crudDatabase/testResult.js";
+import { checkExistedTest } from "../services/crudDatabase/test.js";
+import { checkExistedUserId } from "../services/crudDatabase/user.js";
 
 const TestResultController = {
   submitTest: async (req, res) => {
@@ -12,7 +12,7 @@ const TestResultController = {
 
       const [isExistedUserId, isExistedTestId, isDidTest] = await Promise.all([
         checkExistedUserId(userId),
-        checkExistedTestId(testId),
+        checkExistedTest(testId),
         checkDidTest({ userId, testId })
       ]);
 

@@ -1,16 +1,17 @@
+import { ObjectId } from "../../constants/index.js";
 import LessonModel from "../../models/LessonModel.js";
 
-const checkExistedLessonName = async (name) => {
+export const checkExistedLessonName = async (name) => {
   const isExisted = await LessonModel.exists({ name }).lean();
   return Boolean(isExisted);
 };
 
-const checkExistedVideoId = async (videoId) => {
+export const checkExistedVideoId = async (videoId) => {
   const isExisted = await LessonModel.exists({ videoId }).lean();
   return Boolean(isExisted);
 };
 
-const checkExistedLessonId = async (lessonId) => {
+export const checkExistedLessonId = async (lessonId) => {
   const isExisted = await LessonModel.exists({
     _id: lessonId
   }).lean();
@@ -19,7 +20,7 @@ const checkExistedLessonId = async (lessonId) => {
 };
 
 // Check if exists lesson by name. Except this lesson.
-const checkExistedOtherLessonName = async (lessonId, lessonName) => {
+export const checkExistedOtherLessonName = async (lessonId, lessonName) => {
   const lesson = await LessonModel.findOne({
     name: lessonName
   }).lean();
@@ -29,53 +30,44 @@ const checkExistedOtherLessonName = async (lessonId, lessonName) => {
   else return false;
 };
 
-const createNewLesson = async (lesson) => {
+export const createNewLesson = async (lesson) => {
   const newLesson = new LessonModel(lesson);
   const saveLesson = await newLesson.save();
   return saveLesson;
 };
 
-const findLessonById = async (lessonId) => {
-  const lesson = await LessonModel.findById(lessonId).lean();
+export const findLessonById = async (lessonId) => {
+  const lesson = await LessonModel.findById({
+    _id: new ObjectId(lessonId)
+  }).lean();
   return lesson;
 };
 
-const findListLessons = async (courseId) => {
-  const queryCondition = courseId ? { courseId: courseId } : {};
+export const findListLessons = async (courseId) => {
+  const queryCondition = courseId ? { courseId: new ObjectId(courseId) } : {};
   const lessons = await LessonModel.find(queryCondition).lean();
   return lessons;
 };
 
-const updateExistedLesson = async (lessonId, lessonInfo) => {
+export const updateExistedLesson = async (lessonId, lessonInfo) => {
   const updatedLesson = await LessonModel.findOneAndUpdate(
-    { _id: lessonId },
+    { _id: new ObjectId(lessonId) },
     lessonInfo
   ).lean();
 
   return updatedLesson;
 };
 
-const deleteLessonById = async (lessonId) => {
-  const lesson = await LessonModel.findOneAndDelete({ _id: lessonId }).lean();
+export const deleteLessonById = async (lessonId) => {
+  const lesson = await LessonModel.findOneAndDelete({
+    _id: new ObjectId(lessonId)
+  }).lean();
   return lesson;
 };
 
-const deleteManyLessons = async (lessonIds) => {
+export const deleteManyLessons = async (lessonIds) => {
   const deleteInfo = await LessonModel.deleteMany({
     _id: { $in: lessonIds }
   }).lean();
   return deleteInfo;
-};
-
-export {
-  checkExistedLessonName,
-  checkExistedVideoId,
-  checkExistedLessonId,
-  checkExistedOtherLessonName,
-  createNewLesson,
-  findLessonById,
-  findListLessons,
-  updateExistedLesson,
-  deleteLessonById,
-  deleteManyLessons
 };

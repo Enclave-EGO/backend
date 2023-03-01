@@ -1,4 +1,3 @@
-import { validateUser, validateSignIn } from "../validators/userValidator.js";
 import {
   checkExistedEmail,
   checkExistedUsername,
@@ -6,6 +5,7 @@ import {
   checkUserSignIn
 } from "../services/crudDatabase/user.js";
 import { generateAccessToken } from "../services/authentication/index.js";
+import { validateUser, validateSignIn } from "../validators/userValidator.js";
 
 const UserController = {
   createUser: async (req, res) => {

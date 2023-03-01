@@ -1,9 +1,8 @@
-import { checkExistedLessonId } from "../services/crudDatabase/lesson.js";
 import {
   createNewTest,
   getTestDetail,
   getTestsByLesson,
-  checkExistedTestId,
+  checkExistedTest,
   updateExistedTest,
   handleDeleteTests
 } from "../services/crudDatabase/test.js";
@@ -11,6 +10,7 @@ import {
   validateTest,
   validateUpdateTestOptional
 } from "../validators/testValidator.js";
+import { checkExistedLessonId } from "../services/crudDatabase/lesson.js";
 
 const TestController = {
   createTest: async (req, res) => {
@@ -127,7 +127,7 @@ const TestController = {
         });
       }
 
-      const isExistedTestId = await checkExistedTestId(testId);
+      const isExistedTestId = await checkExistedTest(testId);
       if (isExistedTestId === false) {
         return res.status(404).json({
           status: "Fail",
