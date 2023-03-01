@@ -4,6 +4,7 @@ import CourseRouter from "./CourseRouter.js";
 import RegisterRouter from "./RegisterRouter.js";
 import TestRouter from "./TestRouter.js";
 import QuestionRouter from "./QuestionRouter.js";
+import TestResultRouter from "./TestResultRouter.js";
 
 function routing(app) {
   app.use("/users", UserRouter);
@@ -12,6 +13,7 @@ function routing(app) {
   app.use("/registers", RegisterRouter);
   app.use("/tests", TestRouter);
   app.use("/questions", QuestionRouter);
+  app.use("/test-results", TestResultRouter);
 
   // Notfound routes
   app.use("*", (req, res) => {
