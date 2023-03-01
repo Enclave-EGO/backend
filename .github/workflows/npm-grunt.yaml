@@ -1,0 +1,36 @@
+name: NodeJS with Grunt
+
+on:
+  push:
+    branches: ["AUTO-BUILD"]
+  pull_request:
+    branches: ["AUTO-BUILD"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Create .env file
+        run: |
+          echo `PORT = ${{ secrets.PORT }}` >> .env
+          echo `MONGO_URI = ${{ secrets.MONGO_URI }}` >> .env
+          echo `EXPIRES_IN = ${{ secrets.EXPIRES_IN }}` >> .env
+          echo `JWT_SECRET_KEY = ${{ secrets.JWT_SECRET_KEY }}` >> .env
+
+      - name: Build
+        run: |
+          npm install
+          grunt
