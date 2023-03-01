@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
 import QuestionModel from "../../models/QuestionModel.js";
 import AnswerModel from "../../models/AnswerModel.js";
+import { ObjectId } from "../../constants/index.js";
 import {
   handleCreateNewAnswers,
   handleUpdateAnswers,
@@ -9,7 +9,7 @@ import {
 
 export const checkExistedQuestion = async (questionId) => {
   const isExisted = await QuestionModel.exists({
-    _id: new mongoose.Types.ObjectId(questionId)
+    _id: new ObjectId(questionId)
   }).lean();
 
   return Boolean(isExisted);
@@ -25,7 +25,7 @@ export const handleCreateNewQuestion = async (question) => {
 
   // 1. Create question
   const newQuestion = {
-    testId: new mongoose.Types.ObjectId(testId),
+    testId: new ObjectId(testId),
     content: content,
     isMultiChoice: isMultiChoice,
     score: score
@@ -51,7 +51,7 @@ export const handleCreateNewQuestion = async (question) => {
 
 export const updateQuestion = async (questionId, newQuestion) => {
   const updatedQuestion = await QuestionModel.findOneAndUpdate(
-    { _id: new mongoose.Types.ObjectId(questionId) },
+    { _id: new ObjectId(questionId) },
     newQuestion
   );
 
@@ -82,7 +82,7 @@ export const handleUpdateQuestion = async (questionId, question) => {
 
 export const deleteQuestionById = async (questionId) => {
   const deletedQuestion = await QuestionModel.findOneAndDelete({
-    _id: new mongoose.Types.ObjectId(questionId)
+    _id: new ObjectId(questionId)
   }).lean();
 
   return deletedQuestion;

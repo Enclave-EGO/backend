@@ -1,7 +1,7 @@
 /users/:
   post:
     tags:
-      - User
+      - Users
     summary: Create new user
     description: Create new user
     requestBody:
@@ -24,7 +24,7 @@
 /users/signin:
   post:
     tags:
-      - User
+      - Users
     summary: Sign in
     description: Sign in
     requestBody:

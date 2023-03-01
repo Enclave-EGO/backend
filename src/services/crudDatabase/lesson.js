@@ -1,3 +1,4 @@
+import { ObjectId } from "../../constants/index.js";
 import LessonModel from "../../models/LessonModel.js";
 
 const checkExistedLessonName = async (name) => {
@@ -36,19 +37,21 @@ const createNewLesson = async (lesson) => {
 };
 
 const findLessonById = async (lessonId) => {
-  const lesson = await LessonModel.findById(lessonId).lean();
+  const lesson = await LessonModel.findById({
+    _id: new ObjectId(lessonId)
+  }).lean();
   return lesson;
 };
 
 const findListLessons = async (courseId) => {
-  const queryCondition = courseId ? { courseId: courseId } : {};
+  const queryCondition = courseId ? { courseId: new ObjectId(courseId) } : {};
   const lessons = await LessonModel.find(queryCondition).lean();
   return lessons;
 };
 
 const updateExistedLesson = async (lessonId, lessonInfo) => {
   const updatedLesson = await LessonModel.findOneAndUpdate(
-    { _id: lessonId },
+    { _id: new ObjectId(lessonId) },
     lessonInfo
   ).lean();
 
@@ -56,7 +59,9 @@ const updateExistedLesson = async (lessonId, lessonInfo) => {
 };
 
 const deleteLessonById = async (lessonId) => {
-  const lesson = await LessonModel.findOneAndDelete({ _id: lessonId }).lean();
+  const lesson = await LessonModel.findOneAndDelete({
+    _id: new ObjectId(lessonId)
+  }).lean();
   return lesson;
 };
 

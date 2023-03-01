@@ -1,4 +1,4 @@
-import { checkExistedTestId } from "../services/crudDatabase/test.js";
+import { checkExistedTest } from "../services/crudDatabase/test.js";
 import {
   checkExistedQuestion,
   handleCreateNewQuestion,
@@ -25,7 +25,7 @@ const QuestionController = {
           data: null
         });
 
-      const isExistedTestId = await checkExistedTestId(testId);
+      const isExistedTestId = await checkExistedTest(testId);
       if (isExistedTestId === false) {
         return res.status(400).json({
           status: "Fail",

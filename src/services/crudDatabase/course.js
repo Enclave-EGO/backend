@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
+import { ObjectId } from "../../constants/index.js";
 import CourseModel from "../../models/CourseModel.js";
 
 const checkExistedCourseId = async (courseId) => {
   const isExisted = await CourseModel.exists({
-    _id: new mongoose.Types.ObjectId(courseId)
+    _id: new ObjectId(courseId)
   }).lean();
 
   return Boolean(isExisted);
@@ -31,19 +31,21 @@ const createNewCourse = async (course) => {
 };
 
 const findListCourses = async (userId) => {
-  const queryCondition = userId ? { userId: userId } : {};
+  const queryCondition = userId ? { userId: new ObjectId(userId) } : {};
   const courses = await CourseModel.find(queryCondition).lean();
   return courses;
 };
 
 const getCourseById = async (courseId) => {
-  const course = await CourseModel.findOne({ _id: courseId }).lean();
+  const course = await CourseModel.findOne({
+    _id: new ObjectId(courseId)
+  }).lean();
   return course;
 };
 
 const updateExistedCourse = async (courseId, courseInfo) => {
   const course = await CourseModel.findOneAndUpdate(
-    { _id: courseId },
+    { _id: new ObjectId(courseId) },
     courseInfo
   ).lean();
 
@@ -51,7 +53,9 @@ const updateExistedCourse = async (courseId, courseInfo) => {
 };
 
 const deleteCourseById = async (courseId) => {
-  const course = await CourseModel.findOneAndDelete({ _id: courseId }).lean();
+  const course = await CourseModel.findOneAndDelete({
+    _id: new ObjectId(courseId)
+  }).lean();
   return course;
 };
 

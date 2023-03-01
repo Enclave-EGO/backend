@@ -3,7 +3,7 @@ import {
   createNewTest,
   getTestDetail,
   getTestsByLesson,
-  checkExistedTestId,
+  checkExistedTest,
   updateExistedTest,
   handleDeleteTests
 } from "../services/crudDatabase/test.js";
@@ -127,7 +127,7 @@ const TestController = {
         });
       }
 
-      const isExistedTestId = await checkExistedTestId(testId);
+      const isExistedTestId = await checkExistedTest(testId);
       if (isExistedTestId === false) {
         return res.status(404).json({
           status: "Fail",

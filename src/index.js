@@ -38,7 +38,7 @@ app.use(express.json());
 app.use(cookieParse());
 
 // Connect DB & Routing
-connectDatabase(app);
+connectDatabase();
 routing(app);
 
 app.listen(PORT, () => {

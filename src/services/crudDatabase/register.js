@@ -1,5 +1,5 @@
 import RegisterModel from "../../models/RegisterModel.js";
-
+import { ObjectId } from "../../constants/index.js";
 export const checkRegisteredCourse = async (registerForm) => {
   const { userId, courseId } = registerForm;
   const isRegisteredCourse = await RegisterModel.findOne({ userId, courseId });
@@ -8,7 +8,7 @@ export const checkRegisteredCourse = async (registerForm) => {
 };
 
 export const checkRegisterById = async (registerId) => {
-  const output = await RegisterModel.findOne({ _id: registerId });
+  const output = await RegisterModel.findOne({ _id: new ObjectId(registerId) });
   return Boolean(output);
 };
 
@@ -16,8 +16,8 @@ export const registerCourse = async (registerForm) => {
   const { userId, courseId } = registerForm;
 
   const newCourse = new RegisterModel({
-    userId,
-    courseId
+    userId: new ObjectId(userId),
+    courseId: new ObjectId(courseId)
   });
 
   const output = await newCourse.save();
@@ -27,7 +27,7 @@ export const registerCourse = async (registerForm) => {
 
 export const deleteRegisterById = async (registerId) => {
   const output = await RegisterModel.findOneAndDelete({
-    _id: registerId
+    _id: new ObjectId(registerId)
   }).lean();
   return output;
 };
