@@ -24,6 +24,8 @@
         description: Success
       "400":
         description: Bad Request
+      "404":
+        description: Lesson Id is not existed
 
   get:
     tags:
