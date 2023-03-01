@@ -15,7 +15,12 @@ const checkExistedTestId = async (testId) => {
 };
 
 const createNewTest = async (test) => {
-  const newTest = await TestModel.create(test);
+  const newTest = await TestModel.create({
+    lessonId: test.lessonId,
+    timeLimit: test.timeLimit,
+    description: test.description
+  });
+
   return newTest;
 };
 
