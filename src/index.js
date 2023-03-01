@@ -16,7 +16,7 @@ const swaggerOptions = {
     info: {
       title: "SwaggerUI",
       version: "1.0.0",
-      description: "A simple Express Library API"
+      description: "A Simple Express Library API"
     },
     servers: [
       {

@@ -3,7 +3,7 @@ import {
   validateNameUser,
   validatePassword,
   validateUsername,
-  returnValidationResult,
+  returnValidationResult
 } from "./index.js";
 
 export const validateUser = async (req) => {
@@ -13,7 +13,6 @@ export const validateUser = async (req) => {
     validateNameUser(req),
     validateEmail(req)
   ]);
-
   return returnValidationResult(req);
 };
 

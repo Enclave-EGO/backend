@@ -6,11 +6,11 @@ import {
   handleDeleteManyQuestions,
   getQuestionDetail
 } from "../services/crudDatabase/question.js";
+import { checkExistedTest } from "../services/crudDatabase/test.js";
 import {
   validateCreateQuestion,
   validateUpdateQuestion
 } from "../validators/questionValidator.js";
-import { checkExistedTest } from "../services/crudDatabase/test.js";
 
 const QuestionController = {
   createQuestion: async (req, res) => {

@@ -14,10 +14,13 @@ const TestResultSchema = new mongoose.Schema(
       ref: "Test"
     },
     score: {
-      type: Number
+      type: Number,
+      required: true,
+      default: 0
     },
     isPass: {
-      type: Boolean
+      type: Boolean,
+      default: false
     }
   },
   { timestamps: true }

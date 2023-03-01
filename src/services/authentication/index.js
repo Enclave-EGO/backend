@@ -6,7 +6,6 @@ const { hashSync, compareSync, genSaltSync } = pkg;
 export const generateAccessToken = async (payload) => {
   const expiresIn = EXPIRES_IN + `m`;
   const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn });
-
   return token;
 };
 
