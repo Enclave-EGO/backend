@@ -8,7 +8,17 @@
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Test"
+            type: object
+            properties:
+              lessonId:
+                type: string
+                example: "63eef90bcfe83bb80466e72e"
+              timeLimit:
+                type: integer
+                example: 120
+              description:
+                type: string
+                example: "Phần mô tả bài test"
     responses:
       "200":
         description: Success
@@ -72,7 +82,7 @@
         description: Success
       "400":
         description: Bad Request
-        
+
   patch:
     tags:
       - Tests
@@ -125,21 +135,3 @@
         description: Success
       "400":
         description: Bad Request
-
-components:
-  schemas:
-    Test:
-      type: object
-      properties:
-        lessonId:
-          type: string
-          example: "63eef90bcfe83bb80466e72e"
-        timeLimit:
-          type: integer
-          example: 120
-        score:
-          type: integer
-          example: 10
-        description:
-          type: string
-          example: "Phần mô tả bài test"
