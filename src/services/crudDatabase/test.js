@@ -83,11 +83,20 @@ const handleDeleteTests = async (testIds) => {
   return isDeleted;
 };
 
+const updateTestScore = async (testId, score) => {
+  const updatedTest = await TestModel.findOneAndUpdate(
+    { _id: new mongoose.Types.ObjectId(testId) },
+    { score: score }
+  );
+  return updatedTest;
+};
+
 export {
   checkExistedTestId,
   createNewTest,
   updateExistedTest,
   getTestDetail,
   getTestsByLesson,
-  handleDeleteTests
+  handleDeleteTests,
+  updateTestScore
 };

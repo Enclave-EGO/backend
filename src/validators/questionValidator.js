@@ -4,6 +4,7 @@ import {
   validateQuestionIsMultiChoice,
   validateQuestionScore,
   validateQuestionAnswers,
+  validateQuestionTestIdOptional,
   validateQuestionContentOptional,
   validateQuestionIsMultiChoiceOptional,
   validateQuestionScoreOptional,
@@ -24,6 +25,7 @@ export const validateCreateQuestion = async (req) => {
 
 export const validateUpdateQuestion = async (req) => {
   await Promise.all([
+    validateQuestionTestIdOptional(req),
     validateQuestionContentOptional(req),
     validateQuestionIsMultiChoiceOptional(req),
     validateQuestionScoreOptional(req),

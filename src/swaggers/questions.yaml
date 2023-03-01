@@ -85,6 +85,9 @@
           schema:
             type: object
             properties:
+              testId:
+                type: string
+                required: true
               content:
                 type: string
                 required: false
@@ -98,6 +101,7 @@
                 type: array
                 required: false
             example:
+              testId: "63f6181b24a3e1d7cadbfa47"
               content: "Nội dung câu hỏi"
               isMultiChoice: false
               score: 100
