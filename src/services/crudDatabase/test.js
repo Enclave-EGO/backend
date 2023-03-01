@@ -41,8 +41,8 @@ const getTestDetail = async (testId) => {
     QuestionModel.find({ testId }, { _id: true })
   ]);
 
-  const promiseQuestionDetails = questions.map((_id) => {
-    return getQuestionDetail(_id);
+  const promiseQuestionDetails = questions.map((question) => {
+    return getQuestionDetail(question._id);
   });
 
   const questionDetails = await Promise.all(promiseQuestionDetails);
@@ -88,11 +88,20 @@ const handleDeleteTests = async (testIds) => {
   return isDeleted;
 };
 
+const updateTestScore = async (testId, score) => {
+  const updatedTest = await TestModel.findOneAndUpdate(
+    { _id: new mongoose.Types.ObjectId(testId) },
+    { score: score }
+  );
+  return updatedTest;
+};
+
 export {
   checkExistedTest,
   createNewTest,
   updateExistedTest,
   getTestDetail,
   getTestsByLesson,
-  handleDeleteTests
+  handleDeleteTests,
+  updateTestScore
 };

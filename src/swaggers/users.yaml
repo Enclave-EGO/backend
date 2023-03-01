@@ -12,10 +12,6 @@
     responses:
       "200":
         description: Success
-        content:
-          application/json:
-            schema:
-            $ref: "#/components/schemas/LessonResponse"
       "400":
         description: Bad Request
       "500":
@@ -44,43 +40,3 @@
         description: Success
       "400":
         description: Bad Request
-
-components:
-  schemas:
-    User:
-      type: object
-      properties:
-        username:
-          type: string
-          example: "username"
-        password:
-          type: string
-          example: "password123"
-        name:
-          type: string
-          example: "Nguyen Van A"
-        email:
-          type: string
-          example: "example@gmail.com"
-        role:
-          type: number
-          example: 1
-    UserResponse:
-      type: object
-      properties:
-        _id:
-          type: string
-          example: "63f1c9484e350812f4606967"
-        username:
-          type: string
-          example: "username"
-        role:
-          type: number
-          example: 1
-        createdAt:
-          type: string
-          format: date-time
-          example: "2023-02-16T08:42:14.245+00:00"
-        token:
-          type: string
-          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoxLCJpYXQiOjE2NzY4Mjg5ODUsImV4cCI6MTY3NjgzMDc4NX0.98_PzPNplmTg6mWKAWxzTEVV9ybtDAfyCYBwQVGZvXQ"

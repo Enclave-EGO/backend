@@ -60,6 +60,7 @@ const QuestionController = {
   updateQuestion: async (req, res) => {
     try {
       const questionId = req.params.questionId;
+      const testId = req.body.testId;
 
       const { status, error } = await validateUpdateQuestion(req);
       if (status === "Fail")
@@ -69,9 +70,18 @@ const QuestionController = {
           data: null
         });
 
+      const isExistedTest = await checkExistedTestId(testId);
+      if (isExistedTest === false) {
+        return res.status(404).json({
+          status: "Fail",
+          error: "Test is not existed",
+          data: null
+        });
+      }
+
       const isExistedQuestion = await checkExistedQuestion(questionId);
       if (isExistedQuestion === false) {
-        return res.status(400).json({
+        return res.status(404).json({
           status: "Fail",
           error: "Question is not existed",
           data: null

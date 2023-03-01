@@ -1,6 +1,7 @@
 import QuestionModel from "../../models/QuestionModel.js";
 import AnswerModel from "../../models/AnswerModel.js";
 import { ObjectId } from "../../constants/index.js";
+import { updateTestScore } from "./test.js";
 import {
   handleCreateNewAnswers,
   handleUpdateAnswers,
@@ -32,13 +33,16 @@ export const handleCreateNewQuestion = async (question) => {
   };
   const savedQuestion = await createNewQuestion(newQuestion);
 
-  // 2. Create answers
+  // 2. Update test score
+  const updatedTest = await updateTestScore(testId, score);
+
+  // 3. Create answers
   const questionId = savedQuestion._id;
   const createdAnswers = await handleCreateNewAnswers(questionId, answers);
 
-  // 3. Return result (saved question and answers)
+  // 4. Return result (saved question and answers)
   const isCreatedQuestionAndAnswers =
-    savedQuestion && createdAnswers.includes(null) === false;
+    updatedTest && savedQuestion && createdAnswers.includes(null) === false;
   const result = isCreatedQuestionAndAnswers
     ? {
         question: savedQuestion,
@@ -54,28 +58,28 @@ export const updateQuestion = async (questionId, newQuestion) => {
     { _id: new ObjectId(questionId) },
     newQuestion
   );
-
   return updatedQuestion;
 };
 
 export const handleUpdateQuestion = async (questionId, question) => {
-  const { content, isMultiChoice, score, answers } = question;
+  const { testId, content, isMultiChoice, score, answers } = question;
 
-  // 1. Update question and its answers
+  // 1. Update question, test score and question answers
   const questionInfo = {
     content,
     isMultiChoice,
     score
   };
 
-  const [updatedQuestion, updatedAnswers] = await Promise.all([
+  const [updatedQuestion, updatedTest, updatedAnswers] = await Promise.all([
     updateQuestion(questionId, questionInfo),
+    updateTestScore(testId, score),
     handleUpdateAnswers(answers)
   ]);
 
   // 2. Return update status
   const isUpdatedQuestionAndAnswers =
-    updatedQuestion && updatedAnswers.includes(null) === false;
+    updatedQuestion && updatedTest && updatedAnswers.includes(null) === false;
 
   return isUpdatedQuestionAndAnswers;
 };

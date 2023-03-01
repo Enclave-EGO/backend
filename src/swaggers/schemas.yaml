@@ -1,0 +1,56 @@
+components:
+  schemas:
+    Lesson:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Học JS cơ bản"
+        description:
+          type: string
+          example: "Đây là phần mô tả bài học"
+        videoId:
+          type: string
+          example: "123456789ab"
+        courseId:
+          type: string
+          example: "63da29aae447df24915d7870"
+
+    Course:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Tên khóa học"
+        cost:
+          type: integer
+          example: 1000000
+        description:
+          type: string
+          example: "Mô tả khóa học"
+        thumbnail:
+          type: string
+          example: "https://example.com/image.png"
+        userId:
+          type: string
+          example: "63f208ab4c52335ac1ec1fe1"
+
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "username"
+        password:
+          type: string
+          example: "password123"
+        name:
+          type: string
+          example: "Nguyen Van A"
+        email:
+          type: string
+          example: "example@gmail.com"
+        role:
+          type: number
+          example: 1
+

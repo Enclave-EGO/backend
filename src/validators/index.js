@@ -293,6 +293,17 @@ const validateQuestionAnswers = async (req) => {
     .run(req);
 };
 
+const validateQuestionTestIdOptional = async (req) => {
+  await body("testId")
+    .optional({ checkFalsy: true, nullable: true })
+    .trim()
+    .notEmpty()
+    .withMessage("Question testId is required")
+    .isLength({ min: 24, max: 24 })
+    .withMessage("Question testId must include 24 characters")
+    .run(req);
+};
+
 const validateQuestionContentOptional = async (req) => {
   await body("content")
     .optional({ checkFalsy: true, nullable: true })
@@ -372,6 +383,7 @@ export {
   validateQuestionIsMultiChoice,
   validateQuestionScore,
   validateQuestionAnswers,
+  validateQuestionTestIdOptional,
   validateQuestionContentOptional,
   validateQuestionIsMultiChoiceOptional,
   validateQuestionScoreOptional,

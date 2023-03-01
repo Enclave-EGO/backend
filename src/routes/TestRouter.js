@@ -5,8 +5,10 @@ import { Roles } from "../middlewares/authentication/roleGuard.js";
 import { Role } from "../utils/index.js";
 const router = express.Router();
 
-router.post("/", TestController.createTest);
-router.patch("/:id", TestController.updateTest);
+router.post("/", jwtGuard, Roles(Role.TEACHER), TestController.createTest);
+
+router.patch("/:id", jwtGuard, Roles(Role.TEACHER), TestController.updateTest);
+
 router.get(
   "/",
   jwtGuard,
@@ -20,8 +22,6 @@ router.get(
   Roles(Role.TEACHER, Role.LEARNER),
   TestController.getTestById
 );
-
-router.post("/", jwtGuard, Roles(Role.TEACHER), TestController.createTest);
 
 router.delete(
   "/:testId",
