@@ -8,7 +8,23 @@
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/User"
+            type: object
+            properties:
+              username:
+                type: string
+                example: "username"
+              password:
+                type: string
+                example: "password123"
+              name:
+                type: string
+                example: "Nguyen Van A"
+              email:
+                type: string
+                example: "example@gmail.com"
+              role:
+                type: integer
+                example: 1
     responses:
       "200":
         description: Success

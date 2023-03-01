@@ -17,7 +17,6 @@ import {
 } from "../validators/lessonValidator.js";
 
 const LessonController = {
-  //[Post] add a lesson
   createLesson: async (req, res) => {
     const { status, error } = await validateLesson(req, res);
     const { name, description, videoId, courseId } = req.body;
@@ -87,7 +86,6 @@ const LessonController = {
     }
   },
 
-  //[GET] View a lesson
   getLesson: async (req, res) => {
     try {
       const lesson = await findLessonById(req.params.id);
@@ -114,7 +112,6 @@ const LessonController = {
     }
   },
 
-  //[PATCH] Update a lesson
   updateLesson: async (req, res) => {
     try {
       const lessonId = req.params.id;
@@ -170,7 +167,6 @@ const LessonController = {
     }
   },
 
-  //[DELETE] Delete a lesson by id
   deleteLesson: async (req, res) => {
     try {
       const lessonId = req.params.id;
@@ -198,7 +194,6 @@ const LessonController = {
     }
   },
 
-  //[DELETE] Delete lessons
   deleteLessons: async (req, res) => {
     try {
       const lessonIds = req.body.lessonIds;

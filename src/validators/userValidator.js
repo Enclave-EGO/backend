@@ -1,9 +1,9 @@
 import {
-  returnValidationResult,
   validateEmail,
   validateNameUser,
   validatePassword,
-  validateUsername
+  validateUsername,
+  returnValidationResult,
 } from "./index.js";
 
 export const validateUser = async (req) => {
@@ -19,6 +19,5 @@ export const validateUser = async (req) => {
 
 export const validateSignIn = async (req) => {
   await Promise.all([validateUsername(req), validatePassword(req)]);
-
   return returnValidationResult(req);
 };

@@ -1,4 +1,3 @@
-import { checkExistedLessonId } from "../services/crudDatabase/lesson.js";
 import {
   createNewTest,
   getTestDetail,
@@ -11,6 +10,7 @@ import {
   validateTest,
   validateUpdateTestOptional
 } from "../validators/testValidator.js";
+import { checkExistedLessonId } from "../services/crudDatabase/lesson.js";
 
 const TestController = {
   createTest: async (req, res) => {

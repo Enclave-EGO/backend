@@ -1,15 +1,17 @@
 import mongoose from "mongoose";
-const { ObjectId } = mongoose.Schema.Types;
+import { ObjectId } from "../constants/index.js";
 
 const RegisterSchema = new mongoose.Schema(
   {
     userId: {
       type: ObjectId,
-      required: true
+      required: true,
+      ref: "User"
     },
     courseId: {
       type: ObjectId,
-      required: true
+      required: true,
+      ref: "Course"
     }
   },
   { timestamps: true }

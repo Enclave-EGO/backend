@@ -1,7 +1,11 @@
 import { body, validationResult } from "express-validator";
 
-const validateLessonName = async (req) => {
+export const validateLessonName = async (req, isOptional = false) => {
   await body("name")
+    .optional({
+      checkFalsy: isOptional,
+      nullable: isOptional
+    })
     .trim()
     .notEmpty()
     .withMessage("Name lesson is required")
@@ -12,8 +16,12 @@ const validateLessonName = async (req) => {
     .run(req);
 };
 
-const validateVideoId = async (req) => {
+export const validateVideoId = async (req, isOptional = false) => {
   await body("videoId")
+    .optional({
+      checkFalsy: isOptional,
+      nullable: isOptional
+    })
     .trim()
     .notEmpty()
     .withMessage("Video Id is required")
@@ -22,31 +30,7 @@ const validateVideoId = async (req) => {
     .run(req);
 };
 
-const validateLessonNameOptional = async (req) => {
-  await body("name")
-    .optional({ checkFalsy: true, nullable: true })
-    .trim()
-    .notEmpty()
-    .withMessage("Name lesson is required")
-    .matches(`[A-Za-z]+`)
-    .withMessage("Name lesson must include A-Z")
-    .isLength({ min: 10, max: 100 })
-    .withMessage("Name lesson must from 10 to 100 characters")
-    .run(req);
-};
-
-const validateVideoIdOptional = async (req) => {
-  await body("videoId")
-    .optional({ checkFalsy: true, nullable: true })
-    .trim()
-    .notEmpty()
-    .withMessage("Video Id is required")
-    .isLength(11)
-    .withMessage("Video Id is invalid")
-    .run(req);
-};
-
-const validateUsername = async (req) => {
+export const validateUsername = async (req) => {
   await body("username")
     .trim()
     .notEmpty()
@@ -58,7 +42,7 @@ const validateUsername = async (req) => {
     .run(req);
 };
 
-const validatePassword = async (req) => {
+export const validatePassword = async (req) => {
   await body("password")
     .trim()
     .notEmpty()
@@ -70,7 +54,7 @@ const validatePassword = async (req) => {
     .run(req);
 };
 
-const validateNameUser = async (req) => {
+export const validateNameUser = async (req) => {
   await body("name")
     .trim()
     .notEmpty()
@@ -80,7 +64,7 @@ const validateNameUser = async (req) => {
     .run(req);
 };
 
-const validateEmail = async (req) => {
+export const validateEmail = async (req) => {
   await body("email")
     .trim()
     .notEmpty()
@@ -90,8 +74,12 @@ const validateEmail = async (req) => {
     .run(req);
 };
 
-const validateCourseName = async (req) => {
+export const validateCourseName = async (req, isOptional = false) => {
   await body("name")
+    .optional({
+      checkFalsy: isOptional,
+      nullable: isOptional
+    })
     .trim()
     .notEmpty()
     .withMessage("Course name is required")
@@ -100,8 +88,12 @@ const validateCourseName = async (req) => {
     .run(req);
 };
 
-const validateCourseCost = async (req) => {
+export const validateCourseCost = async (req, isOptional = false) => {
   await body("cost")
+    .optional({
+      checkFalsy: isOptional,
+      nullable: isOptional
+    })
     .notEmpty()
     .withMessage(`Course cost is required`)
     .matches(/^[1-9][0-9]*$/)
@@ -109,8 +101,12 @@ const validateCourseCost = async (req) => {
     .run(req);
 };
 
-const validateCourseDescription = async (req) => {
+export const validateCourseDescription = async (req, isOptional = false) => {
   await body("description")
+    .optional({
+      checkFalsy: isOptional,
+      nullable: isOptional
+    })
     .trim()
     .notEmpty()
     .withMessage("Course description is required")
@@ -119,8 +115,12 @@ const validateCourseDescription = async (req) => {
     .run(req);
 };
 
-const validateCourseThumbnail = async (req) => {
+export const validateCourseThumbnail = async (req, isOptional = false) => {
   await body("thumbnail")
+    .optional({
+      checkFalsy: isOptional,
+      nullable: isOptional
+    })
     .trim()
     .notEmpty()
     .withMessage("Course thumbnail is required")
@@ -131,7 +131,7 @@ const validateCourseThumbnail = async (req) => {
     .run(req);
 };
 
-const validateCourseUserId = async (req) => {
+export const validateCourseUserId = async (req) => {
   await body("userId")
     .trim()
     .notEmpty()
@@ -141,53 +141,12 @@ const validateCourseUserId = async (req) => {
     .run(req);
 };
 
-const validateCourseNameOptional = async (req) => {
-  await body("name")
-    .optional({ checkFalsy: true, nullable: true })
-    .trim()
-    .notEmpty()
-    .withMessage("Course name is required")
-    .matches(`[A-Za-z]+`)
-    .withMessage("Course name must include A-Z")
-    .run(req);
-};
-
-const validateCourseCostOptional = async (req) => {
-  await body("cost")
-    .optional({ checkFalsy: true, nullable: true })
-    .notEmpty()
-    .withMessage(`Course cost is required`)
-    .matches(/^[1-9][0-9]*$/)
-    .withMessage(`Course cost must greater than 0`)
-    .run(req);
-};
-
-const validateCourseDescriptionOptional = async (req) => {
-  await body("description")
-    .optional({ checkFalsy: true, nullable: true })
-    .trim()
-    .notEmpty()
-    .withMessage("Course description is required")
-    .matches(`[A-Za-z]+`)
-    .withMessage("Course description must include A-Z")
-    .run(req);
-};
-
-const validateCourseThumbnailOptional = async (req) => {
-  await body("thumbnail")
-    .optional({ checkFalsy: true, nullable: true })
-    .trim()
-    .notEmpty()
-    .withMessage("Course thumbnail is required")
-    .matches(
-      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
-    )
-    .withMessage("Course thumbnail is invalid")
-    .run(req);
-};
-
-const validateTestTimeLimit = async (req) => {
+export const validateTestTimeLimit = async (req, isOptional = false) => {
   await body("timeLimit")
+    .optional({
+      checkFalsy: isOptional,
+      nullable: isOptional
+    })
     .notEmpty()
     .withMessage(`Time limit is required`)
     .matches(/^[1-9][0-9]*$/)
@@ -195,8 +154,12 @@ const validateTestTimeLimit = async (req) => {
     .run(req);
 };
 
-const validateTestScore = async (req) => {
+export const validateTestScore = async (req, isOptional = false) => {
   await body("score")
+    .optional({
+      checkFalsy: isOptional,
+      nullable: isOptional
+    })
     .notEmpty()
     .withMessage(`Score is required`)
     .matches(/^[1-9][0-9]*$/)
@@ -204,8 +167,12 @@ const validateTestScore = async (req) => {
     .run(req);
 };
 
-const validateTestDescription = async (req) => {
+export const validateTestDescription = async (req, isOptional = false) => {
   await body("description")
+    .optional({
+      checkFalsy: isOptional,
+      nullable: isOptional
+    })
     .trim()
     .notEmpty()
     .withMessage("Test description is required")
@@ -214,39 +181,12 @@ const validateTestDescription = async (req) => {
     .run(req);
 };
 
-const validateTestTimeLimitOptional = async (req) => {
-  await body("timeLimit")
-    .optional({ checkFalsy: true, nullable: true })
-    .notEmpty()
-    .withMessage(`Time limit is required`)
-    .matches(/^[1-9][0-9]*$/)
-    .withMessage(`Time limit must greater than 0`)
-    .run(req);
-};
-
-const validateTestScoreOptional = async (req) => {
-  await body("score")
-    .optional({ checkFalsy: true, nullable: true })
-    .notEmpty()
-    .withMessage(`Score is required`)
-    .matches(/^[1-9][0-9]*$/)
-    .withMessage(`Score must greater than 0`)
-    .run(req);
-};
-
-const validateTestDescriptionOptional = async (req) => {
-  await body("description")
-    .optional({ checkFalsy: true, nullable: true })
-    .trim()
-    .notEmpty()
-    .withMessage("Test description is required")
-    .matches(`[A-Za-z]+`)
-    .withMessage("Test description must include A-Z")
-    .run(req);
-};
-
-const validateQuestionTestId = async (req) => {
+export const validateQuestionTestId = async (req, isOptional = false) => {
   await body("testId")
+    .optional({
+      checkFalsy: isOptional,
+      nullable: isOptional
+    })
     .trim()
     .notEmpty()
     .withMessage("Question testId is required")
@@ -255,8 +195,12 @@ const validateQuestionTestId = async (req) => {
     .run(req);
 };
 
-const validateQuestionContent = async (req) => {
+export const validateQuestionContent = async (req, isOptional = false) => {
   await body("content")
+    .optional({
+      checkFalsy: isOptional,
+      nullable: isOptional
+    })
     .trim()
     .notEmpty()
     .withMessage("Question content is required")
@@ -265,8 +209,15 @@ const validateQuestionContent = async (req) => {
     .run(req);
 };
 
-const validateQuestionIsMultiChoice = async (req) => {
+export const validateQuestionIsMultiChoice = async (
+  req,
+  isOptional = false
+) => {
   await body("isMultiChoice")
+    .optional({
+      checkFalsy: isOptional,
+      nullable: isOptional
+    })
     .trim()
     .notEmpty()
     .withMessage("Question isMultiChoice is required")
@@ -275,8 +226,12 @@ const validateQuestionIsMultiChoice = async (req) => {
     .run(req);
 };
 
-const validateQuestionScore = async (req) => {
+export const validateQuestionScore = async (req, isOptional = false) => {
   await body("score")
+    .optional({
+      checkFalsy: isOptional,
+      nullable: isOptional
+    })
     .notEmpty()
     .withMessage(`Question score is required`)
     .matches(/^[1-9][0-9]*$/)
@@ -284,8 +239,12 @@ const validateQuestionScore = async (req) => {
     .run(req);
 };
 
-const validateQuestionAnswers = async (req) => {
+export const validateQuestionAnswers = async (req, isOptional = false) => {
   await body("answers")
+    .optional({
+      checkFalsy: isOptional,
+      nullable: isOptional
+    })
     .notEmpty()
     .withMessage("Question answers is required")
     .isArray({ min: 2, max: 5 })
@@ -293,100 +252,10 @@ const validateQuestionAnswers = async (req) => {
     .run(req);
 };
 
-const validateQuestionTestIdOptional = async (req) => {
-  await body("testId")
-    .optional({ checkFalsy: true, nullable: true })
-    .trim()
-    .notEmpty()
-    .withMessage("Question testId is required")
-    .isLength({ min: 24, max: 24 })
-    .withMessage("Question testId must include 24 characters")
-    .run(req);
-};
-
-const validateQuestionContentOptional = async (req) => {
-  await body("content")
-    .optional({ checkFalsy: true, nullable: true })
-    .trim()
-    .notEmpty()
-    .withMessage("Question content is required")
-    .matches(`[A-Za-z]+`)
-    .withMessage("Question content must include A-Z")
-    .run(req);
-};
-
-const validateQuestionIsMultiChoiceOptional = async (req) => {
-  await body("isMultiChoice")
-    .optional({ checkFalsy: true, nullable: true })
-    .trim()
-    .notEmpty()
-    .withMessage("Question isMultiChoice is required")
-    .isBoolean()
-    .withMessage("Question isMultiChoice must a boolean value")
-    .run(req);
-};
-
-const validateQuestionScoreOptional = async (req) => {
-  await body("score")
-    .optional({ checkFalsy: true, nullable: true })
-    .notEmpty()
-    .withMessage(`Question score is required`)
-    .matches(/^[1-9][0-9]*$/)
-    .withMessage(`Question score must greater than 0`)
-    .run(req);
-};
-
-const validateQuestionAnswersOptional = async (req) => {
-  await body("answers")
-    .optional({ checkFalsy: true, nullable: true })
-    .notEmpty()
-    .withMessage("Question answers is required")
-    .isArray({ min: 1, max: 5 })
-    .withMessage("Question answers must a array including 2-5 answers")
-    .run(req);
-};
-
-const returnValidationResult = (req) => {
+export const returnValidationResult = (req) => {
   const errors = validationResult(req);
   return {
     status: errors.isEmpty() ? "Success" : "Fail",
     error: errors.array()[0]?.msg
   };
-};
-
-export {
-  validateLessonName,
-  validateVideoId,
-  validateVideoIdOptional,
-  validateLessonNameOptional,
-  validateUsername,
-  validatePassword,
-  validateNameUser,
-  validateEmail,
-  validateCourseName,
-  validateCourseCost,
-  validateCourseDescription,
-  validateCourseThumbnail,
-  validateCourseUserId,
-  validateCourseNameOptional,
-  validateCourseCostOptional,
-  validateCourseDescriptionOptional,
-  validateCourseThumbnailOptional,
-  validateTestTimeLimit,
-  validateTestScore,
-  validateTestDescription,
-  validateTestTimeLimitOptional,
-  validateTestScoreOptional,
-  validateTestDescriptionOptional,
-  validateQuestionTestId,
-  validateQuestionContent,
-  validateQuestionIsMultiChoice,
-  validateQuestionScore,
-  validateQuestionAnswers,
-  validateQuestionTestIdOptional,
-  validateQuestionContentOptional,
-  validateQuestionIsMultiChoiceOptional,
-  validateQuestionScoreOptional,
-  validateQuestionAnswersOptional,
-  returnValidationResult
 };

@@ -26,6 +26,7 @@ router.delete(
   Roles(Role.TEACHER),
   QuestionController.deleteQuestion
 );
+
 router.delete(
   "/",
   jwtGuard,

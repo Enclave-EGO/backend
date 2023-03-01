@@ -7,8 +7,20 @@ import { Role } from "../utils/index.js";
 const router = express.Router();
 
 router.post("/", jwtGuard, Roles(Role.TEACHER), CourseController.createCourse);
-router.get("/", CourseController.getCourses);
-router.get("/:courseId", CourseController.getCourseById);
+
+router.get(
+  "/",
+  jwtGuard,
+  Roles(Role.TEACHER, Role.LEARNER),
+  CourseController.getCourses
+);
+
+router.get(
+  "/:courseId",
+  jwtGuard,
+  Roles(Role.TEACHER),
+  CourseController.getCourseById
+);
 
 router.patch(
   "/:courseId",

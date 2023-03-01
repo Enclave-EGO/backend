@@ -20,7 +20,7 @@
                 type: boolean
                 required: true
               score:
-                type: number
+                type: integer
                 required: true
               answers:
                 type: array
@@ -95,7 +95,7 @@
                 type: boolean
                 required: false
               score:
-                type: number
+                type: integer
                 required: false
               answers:
                 type: array

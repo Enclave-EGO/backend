@@ -1,4 +1,3 @@
-import { checkExistedTest } from "../services/crudDatabase/test.js";
 import {
   checkExistedQuestion,
   handleCreateNewQuestion,
@@ -11,6 +10,7 @@ import {
   validateCreateQuestion,
   validateUpdateQuestion
 } from "../validators/questionValidator.js";
+import { checkExistedTest } from "../services/crudDatabase/test.js";
 
 const QuestionController = {
   createQuestion: async (req, res) => {

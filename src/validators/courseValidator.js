@@ -4,10 +4,6 @@ import {
   validateCourseDescription,
   validateCourseThumbnail,
   validateCourseUserId,
-  validateCourseNameOptional,
-  validateCourseCostOptional,
-  validateCourseDescriptionOptional,
-  validateCourseThumbnailOptional,
   returnValidationResult
 } from "./index.js";
 
@@ -23,11 +19,13 @@ export const validateCourse = async (req) => {
 };
 
 export const validateUpdateCourse = async (req) => {
+  const isOptional = true;
+
   await Promise.all([
-    validateCourseNameOptional(req),
-    validateCourseCostOptional(req),
-    validateCourseDescriptionOptional(req),
-    validateCourseThumbnailOptional(req)
+    validateCourseName(req, isOptional),
+    validateCourseCost(req, isOptional),
+    validateCourseDescription(req, isOptional),
+    validateCourseThumbnail(req, isOptional)
   ]);
   return returnValidationResult(req);
 };

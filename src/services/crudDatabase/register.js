@@ -1,5 +1,6 @@
 import RegisterModel from "../../models/RegisterModel.js";
 import { ObjectId } from "../../constants/index.js";
+
 export const checkRegisteredCourse = async (registerForm) => {
   const { userId, courseId } = registerForm;
   const isRegisteredCourse = await RegisterModel.findOne({ userId, courseId });

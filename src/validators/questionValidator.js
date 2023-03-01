@@ -4,11 +4,6 @@ import {
   validateQuestionIsMultiChoice,
   validateQuestionScore,
   validateQuestionAnswers,
-  validateQuestionTestIdOptional,
-  validateQuestionContentOptional,
-  validateQuestionIsMultiChoiceOptional,
-  validateQuestionScoreOptional,
-  validateQuestionAnswersOptional,
   returnValidationResult
 } from "./index.js";
 
@@ -24,12 +19,14 @@ export const validateCreateQuestion = async (req) => {
 };
 
 export const validateUpdateQuestion = async (req) => {
+  const isOptional = true;
+  
   await Promise.all([
-    validateQuestionTestIdOptional(req),
-    validateQuestionContentOptional(req),
-    validateQuestionIsMultiChoiceOptional(req),
-    validateQuestionScoreOptional(req),
-    validateQuestionAnswersOptional(req)
+    validateQuestionTestId(req, isOptional),
+    validateQuestionContent(req, isOptional),
+    validateQuestionIsMultiChoice(req, isOptional),
+    validateQuestionScore(req, isOptional),
+    validateQuestionAnswers(req, isOptional)
   ]);
   return returnValidationResult(req);
 };

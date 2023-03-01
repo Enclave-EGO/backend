@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const { ObjectId } = mongoose.Schema.Types;
+import { ObjectId } from "../constants/index.js";
 
 const TestSchema = new mongoose.Schema(
   {
