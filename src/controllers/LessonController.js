@@ -1,6 +1,6 @@
 import {
-  checkExistedLessonName,
-  checkExistedVideoId,
+  checkExistedLesson,
+  // checkExistedVideoId,
   createNewLesson,
   findLessonById,
   findListLessons,
@@ -28,15 +28,7 @@ const LessonController = {
         data: null
       });
 
-    const [isExistedName, isExistedVideoId, isExistedCourseId] =
-      await Promise.all([
-        checkExistedLessonName(name),
-        checkExistedVideoId(videoId),
-        checkExistedCourseId(courseId)
-      ]);
-
-    const isInvalidLesson =
-      isExistedName || isExistedVideoId || isExistedCourseId == false;
+    const isInvalidLesson = await checkExistedLesson(name, videoId, courseId);
 
     if (isInvalidLesson) {
       return res.status(400).json({
