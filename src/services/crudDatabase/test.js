@@ -57,8 +57,8 @@ export const getTestsByLesson = async (lessonId) => {
     TestModel.find({ lessonId: new ObjectId(lessonId) }, { _id: true }).lean()
   ]);
 
-  const listPromiseTestDetails = listTests.map((_id) => {
-    return getTestDetail(_id);
+  const listPromiseTestDetails = listTests.map((test) => {
+    return getTestDetail(test._id);
   });
 
   const listTestDetails = await Promise.all(listPromiseTestDetails);
