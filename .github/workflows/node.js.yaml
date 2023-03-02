@@ -27,7 +27,10 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo PORT = 8000 MONGO_URI = rehbbher EXPIRES_IN = 40 JWT_SECRET_KEY = bdfsbafbdfbdfeb > .env
+          echo PORT = 8000 >> .env
+          MONGO_URI = mongodb://localhost:27017 >> .env
+          EXPIRES_IN = 40 >> .env
+          JWT_SECRET_KEY = bdfsbafbdfbdfe >> .env
 
       - run: npm ci
       - run: npm start
