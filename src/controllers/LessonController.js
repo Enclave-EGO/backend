@@ -129,7 +129,7 @@ const LessonController = {
         checkExistedOtherLessonName(lessonId, name)
       ]);
       if (isExistedLessonId === false) {
-        return res.status(400).json({
+        return res.status(404).json({
           status: "Fail",
           error: "Lesson ID is not existed",
           data: null
