@@ -125,12 +125,12 @@ export const getQuestionsByTests = async (testIds) => {
 
 export const getQuestionDetail = async (questionId) => {
   const question = await QuestionModel.findOne(
-    { _id: questionId },
+    { _id: new ObjectId(questionId) },
     { _id: true, content: true, isMultiChoice: true }
   ).lean();
 
   const answers = await AnswerModel.find(
-    { questionId },
+    { questionId: new ObjectId(questionId) },
     { _id: true, content: true, isCorrect: true }
   ).lean();
 

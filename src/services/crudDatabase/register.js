@@ -3,7 +3,11 @@ import { ObjectId } from "../../constants/index.js";
 
 export const checkRegisteredCourse = async (registerForm) => {
   const { userId, courseId } = registerForm;
-  const isRegisteredCourse = await RegisterModel.findOne({ userId, courseId });
+  
+  const isRegisteredCourse = await RegisterModel.findOne({
+    userId: new ObjectId(userId),
+    courseId: new ObjectId(courseId)
+  });
 
   return Boolean(isRegisteredCourse);
 };
@@ -36,6 +40,6 @@ export const deleteManyRegisters = async (registerIds) => {
   const output = await RegisterModel.deleteMany({
     _id: { $in: registerIds }
   }).lean();
-  
+
   return output;
 };
