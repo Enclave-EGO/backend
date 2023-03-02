@@ -1,6 +1,5 @@
 import {
   checkExistedLesson,
-  // checkExistedVideoId,
   createNewLesson,
   findLessonById,
   findListLessons,
@@ -28,8 +27,16 @@ const LessonController = {
         data: null
       });
 
-    const isInvalidLesson = await checkExistedLesson(name, videoId, courseId);
+    const isExistedCourseId = await checkExistedCourseId(courseId);
+    if (isExistedCourseId === false) {
+      return res.status(400).json({
+        status: "Fail",
+        error: "Course Id is not existed",
+        data: null
+      });
+    }
 
+    const isInvalidLesson = await checkExistedLesson(name, videoId, courseId);
     if (isInvalidLesson) {
       return res.status(400).json({
         status: "Fail",

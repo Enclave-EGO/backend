@@ -11,11 +11,6 @@ export const checkExistedLesson = async (name, videoId, courseId) => {
   return Boolean(isExisted);
 };
 
-export const checkExistedVideoId = async (videoId) => {
-  const isExisted = await LessonModel.exists({ videoId }).lean();
-  return Boolean(isExisted);
-};
-
 export const checkExistedLessonId = async (lessonId) => {
   const isExisted = await LessonModel.exists({
     _id: lessonId
