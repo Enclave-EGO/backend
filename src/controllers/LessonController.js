@@ -29,7 +29,7 @@ const LessonController = {
 
     const isExistedCourseId = await checkExistedCourseId(courseId);
     if (isExistedCourseId === false) {
-      return res.status(400).json({
+      return res.status(404).json({
         status: "Fail",
         error: "Course Id is not existed",
         data: null
