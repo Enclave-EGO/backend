@@ -26,8 +26,10 @@ export const createNewTest = async (test) => {
 export const updateExistedTest = async (testId, testInfo) => {
   const updatedTest = await TestModel.findOneAndUpdate(
     { _id: new ObjectId(testId) },
-    testInfo
+    testInfo,
+    { new: true }
   ).lean();
+
   return updatedTest;
 };
 
@@ -87,8 +89,9 @@ export const handleDeleteTests = async (testIds) => {
 
 export const updateTestScore = async (testId, score) => {
   const updatedTest = await TestModel.findOneAndUpdate(
-    { _id: new mongoose.Types.ObjectId(testId) },
-    { score: score }
+    { _id: new ObjectId(testId) },
+    { score: score },
+    { new: true }
   );
   return updatedTest;
 };

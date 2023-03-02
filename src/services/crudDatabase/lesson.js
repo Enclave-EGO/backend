@@ -52,7 +52,8 @@ export const findListLessons = async (courseId) => {
 export const updateExistedLesson = async (lessonId, lessonInfo) => {
   const updatedLesson = await LessonModel.findOneAndUpdate(
     { _id: new ObjectId(lessonId) },
-    lessonInfo
+    lessonInfo,
+    { new: true }
   ).lean();
 
   return updatedLesson;

@@ -44,12 +44,13 @@ export const getCourseById = async (courseId) => {
 };
 
 export const updateExistedCourse = async (courseId, courseInfo) => {
-  const course = await CourseModel.findOneAndUpdate(
+  const updatedCourse = await CourseModel.findOneAndUpdate(
     { _id: new ObjectId(courseId) },
-    courseInfo
+    courseInfo,
+    { new: true }
   ).lean();
 
-  return course;
+  return updatedCourse;
 };
 
 export const deleteCourseById = async (courseId) => {

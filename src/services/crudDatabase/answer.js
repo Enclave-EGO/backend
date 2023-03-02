@@ -23,9 +23,9 @@ export const handleCreateNewAnswers = async (questionId, answers) => {
 export const updateAnswer = async (answerId, answerInfo) => {
   const updatedAnswer = await AnswerModel.findOneAndUpdate(
     { _id: new ObjectId(answerId) },
-    answerInfo
+    answerInfo,
+    { new: true }
   );
-
   return updatedAnswer;
 };
 

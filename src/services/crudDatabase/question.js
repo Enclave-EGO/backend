@@ -56,7 +56,8 @@ export const handleCreateNewQuestion = async (question) => {
 export const updateQuestion = async (questionId, newQuestion) => {
   const updatedQuestion = await QuestionModel.findOneAndUpdate(
     { _id: new ObjectId(questionId) },
-    newQuestion
+    newQuestion,
+    { new: true }
   );
   return updatedQuestion;
 };
@@ -99,7 +100,6 @@ export const handleDeleteQuestionById = async (questionId) => {
   ]);
 
   const isDeleted = deletedQuestion && deletedAnswers.deletedCount > 0;
-
   return isDeleted;
 };
 
@@ -111,7 +111,6 @@ export const handleDeleteManyQuestions = async (questionIds) => {
   const promiseResult = await Promise.all(promises);
 
   const isDeleted = promiseResult.includes(null) ? false : true;
-
   return isDeleted;
 };
 
