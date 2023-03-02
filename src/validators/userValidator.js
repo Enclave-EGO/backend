@@ -1,7 +1,7 @@
 import { returnValidationResult } from "./index.js";
 import { body } from "express-validator";
 
-export const validateUsername = async (req) => {
+const validateUsername = async (req) => {
   await body("username")
     .trim()
     .notEmpty()
@@ -13,7 +13,7 @@ export const validateUsername = async (req) => {
     .run(req);
 };
 
-export const validatePassword = async (req) => {
+const validatePassword = async (req) => {
   await body("password")
     .trim()
     .notEmpty()
@@ -25,7 +25,7 @@ export const validatePassword = async (req) => {
     .run(req);
 };
 
-export const validateNameUser = async (req) => {
+const validateNameUser = async (req) => {
   await body("name")
     .trim()
     .notEmpty()
@@ -35,7 +35,7 @@ export const validateNameUser = async (req) => {
     .run(req);
 };
 
-export const validateEmail = async (req) => {
+const validateEmail = async (req) => {
   await body("email")
     .trim()
     .notEmpty()

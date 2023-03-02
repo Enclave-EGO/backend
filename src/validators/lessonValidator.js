@@ -1,7 +1,7 @@
 import { returnValidationResult } from "./index.js";
 import { body } from "express-validator";
 
-export const validateLessonName = async (req, isOptional = false) => {
+const validateLessonName = async (req, isOptional = false) => {
   await body("name")
     .optional({
       checkFalsy: isOptional,
@@ -17,7 +17,7 @@ export const validateLessonName = async (req, isOptional = false) => {
     .run(req);
 };
 
-export const validateVideoId = async (req, isOptional = false) => {
+const validateVideoId = async (req, isOptional = false) => {
   await body("videoId")
     .optional({
       checkFalsy: isOptional,

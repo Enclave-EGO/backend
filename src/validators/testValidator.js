@@ -1,7 +1,7 @@
 import { returnValidationResult } from "./index.js";
 import { body } from "express-validator";
 
-export const validateTestTimeLimit = async (req, isOptional = false) => {
+const validateTestTimeLimit = async (req, isOptional = false) => {
   await body("timeLimit")
     .optional({
       checkFalsy: isOptional,
@@ -14,7 +14,7 @@ export const validateTestTimeLimit = async (req, isOptional = false) => {
     .run(req);
 };
 
-export const validateTestScore = async (req, isOptional = false) => {
+const validateTestScore = async (req, isOptional = false) => {
   await body("score")
     .optional({
       checkFalsy: isOptional,
@@ -27,7 +27,7 @@ export const validateTestScore = async (req, isOptional = false) => {
     .run(req);
 };
 
-export const validateTestDescription = async (req, isOptional = false) => {
+const validateTestDescription = async (req, isOptional = false) => {
   await body("description")
     .optional({
       checkFalsy: isOptional,

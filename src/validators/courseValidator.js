@@ -1,7 +1,7 @@
 import { returnValidationResult } from "./index.js";
 import { body } from "express-validator";
 
-export const validateCourseName = async (req, isOptional = false) => {
+const validateCourseName = async (req, isOptional = false) => {
   await body("name")
     .optional({
       checkFalsy: isOptional,
@@ -15,7 +15,7 @@ export const validateCourseName = async (req, isOptional = false) => {
     .run(req);
 };
 
-export const validateCourseCost = async (req, isOptional = false) => {
+const validateCourseCost = async (req, isOptional = false) => {
   await body("cost")
     .optional({
       checkFalsy: isOptional,
@@ -28,7 +28,7 @@ export const validateCourseCost = async (req, isOptional = false) => {
     .run(req);
 };
 
-export const validateCourseDescription = async (req, isOptional = false) => {
+const validateCourseDescription = async (req, isOptional = false) => {
   await body("description")
     .optional({
       checkFalsy: isOptional,
@@ -42,7 +42,7 @@ export const validateCourseDescription = async (req, isOptional = false) => {
     .run(req);
 };
 
-export const validateCourseThumbnail = async (req, isOptional = false) => {
+const validateCourseThumbnail = async (req, isOptional = false) => {
   await body("thumbnail")
     .optional({
       checkFalsy: isOptional,
@@ -58,7 +58,7 @@ export const validateCourseThumbnail = async (req, isOptional = false) => {
     .run(req);
 };
 
-export const validateCourseUserId = async (req) => {
+const validateCourseUserId = async (req) => {
   await body("userId")
     .trim()
     .notEmpty()
