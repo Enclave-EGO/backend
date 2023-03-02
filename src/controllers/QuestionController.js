@@ -70,7 +70,7 @@ const QuestionController = {
           data: null
         });
 
-      const isExistedTest = await checkExistedTestId(testId);
+      const isExistedTest = await checkExistedTest(testId);
       if (isExistedTest === false) {
         return res.status(404).json({
           status: "Fail",

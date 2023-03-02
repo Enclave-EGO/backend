@@ -87,11 +87,47 @@ export const handleDeleteTests = async (testIds) => {
   return isDeleted;
 };
 
-export const updateTestScore = async (testId, score) => {
+export const updateTestScoreWhenCreateQuestion = async (
+  testId,
+  newQuestionScore
+) => {
+  const test = await TestModel.findOne({ _id: new ObjectId(testId) }).lean();
+  const newTestScore = test.score + newQuestionScore;
+
   const updatedTest = await TestModel.findOneAndUpdate(
     { _id: new ObjectId(testId) },
-    { score: score },
+    { score: newTestScore },
     { new: true }
-  );
+  ).lean();
+
+  return updatedTest;
+};
+
+export const updateTestScoreWhenUpdateQuestion = async (
+  testId,
+  questionId,
+  newQuestionScore
+) => {
+  // 1. Get old test score and old question score
+  const [test, question] = await Promise.all([
+    TestModel.findOne({ _id: new ObjectId(testId) }).lean(),
+    QuestionModel.findOne({
+      _id: new ObjectId(questionId)
+    }).lean()
+  ]);
+
+  const oldTestScore = test.score;
+  const oldQuestionScore = question.score;
+
+  // 2. Calculate new test score
+  const newTestScore = oldTestScore - oldQuestionScore + newQuestionScore;
+
+  // 3. Update test score
+  const updatedTest = await TestModel.findOneAndUpdate(
+    { _id: new ObjectId(testId) },
+    { score: newTestScore },
+    { new: true }
+  ).lean();
+
   return updatedTest;
 };
