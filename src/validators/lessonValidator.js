@@ -1,7 +1,7 @@
 import {
-  returnValidationResult,
   validateLessonName,
-  validateVideoId
+  validateVideoId,
+  returnValidationResult
 } from "./index.js";
 
 export const validateLesson = async (req) => {

@@ -16,6 +16,7 @@ const LessonSchema = new mongoose.Schema(
     },
     courseId: {
       type: ObjectId,
+      required: true,
       ref: "Course"
     }
   },

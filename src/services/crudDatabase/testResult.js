@@ -38,8 +38,8 @@ export const handleScore = async (results) => {
   });
 
   const listScore = await Promise.all(listScorePromise);
-  const sumScore = listScore.reduce((a, b) => a + b, 0);
 
+  const sumScore = listScore.reduce((a, b) => a + b, 0);
   return sumScore;
 };
 
@@ -59,8 +59,8 @@ export const createTestResult = async ({ userId, testId, results }) => {
     score,
     isPass
   });
+  
   const output = await newTestResult.save();
-
   return output;
 };
 

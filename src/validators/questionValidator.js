@@ -20,7 +20,7 @@ export const validateCreateQuestion = async (req) => {
 
 export const validateUpdateQuestion = async (req) => {
   const isOptional = true;
-  
+
   await Promise.all([
     validateQuestionTestId(req, isOptional),
     validateQuestionContent(req, isOptional),

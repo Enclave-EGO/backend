@@ -1,3 +1,4 @@
+import { ObjectId } from "../../constants/index.js";
 import TestModel from "../../models/TestModel.js";
 import QuestionModel from "../../models/QuestionModel.js";
 import {
@@ -5,7 +6,6 @@ import {
   getQuestionsByTests,
   handleDeleteManyQuestions
 } from "./question.js";
-import { ObjectId } from "../../constants/index.js";
 
 export const checkExistedTest = async (testId) => {
   const isExisted = await TestModel.exists({
@@ -20,7 +20,6 @@ export const createNewTest = async (test) => {
     timeLimit: test.timeLimit,
     description: test.description
   });
-
   return newTest;
 };
 
@@ -75,7 +74,6 @@ export const deleteTestsByIds = async (testIds) => {
 
 export const handleDeleteTests = async (testIds) => {
   const listQuestions = await getQuestionsByTests(testIds);
-
   const listQuestionIds = listQuestions.map((question) => question._id);
 
   const [deleteTest, deleteQuestion] = await Promise.all([
@@ -84,7 +82,6 @@ export const handleDeleteTests = async (testIds) => {
   ]);
 
   const isDeleted = Boolean(deleteTest.deletedCount) && Boolean(deleteQuestion);
-
   return isDeleted;
 };
 

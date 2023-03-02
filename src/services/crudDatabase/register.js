@@ -22,7 +22,6 @@ export const registerCourse = async (registerForm) => {
   });
 
   const output = await newCourse.save();
-
   return output;
 };
 
@@ -37,6 +36,6 @@ export const deleteManyRegisters = async (registerIds) => {
   const output = await RegisterModel.deleteMany({
     _id: { $in: registerIds }
   }).lean();
-
+  
   return output;
 };
