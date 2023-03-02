@@ -13,7 +13,7 @@ export const checkExistedVideoId = async (videoId) => {
 
 export const checkExistedLessonId = async (lessonId) => {
   const isExisted = await LessonModel.exists({
-    _id: lessonId
+    _id: new ObjectId(lessonId)
   }).lean();
 
   return Boolean(isExisted);
@@ -26,7 +26,7 @@ export const checkExistedOtherLessonName = async (lessonId, lessonName) => {
   }).lean();
 
   // If above lesson is exist and it has _id other than above lessonId
-  if (lesson && lesson._id !== lessonId) return true;
+  if (lesson && lesson._id !== new ObjectId(lessonId)) return true;
   else return false;
 };
 

@@ -16,7 +16,7 @@ export const checkExistedTest = async (testId) => {
 
 export const createNewTest = async (test) => {
   const newTest = await TestModel.create({
-    lessonId: test.lessonId,
+    lessonId: new ObjectId(test.lessonId),
     timeLimit: test.timeLimit,
     description: test.description
   });
@@ -39,7 +39,7 @@ export const getTestDetail = async (testId) => {
       { _id: new ObjectId(testId) },
       { _id: true, timeLimit: true, score: true, created: true }
     ).lean(),
-    QuestionModel.find({ testId }, { _id: true })
+    QuestionModel.find({ testId: new ObjectId(testId) }, { _id: true })
   ]);
 
   const promiseQuestionDetails = questions.map((question) => {
