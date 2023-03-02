@@ -1,13 +1,13 @@
 import { ObjectId } from "../../constants/index.js";
 import LessonModel from "../../models/LessonModel.js";
 
-export const checkExistedLessonName = async (name) => {
-  const isExisted = await LessonModel.exists({ name }).lean();
-  return Boolean(isExisted);
-};
+export const checkExistedLesson = async (name, videoId, courseId) => {
+  const [isExistedName, isExistedVideo] = await Promise.all([
+    LessonModel.exists({ name, courseId }).lean(),
+    LessonModel.exists({ videoId, courseId }).lean()
+  ]);
 
-export const checkExistedVideoId = async (videoId) => {
-  const isExisted = await LessonModel.exists({ videoId }).lean();
+  const isExisted = isExistedName || isExistedVideo;
   return Boolean(isExisted);
 };
 
@@ -26,7 +26,7 @@ export const checkExistedOtherLessonName = async (lessonId, lessonName) => {
   }).lean();
 
   // If above lesson is exist and it has _id other than above lessonId
-  if (lesson && lesson._id !== lessonId) return true;
+  if (lesson && lesson._id !== new ObjectId(lessonId)) return true;
   else return false;
 };
 
