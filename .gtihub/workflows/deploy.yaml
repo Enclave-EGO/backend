@@ -1,0 +1,47 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches:
+      - AUTO-BUILD-v2
+
+jobs:
+  deploy:
+    runs-on: ubuntu-lastest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: copy files to EC2 instance
+        uses: appleboy/scp-action@master
+          with:
+            host: ${{ secrets.EC2_HOST }}
+            username: ${{ secrets.EC2_USER }}
+            key: ${{ secrets.KEY }}
+            source: ./
+            target: /home/ubuntu/backend/
+
+      - name: Create .env file
+        uses: ozaytsev86/create-env-file@v1
+        with:
+          ENV_PORT: ${{ secrets.PORT }}
+          ENV_MONGO_URI: ${{ secrets.MONGO_URI }}
+          ENV_EXPIRES_IN: ${{ secrets.EXPIRES_IN }}
+          ENV_JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+
+      - name: Connect to EC2 instance and deploy application
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.KEY }}
+          script: |
+            cd /home/ubuntu/backend
+            npm install
+            pm2 stop backend
+            pm2 start npm --name "backend" -- start
+

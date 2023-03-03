@@ -18,7 +18,7 @@ function routing(app) {
   // Not found routes
   app.use("*", (req, res) => {
     return res.status(404).json({
-      message: "not-found",
+      message: "not-found 1",
       error: "not-found"
     });
   });
