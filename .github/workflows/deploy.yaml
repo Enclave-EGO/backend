@@ -23,7 +23,7 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT}}
           source: ./
-          target: /home/ubuntu/backend/
+          target: ~/home/ubuntu/backend/
 
       - name: Create .env file
         uses: ozaytsev86/create-env-file@v1
