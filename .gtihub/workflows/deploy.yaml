@@ -2,8 +2,7 @@ name: Deploy to AWS EC2
 
 on:
   push:
-    branches:
-      - AUTO-BUILD-v2
+    branches: ["AUTO-BUILD-v2"]
 
 jobs:
   deploy:
