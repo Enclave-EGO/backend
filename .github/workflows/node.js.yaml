@@ -37,7 +37,4 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm start
-          kill -15 -1
-          kill -9 -1
+     
