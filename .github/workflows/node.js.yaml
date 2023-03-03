@@ -27,14 +27,12 @@ jobs:
           cache: "npm"
 
       - name: Create .env file
-        uses: SpicyPizza/create-envfile@v1.3
+        uses: ozaytsev86/create-env-file@v1
         with:
-          envkey_PORT: ${{ secrets.PORT }}
-          envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
-          envkey_EXPIRES_IN: ${{ secrets.EXPIRES_IN }}
-          envkey_JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-          directory: ""
-          file_name: .env
+          ENV_PORT: ${{ secrets.PORT }}
+          ENV_MONGO_URI: ${{ secrets.MONGO_URI }}
+          ENV_EXPIRES_IN: ${{ secrets.EXPIRES_IN }}
+          ENV_JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
 
       - name: Install dependencies
         run: npm ci
