@@ -14,8 +14,3 @@ export const DEFAULT_USER_AVATAR =
   "https://res.cloudinary.com/dtpti4fdq/image/upload/v1677661649/default-avatar_urcr1t.jpg";
 export const DEFAULT_COURSE_THUMBNAIL =
   "https://res.cloudinary.com/dtpti4fdq/image/upload/v1677661649/default-course-thumbnail_livmtf.png";
-
-console.log(PORT);
-console.log(MONGO_URI);
-console.log(EXPIRES_IN);
-console.log(JWT_SECRET_KEY);
