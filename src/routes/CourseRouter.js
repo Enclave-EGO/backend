@@ -8,12 +8,7 @@ const router = express.Router();
 
 router.post("/", jwtGuard, Roles(Role.TEACHER), CourseController.createCourse);
 
-router.get(
-  "/",
-  jwtGuard,
-  Roles(Role.TEACHER, Role.LEARNER),
-  CourseController.getCourses
-);
+router.get("/", CourseController.getCourses);
 
 router.get(
   "/:courseId",
