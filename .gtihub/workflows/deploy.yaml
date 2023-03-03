@@ -17,12 +17,12 @@ jobs:
 
       - name: copy files to EC2 instance
         uses: appleboy/scp-action@master
-          with:
-            host: ${{ secrets.EC2_HOST }}
-            username: ${{ secrets.EC2_USER }}
-            key: ${{ secrets.KEY }}
-            source: ./
-            target: /home/ubuntu/backend/
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.KEY }}
+          source: ./
+          target: /home/ubuntu/backend/
 
       - name: Create .env file
         uses: ozaytsev86/create-env-file@v1
@@ -43,4 +43,3 @@ jobs:
             npm install
             pm2 stop backend
             pm2 start npm --name "backend" -- start
-
