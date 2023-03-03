@@ -1,7 +1,10 @@
 import QuestionModel from "../../models/QuestionModel.js";
 import AnswerModel from "../../models/AnswerModel.js";
 import { ObjectId } from "../../constants/index.js";
-import { updateTestScore } from "./test.js";
+import {
+  updateTestScoreWhenCreateQuestion,
+  updateTestScoreWhenUpdateQuestion
+} from "./test.js";
 import {
   handleCreateNewAnswers,
   handleUpdateAnswers,
@@ -34,7 +37,7 @@ export const handleCreateNewQuestion = async (question) => {
   const savedQuestion = await createNewQuestion(newQuestion);
 
   // 2. Update test score
-  const updatedTest = await updateTestScore(testId, score);
+  const updatedTest = await updateTestScoreWhenCreateQuestion(testId, score);
 
   // 3. Create answers
   const questionId = savedQuestion._id;
@@ -74,7 +77,7 @@ export const handleUpdateQuestion = async (questionId, question) => {
 
   const [updatedQuestion, updatedTest, updatedAnswers] = await Promise.all([
     updateQuestion(questionId, questionInfo),
-    updateTestScore(testId, score),
+    updateTestScoreWhenUpdateQuestion(testId, questionId, score),
     handleUpdateAnswers(answers)
   ]);
 
