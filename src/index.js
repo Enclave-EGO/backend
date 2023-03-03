@@ -41,7 +41,7 @@ app.use(cookieParse());
 connectDatabase();
 routing(app);
 
-// app.listen(PORT, () => {
-//   console.log(`Server is listening at ${LOCALHOST_URL}`);
-//   console.log(`API Documentation: ${SWAGGER_URL}`);
-// });
+app.listen(PORT, () => {
+  console.log(`Server is listening at ${LOCALHOST_URL}`);
+  console.log(`API Documentation: ${SWAGGER_URL}`);
+});

@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
@@ -39,3 +39,5 @@ jobs:
 
       - name: Build
         run: npm start
+          kill -15 -1
+          kill -9 -1
