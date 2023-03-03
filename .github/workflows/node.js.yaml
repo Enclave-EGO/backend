@@ -37,4 +37,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-     
+      - name: Build using `nexe` package
+        run: |
+          npm install nexe -global
+          npm install windows-build-tools -global
+          npm run build
+
