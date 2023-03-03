@@ -37,11 +37,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParse());
 
-// Connect DB & Routing
-connectDatabase();
-routing(app);
-
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is listening at ${LOCALHOST_URL}`);
   console.log(`API Documentation: ${SWAGGER_URL}`);
 });
+
+// Connect DB & Routing
+connectDatabase(server);
+routing(app);
