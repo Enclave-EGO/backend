@@ -2,10 +2,11 @@ import AnswerModel from "../../models/AnswerModel.js";
 import TestResultModel from "../../models/TestResultModel.js";
 import QuestionModel from "../../models/QuestionModel.js";
 import TestModel from "../../models/TestModel.js";
+import { ObjectId } from "../../constants/index.js";
 
 export const getAnswersOfQuestion = async (questionId) => {
   const answers = await AnswerModel.find(
-    { questionId, isCorrect: true },
+    { questionId: new ObjectId(questionId), isCorrect: true },
     { _id: true },
     { sort: { _id: 1 } }
   ).lean();
@@ -16,7 +17,7 @@ export const getAnswersOfQuestion = async (questionId) => {
 
 export const getScoreQuestion = async (questionId, answers) => {
   const questionDetail = await QuestionModel.findOne(
-    { _id: questionId },
+    { _id: new ObjectId(questionId) },
     { score: true }
   ).lean();
 
@@ -38,15 +39,15 @@ export const handleScore = async (results) => {
   });
 
   const listScore = await Promise.all(listScorePromise);
-  const sumScore = listScore.reduce((a, b) => a + b, 0);
 
+  const sumScore = listScore.reduce((a, b) => a + b, 0);
   return sumScore;
 };
 
 export const createTestResult = async ({ userId, testId, results }) => {
   const score = await handleScore(results);
   const testScore = await TestModel.findOne(
-    { _id: testId },
+    { _id: new ObjectId(testId) },
     { score: true }
   ).lean();
 
@@ -54,17 +55,20 @@ export const createTestResult = async ({ userId, testId, results }) => {
   const isPass = score / testScore.score >= 0.7 ? true : false;
 
   const newTestResult = new TestResultModel({
-    userId,
-    testId,
-    score,
-    isPass
+    userId: new ObjectId(userId),
+    testId: new ObjectId(testId),
+    score: score,
+    isPass: isPass
   });
-  const output = await newTestResult.save();
 
+  const output = await newTestResult.save();
   return output;
 };
 
 export const checkDidTest = async ({ userId, testId }) => {
-  const isExisted = await TestResultModel.findOne({ userId, testId }).lean();
+  const isExisted = await TestResultModel.findOne({
+    userId: new ObjectId(userId),
+    testId: new ObjectId(testId)
+  }).lean();
   return Boolean(isExisted);
 };

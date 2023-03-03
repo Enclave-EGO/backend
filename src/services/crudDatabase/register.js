@@ -3,7 +3,11 @@ import { ObjectId } from "../../constants/index.js";
 
 export const checkRegisteredCourse = async (registerForm) => {
   const { userId, courseId } = registerForm;
-  const isRegisteredCourse = await RegisterModel.findOne({ userId, courseId });
+  
+  const isRegisteredCourse = await RegisterModel.findOne({
+    userId: new ObjectId(userId),
+    courseId: new ObjectId(courseId)
+  });
 
   return Boolean(isRegisteredCourse);
 };
@@ -22,7 +26,6 @@ export const registerCourse = async (registerForm) => {
   });
 
   const output = await newCourse.save();
-
   return output;
 };
 

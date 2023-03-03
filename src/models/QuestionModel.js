@@ -14,10 +14,12 @@ const QuestionSchema = new mongoose.Schema(
     },
     isMultiChoice: {
       type: Boolean,
+      default: false,
       required: true
     },
     score: {
       type: Number,
+      default: 0,
       required: true
     }
   },

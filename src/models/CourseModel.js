@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ObjectId } from "../constants/index.js";
+import { ObjectId, DEFAULT_COURSE_THUMBNAIL } from "../constants/index.js";
 
 const CourseSchema = new mongoose.Schema(
   {
@@ -8,13 +8,15 @@ const CourseSchema = new mongoose.Schema(
       required: true
     },
     cost: {
-      type: Number
+      type: Number,
+      default: 0
     },
     description: {
       type: String
     },
     thumbnail: {
-      type: String
+      type: String,
+      default: DEFAULT_COURSE_THUMBNAIL
     },
     userId: {
       type: ObjectId,

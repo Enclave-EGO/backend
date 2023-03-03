@@ -1,3 +1,4 @@
+import { ObjectId } from "../../constants/index.js";
 import TestModel from "../../models/TestModel.js";
 import QuestionModel from "../../models/QuestionModel.js";
 import {
@@ -5,7 +6,6 @@ import {
   getQuestionsByTests,
   handleDeleteManyQuestions
 } from "./question.js";
-import { ObjectId } from "../../constants/index.js";
 
 export const checkExistedTest = async (testId) => {
   const isExisted = await TestModel.exists({
@@ -16,19 +16,20 @@ export const checkExistedTest = async (testId) => {
 
 export const createNewTest = async (test) => {
   const newTest = await TestModel.create({
-    lessonId: test.lessonId,
+    lessonId: new ObjectId(test.lessonId),
     timeLimit: test.timeLimit,
     description: test.description
   });
-
   return newTest;
 };
 
 export const updateExistedTest = async (testId, testInfo) => {
   const updatedTest = await TestModel.findOneAndUpdate(
     { _id: new ObjectId(testId) },
-    testInfo
+    testInfo,
+    { new: true }
   ).lean();
+
   return updatedTest;
 };
 
@@ -38,7 +39,7 @@ export const getTestDetail = async (testId) => {
       { _id: new ObjectId(testId) },
       { _id: true, timeLimit: true, score: true, created: true }
     ).lean(),
-    QuestionModel.find({ testId }, { _id: true })
+    QuestionModel.find({ testId: new ObjectId(testId) }, { _id: true })
   ]);
 
   const promiseQuestionDetails = questions.map((question) => {
@@ -56,8 +57,8 @@ export const getTestsByLesson = async (lessonId) => {
     TestModel.find({ lessonId: new ObjectId(lessonId) }, { _id: true }).lean()
   ]);
 
-  const listPromiseTestDetails = listTests.map((_id) => {
-    return getTestDetail(_id);
+  const listPromiseTestDetails = listTests.map((test) => {
+    return getTestDetail(test._id);
   });
 
   const listTestDetails = await Promise.all(listPromiseTestDetails);
@@ -75,7 +76,6 @@ export const deleteTestsByIds = async (testIds) => {
 
 export const handleDeleteTests = async (testIds) => {
   const listQuestions = await getQuestionsByTests(testIds);
-
   const listQuestionIds = listQuestions.map((question) => question._id);
 
   const [deleteTest, deleteQuestion] = await Promise.all([
@@ -84,14 +84,50 @@ export const handleDeleteTests = async (testIds) => {
   ]);
 
   const isDeleted = Boolean(deleteTest.deletedCount) && Boolean(deleteQuestion);
-
   return isDeleted;
 };
 
-export const updateTestScore = async (testId, score) => {
+export const updateTestScoreWhenCreateQuestion = async (
+  testId,
+  newQuestionScore
+) => {
+  const test = await TestModel.findOne({ _id: new ObjectId(testId) }).lean();
+  const newTestScore = test.score + newQuestionScore;
+
   const updatedTest = await TestModel.findOneAndUpdate(
-    { _id: new mongoose.Types.ObjectId(testId) },
-    { score: score }
-  );
+    { _id: new ObjectId(testId) },
+    { score: newTestScore },
+    { new: true }
+  ).lean();
+
+  return updatedTest;
+};
+
+export const updateTestScoreWhenUpdateQuestion = async (
+  testId,
+  questionId,
+  newQuestionScore
+) => {
+  // 1. Get old test score and old question score
+  const [test, question] = await Promise.all([
+    TestModel.findOne({ _id: new ObjectId(testId) }).lean(),
+    QuestionModel.findOne({
+      _id: new ObjectId(questionId)
+    }).lean()
+  ]);
+
+  const oldTestScore = test.score;
+  const oldQuestionScore = question.score;
+
+  // 2. Calculate new test score
+  const newTestScore = oldTestScore - oldQuestionScore + newQuestionScore;
+
+  // 3. Update test score
+  const updatedTest = await TestModel.findOneAndUpdate(
+    { _id: new ObjectId(testId) },
+    { score: newTestScore },
+    { new: true }
+  ).lean();
+
   return updatedTest;
 };

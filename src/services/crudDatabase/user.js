@@ -10,7 +10,6 @@ export const checkExistedUserId = async (userId) => {
   const isExistedUser = await UserModel.exists({
     _id: new ObjectId(userId)
   });
-
   return Boolean(isExistedUser);
 };
 
@@ -26,7 +25,6 @@ export const checkExistedEmail = async (email) => {
 
 export const createNewUser = async (user) => {
   const { password, username, ...data } = user;
-
   const passwordHash = await hashPassword(password);
 
   const newUser = new UserModel({
@@ -55,13 +53,11 @@ export const checkUserSignIn = async (user) => {
 
   if (existUser) {
     const { password, ...data } = existUser;
-
     const isCorrectPassword = await comparePassword(user.password, password);
 
     if (isCorrectPassword) {
       const payload = { _id: data._id, role: data.role };
       const token = await generateAccessToken(payload);
-
       return { _id: data._id, token: token };
     }
   }

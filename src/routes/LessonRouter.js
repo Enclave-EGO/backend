@@ -3,6 +3,7 @@ import LessonController from "../controllers/LessonController.js";
 import { jwtGuard } from "../middlewares/authentication/jwtGuard.js";
 import { Roles } from "../middlewares/authentication/roleGuard.js";
 import { Role } from "../utils/index.js";
+
 const router = express.Router();
 
 router.post("/", jwtGuard, Roles(Role.TEACHER), LessonController.createLesson);

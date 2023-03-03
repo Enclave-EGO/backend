@@ -15,9 +15,9 @@ function routing(app) {
   app.use("/questions", QuestionRouter);
   app.use("/test-results", TestResultRouter);
 
-  // Notfound routes
+  // Not found routes
   app.use("*", (req, res) => {
-    res.status(404).json({
+    return res.status(404).json({
       message: "not-found",
       error: "not-found"
     });

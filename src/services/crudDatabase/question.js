@@ -1,7 +1,10 @@
 import QuestionModel from "../../models/QuestionModel.js";
 import AnswerModel from "../../models/AnswerModel.js";
 import { ObjectId } from "../../constants/index.js";
-import { updateTestScore } from "./test.js";
+import {
+  updateTestScoreWhenCreateQuestion,
+  updateTestScoreWhenUpdateQuestion
+} from "./test.js";
 import {
   handleCreateNewAnswers,
   handleUpdateAnswers,
@@ -34,7 +37,7 @@ export const handleCreateNewQuestion = async (question) => {
   const savedQuestion = await createNewQuestion(newQuestion);
 
   // 2. Update test score
-  const updatedTest = await updateTestScore(testId, score);
+  const updatedTest = await updateTestScoreWhenCreateQuestion(testId, score);
 
   // 3. Create answers
   const questionId = savedQuestion._id;
@@ -56,7 +59,8 @@ export const handleCreateNewQuestion = async (question) => {
 export const updateQuestion = async (questionId, newQuestion) => {
   const updatedQuestion = await QuestionModel.findOneAndUpdate(
     { _id: new ObjectId(questionId) },
-    newQuestion
+    newQuestion,
+    { new: true }
   );
   return updatedQuestion;
 };
@@ -73,7 +77,7 @@ export const handleUpdateQuestion = async (questionId, question) => {
 
   const [updatedQuestion, updatedTest, updatedAnswers] = await Promise.all([
     updateQuestion(questionId, questionInfo),
-    updateTestScore(testId, score),
+    updateTestScoreWhenUpdateQuestion(testId, questionId, score),
     handleUpdateAnswers(answers)
   ]);
 
@@ -99,7 +103,6 @@ export const handleDeleteQuestionById = async (questionId) => {
   ]);
 
   const isDeleted = deletedQuestion && deletedAnswers.deletedCount > 0;
-
   return isDeleted;
 };
 
@@ -111,7 +114,6 @@ export const handleDeleteManyQuestions = async (questionIds) => {
   const promiseResult = await Promise.all(promises);
 
   const isDeleted = promiseResult.includes(null) ? false : true;
-
   return isDeleted;
 };
 
@@ -126,12 +128,12 @@ export const getQuestionsByTests = async (testIds) => {
 
 export const getQuestionDetail = async (questionId) => {
   const question = await QuestionModel.findOne(
-    { _id: questionId },
+    { _id: new ObjectId(questionId) },
     { _id: true, content: true, isMultiChoice: true }
   ).lean();
 
   const answers = await AnswerModel.find(
-    { questionId },
+    { questionId: new ObjectId(questionId) },
     { _id: true, content: true, isCorrect: true }
   ).lean();
 

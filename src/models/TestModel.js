@@ -9,7 +9,8 @@ const TestSchema = new mongoose.Schema(
       ref: "Lesson"
     },
     timeLimit: {
-      type: Number
+      type: Number,
+      default: 0
     },
     score: {
       type: Number,
