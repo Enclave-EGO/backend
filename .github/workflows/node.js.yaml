@@ -17,7 +17,8 @@ jobs:
         node-version: [18.x]
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Check out code
+        uses: actions/checkout@v3
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -26,11 +27,15 @@ jobs:
           cache: "npm"
 
       - name: Create .env file
-        run: |
-          echo PORT = 8000 >> .env
-          echo MONGO_URI = mongodb://localhost:27017 >> .env
-          echo EXPIRES_IN = 40 >> .env
-          echo JWT_SECRET_KEY = bdfsbafbdfbdfe >> .env
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_PORT: ${{ secrets.PORT }}
+          envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
+          envkey_EXPIRES_IN: ${{ secrets.EXPIRES_IN }}
+          envkey_JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          directory: ""
+          file_name: .env
 
-      - run: npm ci
-      - run: npm start
+      - name: Building
+        run: npm ci
+        run: npm start
