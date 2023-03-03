@@ -21,7 +21,6 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT}}
           source: ./
           target: ~/home/ubuntu/backend/
 
@@ -39,7 +38,6 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT}}
           script: |
             cd /home/ubuntu/backend
             npm install
