@@ -22,7 +22,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.KEY }}
           source: ./
-          target: /home/ubuntu/backend/
+          target: ~/home/ubuntu/backend/
 
       - name: Create .env file
         uses: ozaytsev86/create-env-file@v1
@@ -39,7 +39,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.KEY }}
           script: |
-            cd /home/ubuntu/backend
+            cd ~/home/ubuntu/backend
             sudo npm install
             pm2 stop backend
             pm2 start npm --name "backend" -- start
