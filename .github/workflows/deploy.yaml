@@ -27,6 +27,7 @@ jobs:
       - name: Create .env file
         uses: ozaytsev86/create-env-file@v1
         with:
+          directory: ~/home/ubuntu/backend/
           PORT: ${{ secrets.PORT }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
           EXPIRES_IN: ${{ secrets.EXPIRES_IN }}
@@ -41,5 +42,6 @@ jobs:
           script: |
             cd ~/home/ubuntu/backend
             sudo npm install
+            echo ``
             pm2 stop backend
             pm2 start npm --name "backend" -- start
