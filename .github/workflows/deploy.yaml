@@ -28,10 +28,10 @@ jobs:
         uses: ozaytsev86/create-env-file@v1
         with:
           directory: ~/home/ubuntu/backend/
-          PORT: ${{ secrets.PORT }}
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-          EXPIRES_IN: ${{ secrets.EXPIRES_IN }}
-          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          envkey_PORT: ${{ secrets.PORT }}
+          envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
+          envkey_EXPIRES_IN: ${{ secrets.EXPIRES_IN }}
+          envkey_JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
 
       - name: Connect to EC2 instance and deploy application
         uses: appleboy/ssh-action@master
@@ -42,6 +42,9 @@ jobs:
           script: |
             cd ~/home/ubuntu/backend
             sudo npm install
-            echo ``
+            echo "PORT=${{ secrets.PORT }}" >> .env
+            echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> .env
+            echo "EXPIRES_IN=${{ secrets.EXPIRES_IN }}" >> .env
+            echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> .env
             pm2 stop backend
             pm2 start npm --name "backend" -- start
