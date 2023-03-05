@@ -27,10 +27,10 @@ jobs:
       - name: Create .env file
         uses: ozaytsev86/create-env-file@v1
         with:
-          ENV_PORT: ${{ secrets.PORT }}
-          ENV_MONGO_URI: ${{ secrets.MONGO_URI }}
-          ENV_EXPIRES_IN: ${{ secrets.EXPIRES_IN }}
-          ENV_JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          PORT: ${{ secrets.PORT }}
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          EXPIRES_IN: ${{ secrets.EXPIRES_IN }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
 
       - name: Connect to EC2 instance and deploy application
         uses: appleboy/ssh-action@master
