@@ -45,6 +45,7 @@ jobs:
           script: |
             cd ~/home/ubuntu/backend
             sudo npm install
+            echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
             pm2 stop backend
             pm2 delete backend
             pm2 start npm --name "backend" -- start
