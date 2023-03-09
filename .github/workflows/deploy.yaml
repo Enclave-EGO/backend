@@ -34,6 +34,7 @@ jobs:
           envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
           envkey_EXPIRES_IN: ${{ secrets.EXPIRES_IN }}
           envkey_JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          envkey_NODE_ENV: ${{ secrets.NODE_ENV }}
 
       - name: Connect to EC2 instance and deploy application
         uses: appleboy/ssh-action@master
