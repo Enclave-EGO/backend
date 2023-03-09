@@ -11,187 +11,86 @@ import {
   validateCreateQuestion,
   validateUpdateQuestion
 } from "../validators/questionValidator.js";
+import catchAsync from "../utils/catchAsync.js";
+import AppError from "../utils/appError.js";
 
 const QuestionController = {
-  createQuestion: async (req, res) => {
-    try {
-      const { status, error } = await validateCreateQuestion(req);
-      const testId = req.body.testId;
+  createQuestion: catchAsync(async (req, res, next) => {
+    const { status, error } = await validateCreateQuestion(req);
+    const testId = req.body.testId;
 
-      if (status === "Fail")
-        return res.status(400).json({
-          status: "Fail",
-          error: error,
-          data: null
-        });
+    if (status === "Fail") return next(new AppError(error, 400));
 
-      const isExistedTestId = await checkExistedTest(testId);
-      if (isExistedTestId === false) {
-        return res.status(400).json({
-          status: "Fail",
-          error: "Test ID is not existed",
-          data: null
-        });
-      }
+    const isExistedTestId = await checkExistedTest(testId);
+    if (isExistedTestId === false)
+      return next(new AppError("Test ID is not existed", 400));
 
-      const course = await handleCreateNewQuestion(req.body);
-      if (course) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: course
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
+    const course = await handleCreateNewQuestion(req.body);
 
-  updateQuestion: async (req, res) => {
-    try {
-      const questionId = req.params.questionId;
-      const testId = req.body.testId;
+    return res.json({
+      status: "Success",
+      error: null,
+      data: course
+    });
+  }),
 
-      const { status, error } = await validateUpdateQuestion(req);
-      if (status === "Fail")
-        return res.status(400).json({
-          status: "Fail",
-          error: error,
-          data: null
-        });
+  updateQuestion: catchAsync(async (req, res, next) => {
+    const questionId = req.params.questionId;
+    const testId = req.body.testId;
 
-      const isExistedTest = await checkExistedTest(testId);
-      if (isExistedTest === false) {
-        return res.status(404).json({
-          status: "Fail",
-          error: "Test is not existed",
-          data: null
-        });
-      }
+    const { status, error } = await validateUpdateQuestion(req);
+    if (status === "Fail") return next(new AppError(error, 400));
 
-      const isExistedQuestion = await checkExistedQuestion(questionId);
-      if (isExistedQuestion === false) {
-        return res.status(404).json({
-          status: "Fail",
-          error: "Question is not existed",
-          data: null
-        });
-      }
+    const isExistedTest = await checkExistedTest(testId);
+    if (isExistedTest === false)
+      return next(new AppError("Test is not existed", 404));
 
-      const question = await handleUpdateQuestion(questionId, req.body);
-      if (question) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: question
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
+    const isExistedQuestion = await checkExistedQuestion(questionId);
+    if (isExistedQuestion === false)
+      return next(new AppError("Question is not existed", 404));
 
-  deleteQuestion: async (req, res) => {
-    try {
-      const questionId = req.params.questionId;
-      const isDeleted = await handleDeleteQuestionById(questionId);
+    const question = await handleUpdateQuestion(questionId, req.body);
 
-      if (isDeleted) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: isDeleted
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
+    return res.json({
+      status: "Success",
+      error: null,
+      data: question
+    });
+  }),
 
-  deleteQuestions: async (req, res) => {
-    try {
-      const questionIds = req.body.questionIds;
-      const isDeleted = await handleDeleteManyQuestions(questionIds);
+  deleteQuestion: catchAsync(async (req, res) => {
+    const questionId = req.params.questionId;
+    const isDeleted = await handleDeleteQuestionById(questionId);
 
-      if (isDeleted) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: isDeleted
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
+    return res.json({
+      status: "Success",
+      error: null,
+      data: isDeleted
+    });
+  }),
 
-  getQuestion: async (req, res) => {
+  deleteQuestions: catchAsync(async (req, res) => {
+    const questionIds = req.body.questionIds;
+    const isDeleted = await handleDeleteManyQuestions(questionIds);
+
+    return res.json({
+      status: "Success",
+      error: null,
+      data: isDeleted
+    });
+  }),
+
+  getQuestion: catchAsync(async (req, res) => {
     const questionId = req.params.questionId;
 
-    try {
-      const questionDetail = await getQuestionDetail(questionId);
+    const questionDetail = await getQuestionDetail(questionId);
 
-      if (questionDetail) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: questionDetail
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  }
+    return res.json({
+      status: "Success",
+      error: null,
+      data: questionDetail
+    });
+  })
 };
 
 export default QuestionController;
