@@ -23,7 +23,7 @@ const RegisterController = {
     const isExistedRegister = await checkRegisteredCourse(newRegister);
 
     if (isExistedRegister)
-      return next(new AppError("You registered this course!", 400));
+      return next(new AppError("You registered this course", 400));
 
     const newRegisterInfo = await registerCourse(newRegister);
 

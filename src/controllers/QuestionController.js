@@ -23,7 +23,7 @@ const QuestionController = {
 
     const isExistedTestId = await checkExistedTest(testId);
     if (isExistedTestId === false)
-      return next(new AppError("Test ID is not existed", 400));
+      return next(new AppError("Test ID is not existed", 404));
 
     const course = await handleCreateNewQuestion(req.body);
 
