@@ -28,12 +28,11 @@ const CourseController = {
       checkExistedCourseName(name),
       checkExistedUserId(userId)
     ]);
-    if (isExistedCourseName) {
+    if (isExistedCourseName)
       return next(new AppError("Course name is existed", 400));
-    }
-    if (isExistedUserId === false) {
-      return next(new AppError("User ID is not existed", 400));
-    }
+
+    if (isExistedUserId === false)
+      return next(new AppError("User ID is not existed", 404));
 
     const course = await createNewCourse(req.body);
     return res.json({
@@ -54,142 +53,66 @@ const CourseController = {
     });
   }),
 
-  getCourseById: async (req, res) => {
-    try {
-      const courseId = req.params.courseId;
-      const course = await getCourseById(courseId);
+  getCourseById: catchAsync(async (req, res) => {
+    const courseId = req.params.courseId;
+    const course = await getCourseById(courseId);
 
-      if (course) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: course
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
+    return res.json({
+      status: "Success",
+      error: null,
+      data: course
+    });
+  }),
 
-  updateCourse: async (req, res) => {
-    try {
-      const courseId = req.params.courseId;
-      const name = req.body.name;
+  updateCourse: catchAsync(async (req, res, next) => {
+    const courseId = req.params.courseId;
+    const name = req.body.name;
 
-      const { status, error } = await validateUpdateCourse(req);
-      if (status === "Fail")
-        return res.status(400).json({
-          status: "Fail",
-          error: error,
-          data: null
-        });
+    const { status, error } = await validateUpdateCourse(req);
+    if (status === "Fail") return next(new AppError(error, 400));
 
-      const [isExistedCourseId, isExistedOtherCourseName] = await Promise.all([
-        checkExistedCourseId(courseId),
-        checkExistedOtherCourseName(courseId, name)
-      ]);
-      if (isExistedCourseId === false) {
-        return res.status(400).json({
-          status: "Fail",
-          error: "Course ID is not existed",
-          data: null
-        });
-      }
-      if (isExistedOtherCourseName) {
-        return res.status(400).json({
-          status: "Fail",
-          error: "Course name is existed",
-          data: null
-        });
-      }
+    const [isExistedCourseId, isExistedOtherCourseName] = await Promise.all([
+      checkExistedCourseId(courseId),
+      checkExistedOtherCourseName(courseId, name)
+    ]);
 
-      const course = await updateExistedCourse(courseId, req.body);
-      if (course) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: course
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
+    if (isExistedCourseId === false)
+      return next(new AppError("Course ID is not existed", 404));
 
-  deleteCourseById: async (req, res) => {
-    try {
-      const courseId = req.params.courseId;
-      const course = await deleteCourseById(courseId);
+    if (isExistedOtherCourseName)
+      return next(new AppError("Course name is existed", 400));
 
-      if (course) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: course
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
+    const course = await updateExistedCourse(courseId, req.body);
 
-  deleteManyCourses: async (req, res) => {
-    try {
-      const courseIds = req.body.courseIds;
-      const deleteInfo = await deleteManyCourses(courseIds);
-      const deletedCount = deleteInfo.deletedCount;
+    return res.json({
+      status: "Success",
+      error: null,
+      data: course
+    });
+  }),
 
-      if (deletedCount > 0) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: deletedCount
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: deletedCount
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  }
+  deleteCourseById: catchAsync(async (req, res) => {
+    const courseId = req.params.courseId;
+    const course = await deleteCourseById(courseId);
+
+    return res.json({
+      status: "Success",
+      error: null,
+      data: course
+    });
+  }),
+
+  deleteManyCourses: catchAsync(async (req, res) => {
+    const courseIds = req.body.courseIds;
+    const deleteInfo = await deleteManyCourses(courseIds);
+    const deletedCount = deleteInfo.deletedCount;
+
+    return res.json({
+      status: "Success",
+      error: null,
+      data: deletedCount
+    });
+  })
 };
 
 export default CourseController;
