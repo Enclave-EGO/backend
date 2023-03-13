@@ -10,17 +10,3 @@ services:
     #   - .:/app-folder
     ports:
       - "8081:4001"
-    environment:
-      - MONGO_URI=mongodb+srv://cadet-nest:cadet-nest@cadet.0fgdl6n.mongodb.net/ego-project?retryWrites=true&w=majority
-      - PORT=4001
-      - EXPIRES_IN=3600
-      - JWT_SECRET_KEY=jwtsecret
-      - NODE_ENV=production1
-
-  db:
-    image: mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: pw123
-    ports:
-      - "3306:3306"
