@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { ObjectId } from "../../constants/index.js";
 import LessonModel from "../../models/LessonModel.js";
 
