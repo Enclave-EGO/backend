@@ -25,9 +25,8 @@ export const checkExistedOtherLessonName = async (lessonId, lessonName) => {
     name: lessonName
   }).lean();
 
-  // If above lesson is exist and it has _id other than above lessonId
-  if (lesson && lesson._id !== new ObjectId(lessonId)) return true;
-  else return false;
+  if (lesson && lesson._id.toString() !== lessonId) return true;
+  return false;
 };
 
 export const createNewLesson = async (lesson) => {

@@ -4,7 +4,7 @@ import { body } from "express-validator";
 const validateQuestionTestId = async (req, isOptional = false) => {
   await body("testId")
     .optional({
-      checkFalsy: isOptional,
+      checkFalsy: false,
       nullable: isOptional
     })
     .trim()
@@ -18,7 +18,7 @@ const validateQuestionTestId = async (req, isOptional = false) => {
 const validateQuestionContent = async (req, isOptional = false) => {
   await body("content")
     .optional({
-      checkFalsy: isOptional,
+      checkFalsy: false,
       nullable: isOptional
     })
     .trim()
@@ -32,7 +32,7 @@ const validateQuestionContent = async (req, isOptional = false) => {
 const validateQuestionIsMultiChoice = async (req, isOptional = false) => {
   await body("isMultiChoice")
     .optional({
-      checkFalsy: isOptional,
+      checkFalsy: false,
       nullable: isOptional
     })
     .trim()
@@ -46,7 +46,7 @@ const validateQuestionIsMultiChoice = async (req, isOptional = false) => {
 const validateQuestionScore = async (req, isOptional = false) => {
   await body("score")
     .optional({
-      checkFalsy: isOptional,
+      checkFalsy: false,
       nullable: isOptional
     })
     .notEmpty()
@@ -59,7 +59,7 @@ const validateQuestionScore = async (req, isOptional = false) => {
 const validateQuestionAnswers = async (req, isOptional = false) => {
   await body("answers")
     .optional({
-      checkFalsy: isOptional,
+      checkFalsy: false,
       nullable: isOptional
     })
     .notEmpty()
