@@ -58,7 +58,7 @@ export const checkUserSignIn = async (user) => {
     if (isCorrectPassword) {
       const payload = { _id: data._id, role: data.role };
       const token = await generateAccessToken(payload);
-      return { _id: data._id, token: token };
+      return { _id: data._id, role: data.role, token: token };
     }
   }
 
