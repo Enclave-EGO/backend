@@ -4,7 +4,7 @@ import { body } from "express-validator";
 const validateTestTimeLimit = async (req, isOptional = false) => {
   await body("timeLimit")
     .optional({
-      checkFalsy: isOptional,
+      checkFalsy: false,
       nullable: isOptional
     })
     .notEmpty()
