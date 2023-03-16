@@ -41,7 +41,7 @@ export const getTestDetail = async (testId) => {
         _id: true,
         timeLimit: true,
         score: true,
-        created: true,
+        createdAt: true,
         description: true
       }
     ).lean(),
