@@ -37,7 +37,13 @@ export const getTestDetail = async (testId) => {
   const [test, questions] = await Promise.all([
     TestModel.findOne(
       { _id: new ObjectId(testId) },
-      { _id: true, timeLimit: true, score: true, created: true }
+      {
+        _id: true,
+        timeLimit: true,
+        score: true,
+        created: true,
+        description: true
+      }
     ).lean(),
     QuestionModel.find({ testId: new ObjectId(testId) }, { _id: true })
   ]);
