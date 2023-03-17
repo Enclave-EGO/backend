@@ -6,6 +6,13 @@ import { Role } from "../utils/index.js";
 
 const router = express.Router();
 
+router.get(
+  "/",
+  jwtGuard,
+  Roles(Role.TEACHER, Role.LEARNER),
+  TestResultController.getTestResult
+);
+
 router.post(
   "/",
   jwtGuard,

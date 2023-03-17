@@ -1,7 +1,7 @@
 /registers:
   post:
     tags:
-      - Register courses
+      - Register Courses
     summary: Register course
     description: Register course
     requestBody:
@@ -24,7 +24,7 @@
 
   delete:
     tags:
-      - Register courses
+      - Register Courses
     summary: Delete many registers
     description: Delete many registers
     requestBody:
@@ -46,7 +46,7 @@
 registers/{registerId}:
   delete:
     tags:
-      - Register courses
+      - Register Courses
     summary: Delete register by Id
     description: Delete register by Id
     parameters:
