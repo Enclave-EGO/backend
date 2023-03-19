@@ -28,4 +28,18 @@ router.delete(
   RegisterController.deleteRegisters
 );
 
+router.get(
+  "/my-registers",
+  jwtGuard,
+  Roles(Role.LEARNER),
+  RegisterController.getRegisteredCoursesByUser
+);
+
+router.get(
+  "/my-not-registers",
+  jwtGuard,
+  Roles(Role.LEARNER),
+  RegisterController.getNotRegisteredCoursesByUser
+);
+
 export default router;

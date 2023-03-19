@@ -65,7 +65,7 @@
       "400":
         description: Bad Request
 
-registers/{registerId}:
+/registers/{registerId}:
   delete:
     tags:
       - Register Courses
@@ -76,6 +76,40 @@ registers/{registerId}:
         name: registerId
         description: ID of the register
         required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+
+/registers/my-registers:
+  get:
+    tags:
+      - Register Courses
+    summary: Get registered courses by user
+    description: Get registered courses by user
+    parameters:
+      - in: query
+        name: userId
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
+
+/registers/my-not-registers:
+  get:
+    tags:
+      - Register Courses
+    summary: Get not registered courses by user
+    description: Get not registered courses by user
+    parameters:
+      - in: query
+        name: userId
         schema:
           type: string
     responses:
