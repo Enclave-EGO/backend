@@ -4,7 +4,9 @@ import {
   deleteManyRegisters,
   registerCourse,
   deleteRegisterById,
-  getRegisterByUserAndCourse
+  getRegisterByUserAndCourse,
+  getRegisteredCoursesByUser,
+  getNotRegisteredCoursesByUser
 } from "../services/crudDatabase/register.js";
 import { checkExistedCourseId } from "../services/crudDatabase/course.js";
 import catchAsync from "../utils/catchAsync.js";
@@ -77,6 +79,28 @@ const RegisterController = {
       status: "Success",
       error: null,
       data: register
+    });
+  }),
+
+  getRegisteredCoursesByUser: catchAsync(async (req, res, next) => {
+    const userId = req.query.userId;
+    const courses = await getRegisteredCoursesByUser(userId);
+
+    return res.json({
+      status: "Success",
+      error: null,
+      data: courses
+    });
+  }),
+
+  getNotRegisteredCoursesByUser: catchAsync(async (req, res, next) => {
+    const userId = req.query.userId;
+    const courses = await getNotRegisteredCoursesByUser(userId);
+
+    return res.json({
+      status: "Success",
+      error: null,
+      data: courses
     });
   })
 };
