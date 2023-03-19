@@ -129,7 +129,7 @@ export const getQuestionsByTests = async (testIds) => {
 export const getQuestionDetail = async (questionId) => {
   const question = await QuestionModel.findOne(
     { _id: new ObjectId(questionId) },
-    { _id: true, content: true, isMultiChoice: true }
+    { _id: true, content: true, isMultiChoice: true, score: true }
   ).lean();
 
   const answers = await AnswerModel.find(

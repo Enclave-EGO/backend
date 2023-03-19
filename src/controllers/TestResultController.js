@@ -1,6 +1,7 @@
 import {
   checkDidTest,
-  createTestResult
+  createTestResult,
+  getTestResult
 } from "../services/crudDatabase/testResult.js";
 import { checkExistedTest } from "../services/crudDatabase/test.js";
 import { checkExistedUserId } from "../services/crudDatabase/user.js";
@@ -8,6 +9,17 @@ import catchAsync from "../utils/catchAsync.js";
 import AppError from "../utils/appError.js";
 
 const TestResultController = {
+  getTestResult: catchAsync(async (req, res) => {
+    const { userId, testId } = req.query;
+    const testResult = await getTestResult(userId, testId);
+
+    return res.json({
+      status: "Success",
+      error: null,
+      data: testResult
+    });
+  }),
+
   submitTest: catchAsync(async (req, res, next) => {
     const { userId, testId, results } = req.body;
 
