@@ -2,21 +2,19 @@ import {
   checkExistedEmail,
   checkExistedUsername,
   createNewUser,
-  checkUserSignIn
+  checkUserSignIn,
+  checkValidToken
 } from "../services/crudDatabase/user.js";
 import { generateAccessToken } from "../services/authentication/index.js";
 import { validateUser, validateSignIn } from "../validators/userValidator.js";
+import catchAsync from "../utils/catchAsync.js";
+import AppError from "../utils/appError.js";
 
 const UserController = {
-  createUser: async (req, res) => {
-    const { status, error } = await validateUser(req, res);
+  createUser: catchAsync(async (req, res, next) => {
+    const { status, error } = await validateUser(req);
 
-    if (status === "Fail")
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
+    if (status === "Fail") return next(new AppError(error, 400));
 
     const { password, username, name, email, role } = req.body;
     const [isExistedUsername, isExistedEmail] = await Promise.all([
@@ -25,73 +23,56 @@ const UserController = {
     ]);
 
     const isExistedUser = isExistedEmail || isExistedUsername;
-    if (isExistedUser) {
-      return res.status(404).json({
-        status: "Fail",
-        error: "Username or Email existed",
-        data: null
-      });
-    }
+    if (isExistedUser)
+      return next(new AppError("Username or Email is existed", 400));
 
-    try {
-      const newUser = {
-        password,
-        username,
-        name,
-        email,
-        role
-      };
+    const newUser = {
+      password,
+      username,
+      name,
+      email,
+      role
+    };
 
-      const output = await createNewUser(newUser);
+    const output = await createNewUser(newUser);
 
-      const payload = { _id: output._id, role: role };
-      const token = await generateAccessToken(payload);
+    const payload = { _id: output._id, role: role };
+    const token = await generateAccessToken(payload);
 
-      return res
-        .status(200)
-        .json({ status: "Success", error: null, data: { ...output, token } });
-    } catch (error) {
-      return res.status(500).json({ status: "Fail", error: error, data: null });
-    }
-  },
+    return res.json({
+      status: "Success",
+      error: null,
+      data: { ...output, token }
+    });
+  }),
 
-  signIn: async (req, res) => {
-    const { status, error } = await validateSignIn(req, res);
+  signIn: catchAsync(async (req, res, next) => {
+    const { status, error } = await validateSignIn(req);
 
-    if (status === "Fail")
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
+    if (status === "Fail") return next(new AppError(error, 400));
 
     const { password, username } = req.body;
 
-    try {
-      const user = { username, password };
-      const output = await checkUserSignIn(user);
+    const user = { username, password };
+    const output = await checkUserSignIn(user);
 
-      if (output) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: output
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  }
+    return res.json({
+      status: "Success",
+      error: null,
+      data: output
+    });
+  }),
+
+  checkValidToken: catchAsync(async (req, res, next) => {
+    const token = req.body.token;
+    const isValidToken = await checkValidToken(token);
+
+    return res.json({
+      status: "Success",
+      error: null,
+      data: isValidToken
+    });
+  })
 };
 
 export default UserController;

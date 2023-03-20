@@ -10,12 +10,7 @@ router.post("/", jwtGuard, Roles(Role.TEACHER), CourseController.createCourse);
 
 router.get("/", CourseController.getCourses);
 
-router.get(
-  "/:courseId",
-  jwtGuard,
-  Roles(Role.TEACHER),
-  CourseController.getCourseById
-);
+router.get("/:courseId", CourseController.getCourseById);
 
 router.patch(
   "/:courseId",

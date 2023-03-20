@@ -72,3 +72,18 @@ export const checkDidTest = async ({ userId, testId }) => {
   }).lean();
   return Boolean(isExisted);
 };
+
+export const getTestResult = async (userId, testId) => {
+  const test = await TestModel.findOne({ _id: new ObjectId(testId) });
+
+  const testResult = await TestResultModel.findOne({
+    userId: new ObjectId(userId),
+    testId: new ObjectId(testId)
+  }).lean();
+
+  return {
+    ...testResult,
+    testScore: test.score,
+    testDescription: test.description
+  };
+};

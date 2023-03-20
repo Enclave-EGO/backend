@@ -14,212 +14,100 @@ import {
   validateLesson,
   validateUpdateLesson
 } from "../validators/lessonValidator.js";
+import catchAsync from "../utils/catchAsync.js";
+import AppError from "../utils/appError.js";
 
 const LessonController = {
-  createLesson: async (req, res) => {
-    const { status, error } = await validateLesson(req, res);
+  createLesson: catchAsync(async (req, res, next) => {
+    const { status, error } = await validateLesson(req);
     const { name, description, videoId, courseId } = req.body;
 
-    if (status === "Fail")
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
+    if (status === "Fail") return next(new AppError(error, 400));
 
     const isExistedCourseId = await checkExistedCourseId(courseId);
-    if (isExistedCourseId === false) {
-      return res.status(404).json({
-        status: "Fail",
-        error: "Course Id is not existed",
-        data: null
-      });
-    }
+    if (isExistedCourseId === false)
+      return next(new AppError("Course Id is not existed", 404));
 
     const isInvalidLesson = await checkExistedLesson(name, videoId, courseId);
-    if (isInvalidLesson) {
-      return res.status(400).json({
-        status: "Fail",
-        error: "Invalid Lesson",
-        data: null
-      });
-    }
+    if (isInvalidLesson) return next(new AppError("Invalid Lesson", 400));
 
-    try {
-      const newLesson = { name, description, videoId, courseId };
-      const saveLesson = await createNewLesson(newLesson);
+    const newLesson = { name, description, videoId, courseId };
+    const saveLesson = await createNewLesson(newLesson);
 
-      return res
-        .status(200)
-        .json({ status: "Success", error: null, data: saveLesson });
-    } catch (error) {
-      return res.status(500).json({ status: "Fail", error: error, data: null });
-    }
-  },
+    return res.json({ status: "Success", error: null, data: saveLesson });
+  }),
 
   // [GET] View list lessons (by courseID)
-  getLessons: async (req, res) => {
-    try {
-      const courseId = req.query.courseId;
-      const lessons = await findListLessons(courseId);
+  getLessons: catchAsync(async (req, res) => {
+    const courseId = req.query.courseId;
+    const lessons = await findListLessons(courseId);
 
-      if (lessons) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: lessons
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
+    return res.json({
+      status: "Success",
+      error: null,
+      data: lessons
+    });
+  }),
 
-  getLesson: async (req, res) => {
-    try {
-      const lesson = await findLessonById(req.params.id);
+  getLesson: catchAsync(async (req, res) => {
+    const lesson = await findLessonById(req.params.id);
 
-      if (lesson) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: lesson
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
+    return res.json({
+      status: "Success",
+      error: null,
+      data: lesson
+    });
+  }),
 
-  updateLesson: async (req, res) => {
-    try {
-      const lessonId = req.params.id;
-      const name = req.body.name;
+  updateLesson: catchAsync(async (req, res, next) => {
+    const lessonId = req.params.id;
+    const name = req.body.name;
 
-      const { status, error } = await validateUpdateLesson(req);
-      if (status === "Fail")
-        return res.status(400).json({
-          status: "Fail",
-          error: error,
-          data: null
-        });
+    const { status, error } = await validateUpdateLesson(req);
+    if (status === "Fail") return next(new AppError(error, 400));
 
-      const [isExistedLessonId, isExistedOtherLessonName] = await Promise.all([
-        checkExistedLessonId(lessonId),
-        checkExistedOtherLessonName(lessonId, name)
-      ]);
-      if (isExistedLessonId === false) {
-        return res.status(404).json({
-          status: "Fail",
-          error: "Lesson ID is not existed",
-          data: null
-        });
-      }
-      if (isExistedOtherLessonName) {
-        return res.status(400).json({
-          status: "Fail",
-          error: "Lesson name is existed",
-          data: null
-        });
-      }
+    const [isExistedLessonId, isExistedOtherLessonName] = await Promise.all([
+      checkExistedLessonId(lessonId),
+      checkExistedOtherLessonName(lessonId, name)
+    ]);
 
-      const lesson = await updateExistedLesson(lessonId, req.body);
-      if (lesson) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: lesson
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
+    if (isExistedLessonId === false)
+      return next(new AppError("Lesson ID is not existed", 404));
 
-  deleteLesson: async (req, res) => {
-    try {
-      const lessonId = req.params.id;
-      const lesson = await deleteLessonById(lessonId);
+    if (isExistedOtherLessonName)
+      return next(new AppError("Lesson name is existed", 400));
 
-      if (lesson) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: lesson
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
+    const lesson = await updateExistedLesson(lessonId, req.body);
 
-  deleteLessons: async (req, res) => {
-    try {
-      const lessonIds = req.body.lessonIds;
-      const deleteInfo = await deleteManyLessons(lessonIds);
-      const deletedCount = deleteInfo.deletedCount;
+    return res.json({
+      status: "Success",
+      error: null,
+      data: lesson
+    });
+  }),
 
-      if (deletedCount > 0) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: deletedCount
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: deletedCount
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  }
+  deleteLesson: catchAsync(async (req, res) => {
+    const lessonId = req.params.id;
+    const lesson = await deleteLessonById(lessonId);
+
+    return res.json({
+      status: "Success",
+      error: null,
+      data: lesson
+    });
+  }),
+
+  deleteLessons: catchAsync(async (req, res) => {
+    const lessonIds = req.body.lessonIds;
+    const deleteInfo = await deleteManyLessons(lessonIds);
+    const deletedCount = deleteInfo.deletedCount;
+
+    return res.json({
+      status: "Success",
+      error: null,
+      data: deletedCount
+    });
+  })
 };
 
 export default LessonController;

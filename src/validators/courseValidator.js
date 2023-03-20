@@ -4,7 +4,7 @@ import { body } from "express-validator";
 const validateCourseName = async (req, isOptional = false) => {
   await body("name")
     .optional({
-      checkFalsy: isOptional,
+      checkFalsy: false,
       nullable: isOptional
     })
     .trim()
@@ -18,7 +18,7 @@ const validateCourseName = async (req, isOptional = false) => {
 const validateCourseCost = async (req, isOptional = false) => {
   await body("cost")
     .optional({
-      checkFalsy: isOptional,
+      checkFalsy: false,
       nullable: isOptional
     })
     .notEmpty()
@@ -31,7 +31,7 @@ const validateCourseCost = async (req, isOptional = false) => {
 const validateCourseDescription = async (req, isOptional = false) => {
   await body("description")
     .optional({
-      checkFalsy: isOptional,
+      checkFalsy: false,
       nullable: isOptional
     })
     .trim()
@@ -45,7 +45,7 @@ const validateCourseDescription = async (req, isOptional = false) => {
 const validateCourseThumbnail = async (req, isOptional = false) => {
   await body("thumbnail")
     .optional({
-      checkFalsy: isOptional,
+      checkFalsy: false,
       nullable: isOptional
     })
     .trim()

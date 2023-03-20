@@ -2,7 +2,9 @@ name: Deploy to AWS EC2
 
 on:
   push:
-    branches: ["AUTO-BUILD-v2"]
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
   deploy:
@@ -24,15 +26,6 @@ jobs:
           source: ./
           target: ~/home/ubuntu/backend/
 
-      - name: Create .env file
-        uses: ozaytsev86/create-env-file@v1
-        with:
-          directory: ~/home/ubuntu/backend/
-          envkey_PORT: ${{ secrets.PORT }}
-          envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
-          envkey_EXPIRES_IN: ${{ secrets.EXPIRES_IN }}
-          envkey_JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-
       - name: Connect to EC2 instance and deploy application
         uses: appleboy/ssh-action@master
         with:
@@ -42,9 +35,12 @@ jobs:
           script: |
             cd ~/home/ubuntu/backend
             sudo npm install
+            rm .env
+            echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
             echo "PORT=${{ secrets.PORT }}" >> .env
             echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> .env
-            echo "EXPIRES_IN=${{ secrets.EXPIRES_IN }}" >> .env
+            echo "EXPIRES_IN =${{ secrets.EXPIRES_IN  }}" >> .env
             echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> .env
             pm2 stop backend
+            pm2 delete backend
             pm2 start npm --name "backend" -- start

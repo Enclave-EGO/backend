@@ -1,65 +1,51 @@
 import {
   checkDidTest,
-  createTestResult
+  createTestResult,
+  getTestResult
 } from "../services/crudDatabase/testResult.js";
 import { checkExistedTest } from "../services/crudDatabase/test.js";
 import { checkExistedUserId } from "../services/crudDatabase/user.js";
+import catchAsync from "../utils/catchAsync.js";
+import AppError from "../utils/appError.js";
 
 const TestResultController = {
-  submitTest: async (req, res) => {
-    try {
-      const { userId, testId, results } = req.body;
+  getTestResult: catchAsync(async (req, res) => {
+    const { userId, testId } = req.query;
+    const testResult = await getTestResult(userId, testId);
 
-      const [isExistedUserId, isExistedTestId, isDidTest] = await Promise.all([
-        checkExistedUserId(userId),
-        checkExistedTest(testId),
-        checkDidTest({ userId, testId })
-      ]);
+    return res.json({
+      status: "Success",
+      error: null,
+      data: testResult
+    });
+  }),
 
-      if (isExistedUserId === false) {
-        return res.status(404).json({
-          message: "Fail",
-          error: "User Id is not existed",
-          data: null
-        });
-      }
-      if (isExistedTestId === false) {
-        return res.status(404).json({
-          message: "Fail",
-          error: "Test Id is not existed",
-          data: null
-        });
-      }
-      if (isDidTest) {
-        return res.status(400).json({
-          message: "Fail",
-          error: "You have taken this test before.",
-          data: null
-        });
-      }
+  submitTest: catchAsync(async (req, res, next) => {
+    const { userId, testId, results } = req.body;
 
-      const testResult = await createTestResult({ userId, testId, results });
-      if (testResult) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: testResult
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (result) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  }
+    const [isExistedUserId, isExistedTestId, isDidTest] = await Promise.all([
+      checkExistedUserId(userId),
+      checkExistedTest(testId),
+      checkDidTest({ userId, testId })
+    ]);
+
+    if (isExistedUserId === false)
+      return next(new AppError("User Id is not existed", 404));
+
+    if (isExistedTestId === false)
+      return next(new AppError("Test Id is not existed", 404));
+
+    if (isDidTest)
+      return next(new AppError("You have taken this test before", 400));
+
+    const testResult = await createTestResult({ userId, testId, results });
+
+    return res.json({
+      status: "Success",
+      error: null,
+      data: testResult
+    });
+  })
 };
 
 export default TestResultController;

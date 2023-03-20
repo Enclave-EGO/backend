@@ -4,7 +4,7 @@ import { body } from "express-validator";
 const validateLessonName = async (req, isOptional = false) => {
   await body("name")
     .optional({
-      checkFalsy: isOptional,
+      checkFalsy: false,
       nullable: isOptional
     })
     .trim()
@@ -20,7 +20,7 @@ const validateLessonName = async (req, isOptional = false) => {
 const validateVideoId = async (req, isOptional = false) => {
   await body("videoId")
     .optional({
-      checkFalsy: isOptional,
+      checkFalsy: false,
       nullable: isOptional
     })
     .trim()

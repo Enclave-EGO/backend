@@ -11,209 +11,92 @@ import {
   validateTest,
   validateUpdateTestOptional
 } from "../validators/testValidator.js";
+import catchAsync from "../utils/catchAsync.js";
+import AppError from "../utils/appError.js";
 
 const TestController = {
-  createTest: async (req, res) => {
-    try {
-      const { status, error } = await validateTest(req, res);
-      const lessonId = req.body.lessonId;
+  createTest: catchAsync(async (req, res, next) => {
+    const { status, error } = await validateTest(req);
+    const lessonId = req.body.lessonId;
 
-      if (status === "Fail") {
-        return res.status(400).json({
-          status: "Fail",
-          error: error,
-          data: null
-        });
-      }
+    if (status === "Fail") return next(new AppError(error, 400));
 
-      const isExistedLessonId = await checkExistedLessonId(lessonId);
-      if (isExistedLessonId === false) {
-        return res.status(404).json({
-          status: "Fail",
-          error: "Lesson Id is not existed",
-          data: null
-        });
-      }
+    const isExistedLessonId = await checkExistedLessonId(lessonId);
+    if (isExistedLessonId === false)
+      return next(new AppError("Lesson Id is not existed", 404));
 
-      const test = await createNewTest(req.body);
-      if (test) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: test
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
+    const test = await createNewTest(req.body);
 
-  getTestsByLesson: async (req, res) => {
+    return res.json({
+      status: "Success",
+      error: null,
+      data: test
+    });
+  }),
+
+  getTestsByLesson: catchAsync(async (req, res) => {
     const lessonId = req.query.lessonId;
+    const listTests = await getTestsByLesson(lessonId);
 
-    try {
-      const listTests = await getTestsByLesson(lessonId);
+    return res.json({
+      status: "Success",
+      error: null,
+      data: listTests
+    });
+  }),
 
-      if (listTests) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: listTests
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
-
-  getTestById: async (req, res) => {
+  getTestById: catchAsync(async (req, res) => {
     const testId = req.params.testId;
+    const testDetail = await getTestDetail(testId);
 
-    try {
-      const testDetail = await getTestDetail(testId);
+    return res.json({
+      status: "Success",
+      error: null,
+      data: testDetail
+    });
+  }),
 
-      if (testDetail) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: testDetail
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
+  updateTest: catchAsync(async (req, res, next) => {
+    const testId = req.params.id;
 
-  updateTest: async (req, res) => {
-    try {
-      const testId = req.params.id;
+    const { status, error } = await validateUpdateTestOptional(req);
+    if (status === "Fail") return next(new AppError(error, 400));
 
-      const { status, error } = await validateUpdateTestOptional(req);
-      if (status === "Fail") {
-        return res.status(400).json({
-          status: "Fail",
-          error: error,
-          data: null
-        });
-      }
+    const isExistedTestId = await checkExistedTest(testId);
+    if (isExistedTestId === false)
+      return next(new AppError("Test Id is not existed", 404));
 
-      const isExistedTestId = await checkExistedTest(testId);
-      if (isExistedTestId === false) {
-        return res.status(404).json({
-          status: "Fail",
-          error: "Test Id is not existed",
-          data: null
-        });
-      }
+    const test = await updateExistedTest(testId, req.body);
 
-      const test = await updateExistedTest(testId, req.body);
-      if (test) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: test
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
-  deleteTest: async (req, res) => {
+    return res.json({
+      status: "Success",
+      error: null,
+      data: test
+    });
+  }),
+
+  deleteTest: catchAsync(async (req, res) => {
     const testId = req.params.testId;
+    const deleteTestArray = [testId];
+    const deleteInfo = await handleDeleteTests(deleteTestArray);
 
-    try {
-      const deleteTestArray = [testId];
-      const deleteInfo = await handleDeleteTests(deleteTestArray);
+    return res.json({
+      status: "Success",
+      error: null,
+      data: deleteInfo
+    });
+  }),
 
-      if (deleteInfo) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: deleteInfo
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  },
-
-  deleteManyTests: async (req, res) => {
+  deleteManyTests: catchAsync(async (req, res) => {
     const testIds = req.body.testIds;
+    const deleteInfo = await handleDeleteTests(testIds);
 
-    try {
-      const deleteInfo = await handleDeleteTests(testIds);
-
-      if (deleteInfo) {
-        return res.status(200).json({
-          status: "Success",
-          error: null,
-          data: deleteInfo
-        });
-      } else {
-        return res.status(400).json({
-          status: "Fail",
-          error: null,
-          data: null
-        });
-      }
-    } catch (error) {
-      return res.status(400).json({
-        status: "Fail",
-        error: error,
-        data: null
-      });
-    }
-  }
+    return res.json({
+      status: "Success",
+      error: null,
+      data: deleteInfo
+    });
+  })
 };
 
 export default TestController;

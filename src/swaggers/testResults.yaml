@@ -1,7 +1,26 @@
 /test-results:
+  get:
+    tags:
+      - Test Results
+    summary: Get test result
+    description: Get test result
+    parameters:
+      - in: query
+        name: testId
+        schema:
+          type: string
+      - in: query
+        name: userId
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Bad Request
   post:
     tags:
-      - Test results
+      - Test Results
     summary: Submit a test
     description: Submit a test
     requestBody:
