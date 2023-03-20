@@ -3,7 +3,8 @@ import UserModel from "../../models/UserModel.js";
 import {
   generateAccessToken,
   hashPassword,
-  comparePassword
+  comparePassword,
+  decodeToken
 } from "../authentication/index.js";
 
 export const checkExistedUserId = async (userId) => {
@@ -63,4 +64,13 @@ export const checkUserSignIn = async (user) => {
   }
 
   return null;
+};
+
+export const checkValidToken = async (token) => {
+  const decodeTokenValue = await decodeToken(token);
+  const tokenExpireTime = decodeTokenValue.exp;
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+
+  if (tokenExpireTime <= currentTimestamp) return false;
+  else return true;
 };

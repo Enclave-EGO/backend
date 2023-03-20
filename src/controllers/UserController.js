@@ -2,7 +2,8 @@ import {
   checkExistedEmail,
   checkExistedUsername,
   createNewUser,
-  checkUserSignIn
+  checkUserSignIn,
+  checkValidToken
 } from "../services/crudDatabase/user.js";
 import { generateAccessToken } from "../services/authentication/index.js";
 import { validateUser, validateSignIn } from "../validators/userValidator.js";
@@ -59,6 +60,18 @@ const UserController = {
       status: "Success",
       error: null,
       data: output
+    });
+  }),
+
+  checkValidToken: catchAsync(async (req, res, next) => {
+    const token = req.body.token;
+    console.log("token", token);
+    const isValidToken = await checkValidToken(token);
+
+    return res.json({
+      status: "Success",
+      error: null,
+      data: isValidToken
     });
   })
 };
