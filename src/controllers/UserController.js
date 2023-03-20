@@ -65,7 +65,6 @@ const UserController = {
 
   checkValidToken: catchAsync(async (req, res, next) => {
     const token = req.body.token;
-    console.log("token", token);
     const isValidToken = await checkValidToken(token);
 
     return res.json({
