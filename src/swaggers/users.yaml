@@ -56,3 +56,24 @@
         description: Success
       "400":
         description: Bad Request
+
+/users/check-valid-token:
+  post:
+    tags:
+      - Users
+    summary: Check valid token
+    description: Check valid token
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+                example: "***"
+    responses:
+      "200":
+        description: Success
+      "400":
+        description: Fail

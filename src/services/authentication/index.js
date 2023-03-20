@@ -16,3 +16,7 @@ export const hashPassword = async (password, salt = 10) => {
 export const comparePassword = async (password, passwordHash) => {
   return compareSync(password, passwordHash);
 };
+
+export const decodeToken = (token) => {
+  return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
+};
