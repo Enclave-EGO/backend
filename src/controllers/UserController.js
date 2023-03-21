@@ -48,19 +48,25 @@ const UserController = {
 
   signIn: catchAsync(async (req, res, next) => {
     const { status, error } = await validateSignIn(req);
-
     if (status === "Fail") return next(new AppError(error, 400));
 
     const { password, username } = req.body;
 
     const user = { username, password };
     const output = await checkUserSignIn(user);
-
-    return res.json({
-      status: "Success",
-      error: null,
-      data: output
-    });
+    if (output === null) {
+      return res.json({
+        status: "Fail",
+        error: "Wrong Password",
+        data: output
+      });
+    } else {
+      return res.json({
+        status: "Success",
+        error: null,
+        data: output
+      });
+    }
   }),
 
   checkValidToken: catchAsync(async (req, res, next) => {
