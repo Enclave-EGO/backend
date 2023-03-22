@@ -57,7 +57,7 @@ const UserController = {
     if (output === null) {
       return res.json({
         status: "Fail",
-        error: "Wrong Password",
+        error: "Wrong Username Or Password",
         data: output
       });
     } else {
