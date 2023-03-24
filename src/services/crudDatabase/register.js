@@ -1,9 +1,10 @@
 import RegisterModel from "../../models/RegisterModel.js";
+import CourseModel from "../../models/CourseModel.js";
 import { ObjectId } from "../../constants/index.js";
 
 export const checkRegisteredCourse = async (registerForm) => {
   const { userId, courseId } = registerForm;
-  
+
   const isRegisteredCourse = await RegisterModel.findOne({
     userId: new ObjectId(userId),
     courseId: new ObjectId(courseId)
@@ -42,4 +43,41 @@ export const deleteManyRegisters = async (registerIds) => {
   }).lean();
 
   return output;
+};
+
+export const getRegisterByUserAndCourse = async ({ userId, courseId }) => {
+  const register = await RegisterModel.findOne({
+    userId: new ObjectId(userId),
+    courseId: new ObjectId(courseId)
+  });
+
+  return register;
+};
+
+export const getRegisteredCoursesByUser = async (userId) => {
+  const registeredCourses = await RegisterModel.find({
+    userId: new ObjectId(userId)
+  });
+
+  // get all registered courses
+  const coursesId = registeredCourses.map((course) => course.courseId);
+  const courses = await CourseModel.find({
+    _id: { $in: coursesId }
+  });
+
+  return courses;
+};
+
+export const getNotRegisteredCoursesByUser = async (userId) => {
+  const registeredCourses = await RegisterModel.find({
+    userId: new ObjectId(userId)
+  });
+
+  // get all registered courses
+  const coursesId = registeredCourses.map((course) => course.courseId);
+  const courses = await CourseModel.find({
+    _id: { $nin: coursesId }
+  });
+
+  return courses;
 };

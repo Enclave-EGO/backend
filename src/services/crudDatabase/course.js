@@ -16,7 +16,7 @@ export const checkExistedOtherCourseName = async (courseId, courseName) => {
   }).lean();
 
   // If above course is exist and it has _id other than above courseId
-  if (course && course._id !== new ObjectId(courseId)) return true;
+  if (course && course._id.toString() !== courseId) return true;
   else return false;
 };
 

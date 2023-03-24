@@ -6,6 +6,8 @@ import { Role } from "../utils/index.js";
 
 const router = express.Router();
 
+router.get("/", jwtGuard, Roles(Role.LEARNER), RegisterController.getRegister);
+
 router.post(
   "/",
   jwtGuard,
@@ -24,6 +26,20 @@ router.delete(
   "/",
   Roles(Role.TEACHER, Role.LEARNER),
   RegisterController.deleteRegisters
+);
+
+router.get(
+  "/my-registers",
+  jwtGuard,
+  Roles(Role.LEARNER),
+  RegisterController.getRegisteredCoursesByUser
+);
+
+router.get(
+  "/my-not-registers",
+  jwtGuard,
+  Roles(Role.LEARNER),
+  RegisterController.getNotRegisteredCoursesByUser
 );
 
 export default router;

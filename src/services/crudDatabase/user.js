@@ -3,7 +3,8 @@ import UserModel from "../../models/UserModel.js";
 import {
   generateAccessToken,
   hashPassword,
-  comparePassword
+  comparePassword,
+  decodeToken
 } from "../authentication/index.js";
 
 export const checkExistedUserId = async (userId) => {
@@ -58,9 +59,18 @@ export const checkUserSignIn = async (user) => {
     if (isCorrectPassword) {
       const payload = { _id: data._id, role: data.role };
       const token = await generateAccessToken(payload);
-      return { _id: data._id, token: token };
+      return { _id: data._id, role: data.role, token: token };
     }
   }
 
   return null;
+};
+
+export const checkValidToken = async (token) => {
+  const decodeTokenValue = await decodeToken(token);
+  const tokenExpireTime = decodeTokenValue.exp;
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+
+  if (tokenExpireTime <= currentTimestamp) return false;
+  else return true;
 };

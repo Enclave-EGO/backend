@@ -2,7 +2,8 @@ import {
   checkExistedEmail,
   checkExistedUsername,
   createNewUser,
-  checkUserSignIn
+  checkUserSignIn,
+  checkValidToken
 } from "../services/crudDatabase/user.js";
 import { generateAccessToken } from "../services/authentication/index.js";
 import { validateUser, validateSignIn } from "../validators/userValidator.js";
@@ -47,18 +48,35 @@ const UserController = {
 
   signIn: catchAsync(async (req, res, next) => {
     const { status, error } = await validateSignIn(req);
-
     if (status === "Fail") return next(new AppError(error, 400));
 
     const { password, username } = req.body;
 
     const user = { username, password };
     const output = await checkUserSignIn(user);
+    if (output === null) {
+      return res.json({
+        status: "Fail",
+        error: "Wrong Username Or Password",
+        data: output
+      });
+    } else {
+      return res.json({
+        status: "Success",
+        error: null,
+        data: output
+      });
+    }
+  }),
+
+  checkValidToken: catchAsync(async (req, res, next) => {
+    const token = req.body.token;
+    const isValidToken = await checkValidToken(token);
 
     return res.json({
       status: "Success",
       error: null,
-      data: output
+      data: isValidToken
     });
   })
 };
