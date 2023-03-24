@@ -4,9 +4,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: backend-dev-1
+    container_name: ego-backend
     # command: npm start
     # volumes:
     #   - .:/app-folder
     ports:
-      - "8081:4001"
+      - "8001:4001"
