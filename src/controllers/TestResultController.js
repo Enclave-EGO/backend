@@ -3,7 +3,7 @@ import {
   createTestResult,
   getTestResult
 } from "../services/crudDatabase/testResult.js";
-import { checkExistedTest } from "../services/crudDatabase/test.js";
+import { checkExistedTest } from "../services/crudDatabase/testResult.js";
 import { checkExistedUserId } from "../services/crudDatabase/user.js";
 import catchAsync from "../utils/catchAsync.js";
 import AppError from "../utils/appError.js";

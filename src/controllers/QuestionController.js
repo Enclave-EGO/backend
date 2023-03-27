@@ -6,7 +6,7 @@ import {
   handleDeleteManyQuestions,
   getQuestionDetail
 } from "../services/crudDatabase/question.js";
-import { checkExistedTest } from "../services/crudDatabase/test.js";
+import { checkExistedTest } from "../services/crudDatabase/testResult.js";
 import {
   validateCreateQuestion,
   validateUpdateQuestion

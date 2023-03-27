@@ -5,7 +5,7 @@ import {
   checkExistedTest,
   updateExistedTest,
   handleDeleteTests
-} from "../services/crudDatabase/test.js";
+} from "../services/crudDatabase/testResult.js";
 import { checkExistedLessonId } from "../services/crudDatabase/lesson.js";
 import {
   validateTest,
