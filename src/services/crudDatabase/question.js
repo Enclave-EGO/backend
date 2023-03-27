@@ -4,7 +4,7 @@ import { ObjectId } from "../../constants/index.js";
 import {
   updateTestScoreWhenCreateQuestion,
   updateTestScoreWhenUpdateQuestion
-} from "./doTest.js";
+} from "./test.js";
 import {
   handleCreateNewAnswers,
   handleUpdateAnswers,
