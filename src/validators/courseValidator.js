@@ -1,8 +1,8 @@
 import { returnValidationResult } from "./index.js";
 import { body } from "express-validator";
 
-const validateCourseName = async (req, isOptional = false) => {
-  await body("name")
+export const validateCourseName = async (req, isOptional = false) => {
+  return await body("name")
     .optional({
       checkFalsy: false,
       nullable: isOptional
