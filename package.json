@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "EGO Project - Backend",
   "main": "src/index.js",
-  "type": "module",
   "scripts": {
-    "start": "nodemon src/index.js",
-    "update-deps": "npx npm-check-updates -u && npm install",
+    "dev": "npx nodemon",
+    "build": "rimraf ./dist && tsc",
+    "start": "node dist/index.js",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "update-deps": "npx npm-check-updates -u && npm install"
   },
   "keywords": [
     "EGO-project",
@@ -26,16 +29,23 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.0",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.20",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.2"
   },
   "devDependencies": {
-    "eslint": "^8.35.0",
-    "eslint-config-prettier": "^8.6.0",
+    "@types/node": "^18.15.11",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "eslint": "^8.37.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.4"
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.7",
+    "rimraf": "^4.4.1",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.0.2"
   }
 }
