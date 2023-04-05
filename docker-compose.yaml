@@ -1,0 +1,12 @@
+version: "3"
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ego-backend
+    command: npm start
+    volumes:
+      - .:/app-folder
+    ports:
+      - "4001:4001"
