@@ -1,13 +1,13 @@
-import express from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import swaggerUI from "swagger-ui-express";
 import cookieParse from "cookie-parser";
-import routing from "./routes/index.js";
-import connectDatabase from "./configs/connectDatabase/index.js";
-import { swaggerSpecs } from "./configs/swagger/index.js";
-import { PORT, HOST_URL, SWAGGER_URL } from "./constants/index.js";
-const app = express();
+import routing from "./routes/index";
+import connectDatabase from "./configs/connectDatabase/index";
+import { swaggerSpecs } from "./configs/swagger/index";
+import { PORT, HOST_URL, SWAGGER_URL } from "./constants/index";
+const app: Express = express();
 
 // Config Swagger
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
