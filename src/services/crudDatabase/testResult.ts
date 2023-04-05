@@ -16,18 +16,12 @@ export const getAnswersOfQuestion = async (questionId) => {
 };
 
 export const getScoreQuestion = async (questionId, answers) => {
-  const questionDetail = await QuestionModel.findOne(
-    { _id: new ObjectId(questionId) },
-    { score: true }
-  ).lean();
+  const questionDetail = await QuestionModel.findOne({ _id: new ObjectId(questionId) }, { score: true }).lean();
 
   const correctAnswer = await getAnswersOfQuestion(questionId);
 
   // Get a score by Comparing the array of correct answers with the array of user answers
-  const score =
-    JSON.stringify(correctAnswer) === JSON.stringify(answers)
-      ? questionDetail.score
-      : 0;
+  const score = JSON.stringify(correctAnswer) === JSON.stringify(answers) ? questionDetail.score : 0;
 
   return score;
 };
@@ -46,10 +40,7 @@ export const handleScore = async (results) => {
 
 export const createTestResult = async ({ userId, testId, results }) => {
   const score = await handleScore(results);
-  const testScore = await TestModel.findOne(
-    { _id: new ObjectId(testId) },
-    { score: true }
-  ).lean();
+  const testScore = await TestModel.findOne({ _id: new ObjectId(testId) }, { score: true }).lean();
 
   // Pass if the score obtained is greater than or equal to 70% of the total of the test
   const isPass = score / testScore.score >= 0.7 ? true : false;

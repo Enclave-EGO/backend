@@ -10,10 +10,7 @@ import {
   checkExistedOtherCourseName
 } from "../services/crudDatabase/course";
 import { checkExistedUserId } from "../services/crudDatabase/user";
-import {
-  validateCourse,
-  validateUpdateCourse
-} from "../validators/courseValidator";
+import { validateCourse, validateUpdateCourse } from "../validators/courseValidator";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/appError";
 
@@ -28,11 +25,9 @@ const CourseController = {
       checkExistedCourseName(name),
       checkExistedUserId(userId)
     ]);
-    if (isExistedCourseName)
-      return next(new AppError("Course name is existed", 400));
+    if (isExistedCourseName) return next(new AppError("Course name is existed", 400));
 
-    if (isExistedUserId === false)
-      return next(new AppError("User ID is not existed", 404));
+    if (isExistedUserId === false) return next(new AppError("User ID is not existed", 404));
 
     const course = await createNewCourse(req.body);
     return res.json({
@@ -76,11 +71,9 @@ const CourseController = {
       checkExistedOtherCourseName(courseId, name)
     ]);
 
-    if (isExistedCourseId === false)
-      return next(new AppError("Course ID is not existed", 404));
+    if (isExistedCourseId === false) return next(new AppError("Course ID is not existed", 404));
 
-    if (isExistedOtherCourseName)
-      return next(new AppError("Course name is existed", 400));
+    if (isExistedOtherCourseName) return next(new AppError("Course name is existed", 400));
 
     const course = await updateExistedCourse(courseId, req.body);
 

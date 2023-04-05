@@ -23,8 +23,7 @@ const UserController = {
     ]);
 
     const isExistedUser = isExistedEmail || isExistedUsername;
-    if (isExistedUser)
-      return next(new AppError("Username or Email is existed", 400));
+    if (isExistedUser) return next(new AppError("Username or Email is existed", 400));
 
     const newUser = {
       password,

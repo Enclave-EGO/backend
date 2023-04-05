@@ -46,12 +46,7 @@ const validateEmail = async (req) => {
 };
 
 export const validateUser = async (req) => {
-  await Promise.all([
-    validateUsername(req),
-    validatePassword(req),
-    validateNameUser(req),
-    validateEmail(req)
-  ]);
+  await Promise.all([validateUsername(req), validatePassword(req), validateNameUser(req), validateEmail(req)]);
   return returnValidationResult(req);
 };
 

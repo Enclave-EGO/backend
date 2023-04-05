@@ -7,10 +7,7 @@ import {
   getQuestionDetail
 } from "../services/crudDatabase/question";
 import { checkExistedTest } from "../services/crudDatabase/test";
-import {
-  validateCreateQuestion,
-  validateUpdateQuestion
-} from "../validators/questionValidator";
+import { validateCreateQuestion, validateUpdateQuestion } from "../validators/questionValidator";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/appError";
 
@@ -22,8 +19,7 @@ const QuestionController = {
     if (status === "Fail") return next(new AppError(error, 400));
 
     const isExistedTestId = await checkExistedTest(testId);
-    if (isExistedTestId === false)
-      return next(new AppError("Test ID is not existed", 404));
+    if (isExistedTestId === false) return next(new AppError("Test ID is not existed", 404));
 
     const course = await handleCreateNewQuestion(req.body);
 
@@ -42,12 +38,10 @@ const QuestionController = {
     if (status === "Fail") return next(new AppError(error, 400));
 
     const isExistedTest = await checkExistedTest(testId);
-    if (isExistedTest === false)
-      return next(new AppError("Test is not existed", 404));
+    if (isExistedTest === false) return next(new AppError("Test is not existed", 404));
 
     const isExistedQuestion = await checkExistedQuestion(questionId);
-    if (isExistedQuestion === false)
-      return next(new AppError("Question is not existed", 404));
+    if (isExistedQuestion === false) return next(new AppError("Question is not existed", 404));
 
     const question = await handleUpdateQuestion(questionId, req.body);
 

@@ -6,7 +6,8 @@ const { Strategy, ExtractJwt } = pkg;
 passport.use(
   new Strategy(
     {
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken("Authorization"),
+      // jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken('Authorization'),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: JWT_SECRET_KEY
     },
     (payload, response) => {

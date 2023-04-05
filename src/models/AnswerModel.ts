@@ -21,5 +21,4 @@ const AnswerSchema = new mongoose.Schema(
 );
 
 const AnswerModel = mongoose.model("Answer", AnswerSchema);
-
 export default AnswerModel;

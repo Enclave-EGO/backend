@@ -1,15 +1,8 @@
 import QuestionModel from "../../models/QuestionModel";
 import AnswerModel from "../../models/AnswerModel";
 import { ObjectId } from "../../constants/index";
-import {
-  updateTestScoreWhenCreateQuestion,
-  updateTestScoreWhenUpdateQuestion
-} from "./test";
-import {
-  handleCreateNewAnswers,
-  handleUpdateAnswers,
-  deleteAnswersOfQuestion
-} from "./answer";
+import { updateTestScoreWhenCreateQuestion, updateTestScoreWhenUpdateQuestion } from "./test";
+import { handleCreateNewAnswers, handleUpdateAnswers, deleteAnswersOfQuestion } from "./answer";
 
 export const checkExistedQuestion = async (questionId) => {
   const isExisted = await QuestionModel.exists({
@@ -44,8 +37,7 @@ export const handleCreateNewQuestion = async (question) => {
   const createdAnswers = await handleCreateNewAnswers(questionId, answers);
 
   // 4. Return result (saved question and answers)
-  const isCreatedQuestionAndAnswers =
-    updatedTest && savedQuestion && createdAnswers.includes(null) === false;
+  const isCreatedQuestionAndAnswers = updatedTest && savedQuestion && createdAnswers.includes(null) === false;
   const result = isCreatedQuestionAndAnswers
     ? {
         question: savedQuestion,
@@ -57,11 +49,9 @@ export const handleCreateNewQuestion = async (question) => {
 };
 
 export const updateQuestion = async (questionId, newQuestion) => {
-  const updatedQuestion = await QuestionModel.findOneAndUpdate(
-    { _id: new ObjectId(questionId) },
-    newQuestion,
-    { new: true }
-  );
+  const updatedQuestion = await QuestionModel.findOneAndUpdate({ _id: new ObjectId(questionId) }, newQuestion, {
+    new: true
+  });
   return updatedQuestion;
 };
 
@@ -82,8 +72,7 @@ export const handleUpdateQuestion = async (questionId, question) => {
   ]);
 
   // 2. Return update status
-  const isUpdatedQuestionAndAnswers =
-    updatedQuestion && updatedTest && updatedAnswers.includes(null) === false;
+  const isUpdatedQuestionAndAnswers = updatedQuestion && updatedTest && updatedAnswers.includes(null) === false;
 
   return isUpdatedQuestionAndAnswers;
 };
@@ -107,9 +96,7 @@ export const handleDeleteQuestionById = async (questionId) => {
 };
 
 export const handleDeleteManyQuestions = async (questionIds) => {
-  const promises = questionIds.map((questionId) =>
-    handleDeleteQuestionById(questionId)
-  );
+  const promises = questionIds.map((questionId) => handleDeleteQuestionById(questionId));
 
   const promiseResult = await Promise.all(promises);
 
@@ -118,10 +105,7 @@ export const handleDeleteManyQuestions = async (questionIds) => {
 };
 
 export const getQuestionsByTests = async (testIds) => {
-  const listQuestions = await QuestionModel.find(
-    { testId: { $in: testIds } },
-    { _id: true }
-  ).lean();
+  const listQuestions = await QuestionModel.find({ testId: { $in: testIds } }, { _id: true }).lean();
 
   return listQuestions;
 };

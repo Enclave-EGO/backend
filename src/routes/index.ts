@@ -1,4 +1,6 @@
 import { Express } from "express";
+import AppError from "../utils/appError";
+import globalErrorHandler from "../controllers/ErrorController";
 import UserRouter from "./UserRouter";
 import LessonRouter from "./LessonRouter";
 import CourseRouter from "./CourseRouter";
@@ -6,9 +8,6 @@ import RegisterRouter from "./RegisterRouter";
 import TestRouter from "./TestRouter";
 import QuestionRouter from "./QuestionRouter";
 import TestResultRouter from "./TestResultRouter";
-
-import globalErrorHandler from "../controllers/ErrorController";
-import AppError from "../utils/appError";
 
 function routing(app: Express) {
   app.use("/users", UserRouter);

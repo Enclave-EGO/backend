@@ -39,9 +39,6 @@ export const validateLesson = async (req) => {
 export const validateUpdateLesson = async (req) => {
   const isOptional = true;
 
-  await Promise.all([
-    validateLessonName(req, isOptional),
-    validateVideoId(req, isOptional)
-  ]);
+  await Promise.all([validateLessonName(req, isOptional), validateVideoId(req, isOptional)]);
   return returnValidationResult(req);
 };

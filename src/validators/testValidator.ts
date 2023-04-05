@@ -42,11 +42,7 @@ const validateTestDescription = async (req, isOptional = false) => {
 };
 
 export const validateTest = async (req) => {
-  await Promise.all([
-    validateTestTimeLimit(req),
-    validateTestDescription(req),
-    validateTestScore(req)
-  ]);
+  await Promise.all([validateTestTimeLimit(req), validateTestDescription(req), validateTestScore(req)]);
   return returnValidationResult(req);
 };
 

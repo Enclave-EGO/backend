@@ -7,10 +7,7 @@ import {
   handleDeleteTests
 } from "../services/crudDatabase/test";
 import { checkExistedLessonId } from "../services/crudDatabase/lesson";
-import {
-  validateTest,
-  validateUpdateTestOptional
-} from "../validators/testValidator";
+import { validateTest, validateUpdateTestOptional } from "../validators/testValidator";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/appError";
 
@@ -22,8 +19,7 @@ const TestController = {
     if (status === "Fail") return next(new AppError(error, 400));
 
     const isExistedLessonId = await checkExistedLessonId(lessonId);
-    if (isExistedLessonId === false)
-      return next(new AppError("Lesson Id is not existed", 404));
+    if (isExistedLessonId === false) return next(new AppError("Lesson Id is not existed", 404));
 
     const test = await createNewTest(req.body);
 
@@ -63,8 +59,7 @@ const TestController = {
     if (status === "Fail") return next(new AppError(error, 400));
 
     const isExistedTestId = await checkExistedTest(testId);
-    if (isExistedTestId === false)
-      return next(new AppError("Test Id is not existed", 404));
+    if (isExistedTestId === false) return next(new AppError("Test Id is not existed", 404));
 
     const test = await updateExistedTest(testId, req.body);
 

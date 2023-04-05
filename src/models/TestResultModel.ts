@@ -27,5 +27,4 @@ const TestResultSchema = new mongoose.Schema(
 );
 
 const TestResultModel = mongoose.model("TestResult", TestResultSchema);
-
 export default TestResultModel;

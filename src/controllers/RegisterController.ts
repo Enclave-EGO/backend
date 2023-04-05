@@ -18,15 +18,13 @@ const RegisterController = {
 
     const isExistedCourse = await checkExistedCourseId(courseId);
 
-    if (isExistedCourse === false)
-      return next(new AppError("Course is not existed", 404));
+    if (isExistedCourse === false) return next(new AppError("Course is not existed", 404));
 
     const newRegister = { userId, courseId };
 
     const isExistedRegister = await checkRegisteredCourse(newRegister);
 
-    if (isExistedRegister)
-      return next(new AppError("You registered this course", 400));
+    if (isExistedRegister) return next(new AppError("You registered this course", 400));
 
     const newRegisterInfo = await registerCourse(newRegister);
 
@@ -41,8 +39,7 @@ const RegisterController = {
     const registerId = req.params.registerId;
     const isExistedRegister = await checkRegisterById(registerId);
 
-    if (isExistedRegister === false)
-      return next(new AppError("Register is not existed", 404));
+    if (isExistedRegister === false) return next(new AppError("Register is not existed", 404));
 
     const deleteInfo = await deleteRegisterById(registerId);
 
@@ -70,8 +67,7 @@ const RegisterController = {
 
     const isExistedCourse = await checkExistedCourseId(courseId);
 
-    if (isExistedCourse === false)
-      return next(new AppError("Course is not existed", 404));
+    if (isExistedCourse === false) return next(new AppError("Course is not existed", 404));
 
     const register = await getRegisterByUserAndCourse({ userId, courseId });
 

@@ -44,11 +44,9 @@ export const getCourseById = async (courseId) => {
 };
 
 export const updateExistedCourse = async (courseId, courseInfo) => {
-  const updatedCourse = await CourseModel.findOneAndUpdate(
-    { _id: new ObjectId(courseId) },
-    courseInfo,
-    { new: true }
-  ).lean();
+  const updatedCourse = await CourseModel.findOneAndUpdate({ _id: new ObjectId(courseId) }, courseInfo, {
+    new: true
+  }).lean();
 
   return updatedCourse;
 };

@@ -18,5 +18,4 @@ const RegisterSchema = new mongoose.Schema(
 );
 
 const RegisterModel = mongoose.model("Register", RegisterSchema);
-
 export default RegisterModel;

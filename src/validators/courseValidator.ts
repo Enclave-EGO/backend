@@ -51,9 +51,7 @@ const validateCourseThumbnail = async (req, isOptional = false) => {
     .trim()
     .notEmpty()
     .withMessage("Course thumbnail is required")
-    .matches(
-      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
-    )
+    .matches(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/)
     .withMessage("Course thumbnail is invalid")
     .run(req);
 };

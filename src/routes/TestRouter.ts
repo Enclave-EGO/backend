@@ -7,35 +7,10 @@ import { Role } from "../utils/index";
 const router = express.Router();
 
 router.post("/", jwtGuard, Roles(Role.TEACHER), TestController.createTest);
-
 router.patch("/:id", jwtGuard, Roles(Role.TEACHER), TestController.updateTest);
-
-router.get(
-  "/",
-  jwtGuard,
-  Roles(Role.TEACHER, Role.LEARNER),
-  TestController.getTestsByLesson
-);
-
-router.get(
-  "/:testId",
-  jwtGuard,
-  Roles(Role.TEACHER, Role.LEARNER),
-  TestController.getTestById
-);
-
-router.delete(
-  "/:testId",
-  jwtGuard,
-  Roles(Role.TEACHER),
-  TestController.deleteTest
-);
-
-router.delete(
-  "/",
-  jwtGuard,
-  Roles(Role.TEACHER),
-  TestController.deleteManyTests
-);
+router.get("/", jwtGuard, Roles(Role.TEACHER, Role.LEARNER), TestController.getTestsByLesson);
+router.get("/:testId", jwtGuard, Roles(Role.TEACHER, Role.LEARNER), TestController.getTestById);
+router.delete("/:testId", jwtGuard, Roles(Role.TEACHER), TestController.deleteTest);
+router.delete("/", jwtGuard, Roles(Role.TEACHER), TestController.deleteManyTests);
 
 export default router;

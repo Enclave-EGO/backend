@@ -1,11 +1,6 @@
 import { ObjectId } from "../../constants/index";
 import UserModel from "../../models/UserModel";
-import {
-  generateAccessToken,
-  hashPassword,
-  comparePassword,
-  decodeToken
-} from "../authentication/index";
+import { generateAccessToken, hashPassword, comparePassword, decodeToken } from "../authentication/index";
 
 export const checkExistedUserId = async (userId) => {
   const isExistedUser = await UserModel.exists({

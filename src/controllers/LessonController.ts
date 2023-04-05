@@ -10,10 +10,7 @@ import {
   updateExistedLesson
 } from "../services/crudDatabase/lesson";
 import { checkExistedCourseId } from "../services/crudDatabase/course";
-import {
-  validateLesson,
-  validateUpdateLesson
-} from "../validators/lessonValidator";
+import { validateLesson, validateUpdateLesson } from "../validators/lessonValidator";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/appError";
 
@@ -25,8 +22,7 @@ const LessonController = {
     if (status === "Fail") return next(new AppError(error, 400));
 
     const isExistedCourseId = await checkExistedCourseId(courseId);
-    if (isExistedCourseId === false)
-      return next(new AppError("Course Id is not existed", 404));
+    if (isExistedCourseId === false) return next(new AppError("Course Id is not existed", 404));
 
     const isInvalidLesson = await checkExistedLesson(name, videoId, courseId);
     if (isInvalidLesson) return next(new AppError("Invalid Lesson", 400));
@@ -71,11 +67,9 @@ const LessonController = {
       checkExistedOtherLessonName(lessonId, name)
     ]);
 
-    if (isExistedLessonId === false)
-      return next(new AppError("Lesson ID is not existed", 404));
+    if (isExistedLessonId === false) return next(new AppError("Lesson ID is not existed", 404));
 
-    if (isExistedOtherLessonName)
-      return next(new AppError("Lesson name is existed", 400));
+    if (isExistedOtherLessonName) return next(new AppError("Lesson name is existed", 400));
 
     const lesson = await updateExistedLesson(lessonId, req.body);
 
