@@ -1,6 +1,11 @@
-import { ObjectId } from "~/types";
+import { ObjectId, UserSignIn, UserSignUp } from "~/types";
 import UserModel from "~/models/UserModel";
-import { generateAccessToken, hashPassword, comparePassword, decodeToken } from "~/authentication";
+import {
+  generateAccessToken,
+  hashPassword,
+  comparePassword,
+  decodeToken
+} from "~/services/authentication";
 
 export const checkExistedUserId = async (userId: string) => {
   const isExistedUser = await UserModel.exists({
@@ -19,7 +24,7 @@ export const checkExistedEmail = async (email: string) => {
   return Boolean(user);
 };
 
-export const createNewUser = async (user) => {
+export const createNewUser = async (user: UserSignUp) => {
   const { password, username, ...data } = user;
   const passwordHash = await hashPassword(password);
 
@@ -44,7 +49,7 @@ export const createNewUser = async (user) => {
   return output;
 };
 
-export const checkUserSignIn = async (user) => {
+export const checkUserSignIn = async (user: UserSignIn) => {
   const existUser = await UserModel.findOne({ username: user.username }).lean();
 
   if (existUser) {

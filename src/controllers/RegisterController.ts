@@ -9,12 +9,12 @@ import {
   getNotRegisteredCoursesByUser
 } from "~/services/crudDatabase/register";
 import { checkExistedCourseId } from "~/services/crudDatabase/course";
-import { RequestMiddleware } from "~/types";
+import { Request, Response, NextFunction } from "express";
 import catchAsync from "~/utils/catchAsync";
 import AppError from "~/utils/appError";
 
 const RegisterController = {
-  registerNewCourse: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  registerNewCourse: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { userId, courseId } = req.body;
 
     const isExistedCourse = await checkExistedCourseId(courseId);
@@ -32,7 +32,7 @@ const RegisterController = {
     });
   }),
 
-  deleteRegister: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  deleteRegister: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const registerId = req.params.registerId;
     const isExistedRegister = await checkRegisterById(registerId);
 
@@ -46,10 +46,10 @@ const RegisterController = {
     });
   }),
 
-  deleteRegisters: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  deleteRegisters: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const registerIds = req.body.registerIds;
     const deleteInfo = await deleteManyRegisters(registerIds);
-    const deleteCount = deleteInfo.deletedCount;
+    const deleteCount = deleteInfo; // .deletedCount;
 
     return res.json({
       status: "Success",
@@ -58,8 +58,9 @@ const RegisterController = {
     });
   }),
 
-  getRegister: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
-    const { userId, courseId } = req.query;
+  getRegister: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const userId = String(req.query.userId);
+    const courseId = String(req.query.courseId);
 
     const isExistedCourse = await checkExistedCourseId(courseId);
     if (isExistedCourse === false) return next(new AppError("Course is not existed", 404));
@@ -72,25 +73,29 @@ const RegisterController = {
     });
   }),
 
-  getRegisteredCoursesByUser: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
-    const userId = req.query.userId;
-    const courses = await getRegisteredCoursesByUser(userId);
-    return res.json({
-      status: "Success",
-      error: null,
-      data: courses
-    });
-  }),
+  getRegisteredCoursesByUser: catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const userId = String(req.query.userId);
+      const courses = await getRegisteredCoursesByUser(userId);
+      return res.json({
+        status: "Success",
+        error: null,
+        data: courses
+      });
+    }
+  ),
 
-  getNotRegisteredCoursesByUser: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
-    const userId = req.query.userId;
-    const courses = await getNotRegisteredCoursesByUser(userId);
-    return res.json({
-      status: "Success",
-      error: null,
-      data: courses
-    });
-  })
+  getNotRegisteredCoursesByUser: catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const userId = String(req.query.userId);
+      const courses = await getNotRegisteredCoursesByUser(userId);
+      return res.json({
+        status: "Success",
+        error: null,
+        data: courses
+      });
+    }
+  )
 };
 
 export default RegisterController;

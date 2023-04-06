@@ -3,10 +3,10 @@ import cors from "cors";
 import morgan from "morgan";
 import swaggerUI from "swagger-ui-express";
 import cookieParse from "cookie-parser";
-import routing from "./routes/index";
-import connectDatabase from "./configs/connectDatabase/index";
-import { swaggerSpecs } from "./configs/swaggerUI/index";
-import { PORT, HOST_URL, SWAGGER_URL } from "./constants/index";
+import routing from "./routes";
+import connectDatabase from "./configs/connectDatabase";
+import { swaggerSpecs } from "./configs/swaggerUI";
+import { PORT, HOST_URL, SWAGGER_URL } from "./constants";
 
 const app: Express = express();
 

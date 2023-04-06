@@ -1,7 +1,9 @@
+import { RequestMiddleware } from "~/types";
+
 // Check if the user's role is allowed
 // permittedRoles: permitted roles array
-export const Roles = (...permittedRoles) => {
-  return (req, res, next) => {
+export const Roles = (...permittedRoles: number[]) => {
+  return ({ req, res, next }: RequestMiddleware) => {
     if (permittedRoles.length === 0) next();
 
     const user = req.user;

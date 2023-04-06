@@ -17,7 +17,15 @@ export const createNewQuestion = async (question) => {
   return newQuestion;
 };
 
-export const handleCreateNewQuestion = async (question) => {
+type NewQuestion = {
+  testId: typeof ObjectId;
+  content: string;
+  isMultiChoice: boolean;
+  score: number;
+  answers: string[];
+};
+
+export const handleCreateNewQuestion = async (question: NewQuestion) => {
   const { testId, content, isMultiChoice, score, answers } = question;
 
   // 1. Create question
@@ -33,8 +41,8 @@ export const handleCreateNewQuestion = async (question) => {
   const updatedTest = await updateTestScoreWhenCreateQuestion(testId, score);
 
   // 3. Create answers
-  const questionId = savedQuestion._id;
-  const createdAnswers = await handleCreateNewAnswers(questionId: string, answers);
+  const questionId = String(savedQuestion._id);
+  const createdAnswers = await handleCreateNewAnswers(questionId, answers);
 
   // 4. Return result (saved question and answers)
   const isCreatedQuestionAndAnswers =
@@ -97,7 +105,7 @@ export const handleDeleteQuestionById = async (questionId: string) => {
     deleteAnswersOfQuestion(questionId)
   ]);
 
-  const isDeleted = deletedQuestion && deletedAnswers.deletedCount > 0;
+  const isDeleted = deletedQuestion && deletedAnswers; // .deletedCount > 0;
   return isDeleted;
 };
 

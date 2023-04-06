@@ -7,12 +7,12 @@ import {
 } from "~/services/crudDatabase/user";
 import { generateAccessToken } from "~/services/authentication";
 import { validateUser, validateSignIn } from "~/validators/userValidator";
-import { RequestMiddleware } from "~/types";
+import { Request, Response, NextFunction } from "express";
 import catchAsync from "~/utils/catchAsync";
 import AppError from "~/utils/appError";
 
 const UserController = {
-  createUser: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  createUser: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { status, error } = await validateUser(req);
     if (status === "Fail") return next(new AppError(error, 400));
 
@@ -44,7 +44,7 @@ const UserController = {
     });
   }),
 
-  signIn: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  signIn: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { status, error } = await validateSignIn(req);
     if (status === "Fail") return next(new AppError(error, 400));
 
@@ -67,7 +67,7 @@ const UserController = {
     }
   }),
 
-  checkValidToken: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  checkValidToken: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.body.token;
     const isValidToken = await checkValidToken(token);
     return res.json({

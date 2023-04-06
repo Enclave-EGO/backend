@@ -30,7 +30,7 @@ export const getScoreQuestion = async (questionId: string, answers) => {
   return score;
 };
 
-export const handleScore = async (results) => {
+export const handleScore = async (results: any[]) => {
   const listScorePromise = results.map((result) => {
     const { questionId, answers } = result;
     return getScoreQuestion(questionId, answers.sort());

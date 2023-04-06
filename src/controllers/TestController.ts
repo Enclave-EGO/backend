@@ -8,12 +8,12 @@ import {
 } from "~/services/crudDatabase/test";
 import { checkExistedLessonId } from "~/services/crudDatabase/lesson";
 import { validateTest, validateUpdateTestOptional } from "~/validators/testValidator";
-import { RequestMiddleware } from "~/types";
+import { Request, Response, NextFunction } from "express";
 import catchAsync from "~/utils/catchAsync";
 import AppError from "~/utils/appError";
 
 const TestController = {
-  createTest: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  createTest: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { status, error } = await validateTest(req);
     const lessonId = req.body.lessonId;
 
@@ -30,8 +30,8 @@ const TestController = {
     });
   }),
 
-  getTestsByLesson: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
-    const lessonId = req.query.lessonId;
+  getTestsByLesson: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const lessonId = String(req.query.lessonId);
     const listTests = await getTestsByLesson(lessonId);
     return res.json({
       status: "Success",
@@ -40,7 +40,7 @@ const TestController = {
     });
   }),
 
-  getTestById: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  getTestById: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const testId = req.params.testId;
     const testDetail = await getTestDetail(testId);
     return res.json({
@@ -50,7 +50,7 @@ const TestController = {
     });
   }),
 
-  updateTest: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  updateTest: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const testId = req.params.id;
 
     const { status, error } = await validateUpdateTestOptional(req);
@@ -67,7 +67,7 @@ const TestController = {
     });
   }),
 
-  deleteTest: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  deleteTest: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const testId = req.params.testId;
     const deleteTestArray = [testId];
     const deleteInfo = await handleDeleteTests(deleteTestArray);
@@ -79,7 +79,7 @@ const TestController = {
     });
   }),
 
-  deleteManyTests: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  deleteManyTests: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const testIds = req.body.testIds;
     const deleteInfo = await handleDeleteTests(testIds);
     return res.json({

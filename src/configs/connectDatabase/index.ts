@@ -5,12 +5,8 @@ const connectDatabase = () => {
   mongoose
     .set("strictQuery", false)
     .connect(MONGO_URI)
-    .then(() => {
-      console.log("Connect to database success");
-    })
-    .catch((error) => {
-      console.log("Connect to database fail", error);
-    });
+    .then(() => console.log("Connect to database success"))
+    .catch((error) => console.log("Connect to database fail", error));
 };
 
 export default connectDatabase;

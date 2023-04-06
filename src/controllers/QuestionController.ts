@@ -8,12 +8,12 @@ import {
 } from "~/services/crudDatabase/question";
 import { checkExistedTest } from "~/services/crudDatabase/test";
 import { validateCreateQuestion, validateUpdateQuestion } from "~/validators/questionValidator";
-import { RequestMiddleware } from "~/types";
+import { Request, Response, NextFunction } from "express";
 import catchAsync from "~/utils/catchAsync";
 import AppError from "~/utils/appError";
 
 const QuestionController = {
-  createQuestion: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  createQuestion: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { status, error } = await validateCreateQuestion(req);
     const testId = req.body.testId;
 
@@ -30,7 +30,7 @@ const QuestionController = {
     });
   }),
 
-  updateQuestion: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  updateQuestion: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const questionId = req.params.questionId;
     const testId = req.body.testId;
 
@@ -52,7 +52,7 @@ const QuestionController = {
     });
   }),
 
-  deleteQuestion: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  deleteQuestion: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const questionId = req.params.questionId;
     const isDeleted = await handleDeleteQuestionById(questionId);
     return res.json({
@@ -62,7 +62,7 @@ const QuestionController = {
     });
   }),
 
-  deleteQuestions: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  deleteQuestions: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const questionIds = req.body.questionIds;
     const isDeleted = await handleDeleteManyQuestions(questionIds);
     return res.json({
@@ -72,8 +72,8 @@ const QuestionController = {
     });
   }),
 
-  getQuestion: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
-    const questionId = req.params.questionId;
+  getQuestion: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const questionId = String(req.params.questionId);
     const questionDetail = await getQuestionDetail(questionId);
     return res.json({
       status: "Success",

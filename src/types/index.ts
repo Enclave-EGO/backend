@@ -3,6 +3,16 @@ import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
 
 export const ObjectId = mongoose.Types.ObjectId;
 
+export type Error = {
+  path: any;
+  value: any;
+  message: { match: (arg0: RegExp) => any[] };
+  statusCode: number;
+  status: string;
+  stack: any;
+  isOperational: boolean;
+};
+
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {};
 
 export type RequestMiddleware = {
@@ -18,7 +28,7 @@ export type RequestErrorHandlerMiddleware = {
   next: NextFunction;
 };
 
-export type TokenPayload = { _id: string; role: string };
+export type TokenPayload = { _id: typeof ObjectId; role: number };
 
 export type InputAnswer = {
   content: string;
@@ -31,10 +41,10 @@ export type InputAnswerForUpdate = {
   isCorrect: boolean;
 };
 
-export type NewAnswer = {
-  content: string;
-  isCorrect: boolean;
-};
+// export type NewAnswer = {
+//   content: string;
+//   isCorrect: boolean;
+// };
 
 export type NewQuestionBody = {
   testId: string;
@@ -73,3 +83,9 @@ export type RegisterForm = {
   userId: string;
   courseId: string;
 };
+
+export interface NewAnswer {
+  questionId: Types.ObjectId;
+  content: string;
+  isCorrect: boolean;
+}

@@ -11,12 +11,12 @@ import {
 } from "~/services/crudDatabase/lesson";
 import { checkExistedCourseId } from "~/services/crudDatabase/course";
 import { validateLesson, validateUpdateLesson } from "~/validators/lessonValidator";
-import { RequestMiddleware } from "~/types";
+import { Request, Response, NextFunction } from "express";
 import catchAsync from "~/utils/catchAsync";
 import AppError from "~/utils/appError";
 
 const LessonController = {
-  createLesson: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  createLesson: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { status, error } = await validateLesson(req);
     const { name, description, videoId, courseId } = req.body;
 
@@ -34,8 +34,8 @@ const LessonController = {
     return res.json({ status: "Success", error: null, data: saveLesson });
   }),
 
-  getLessons: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
-    const courseId = req.query.courseId;
+  getLessons: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const courseId = String(req.query.courseId);
     const lessons = await findListLessons(courseId);
     return res.json({
       status: "Success",
@@ -44,7 +44,7 @@ const LessonController = {
     });
   }),
 
-  getLesson: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  getLesson: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const lesson = await findLessonById(req.params.id);
     return res.json({
       status: "Success",
@@ -53,7 +53,7 @@ const LessonController = {
     });
   }),
 
-  updateLesson: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  updateLesson: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const lessonId = req.params.id;
     const name = req.body.name;
 
@@ -75,7 +75,7 @@ const LessonController = {
     });
   }),
 
-  deleteLesson: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  deleteLesson: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const lessonId = req.params.id;
     const lesson = await deleteLessonById(lessonId);
     return res.json({
@@ -85,10 +85,10 @@ const LessonController = {
     });
   }),
 
-  deleteLessons: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
+  deleteLessons: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const lessonIds = req.body.lessonIds;
     const deleteInfo = await deleteManyLessons(lessonIds);
-    const deletedCount = deleteInfo.deletedCount;
+    const deletedCount = deleteInfo; // .deletedCount;
 
     return res.json({
       status: "Success",
