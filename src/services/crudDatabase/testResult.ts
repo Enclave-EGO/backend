@@ -1,4 +1,4 @@
-import { ObjectId } from "~/types";
+import { CheckDidTestBody, ObjectId, TestResultBody } from "~/types";
 import AnswerModel from "~/models/AnswerModel";
 import TestResultModel from "~/models/TestResultModel";
 import QuestionModel from "~/models/QuestionModel";
@@ -15,7 +15,7 @@ export const getAnswersOfQuestion = async (questionId: string) => {
   return output;
 };
 
-export const getScoreQuestion = async (questionId: string, answers) => {
+export const getScoreQuestion = async (questionId: string, answers: any[]) => {
   const questionDetail = await QuestionModel.findOne(
     { _id: new ObjectId(questionId) },
     { score: true }
@@ -42,7 +42,7 @@ export const handleScore = async (results: any[]) => {
   return sumScore;
 };
 
-export const createTestResult = async ({ userId, testId, results }) => {
+export const createTestResult = async ({ userId, testId, results }: TestResultBody) => {
   const score = await handleScore(results);
   const testScore = await TestModel.findOne({ _id: new ObjectId(testId) }, { score: true }).lean();
 
@@ -60,7 +60,7 @@ export const createTestResult = async ({ userId, testId, results }) => {
   return output;
 };
 
-export const checkDidTest = async ({ userId, testId }) => {
+export const checkDidTest = async ({ userId, testId }: CheckDidTestBody) => {
   const isExisted = await TestResultModel.findOne({
     userId: new ObjectId(userId),
     testId: new ObjectId(testId)
@@ -78,7 +78,7 @@ export const getTestResult = async (userId: string, testId: string) => {
 
   return {
     ...testResult,
-    testScore: test.score,
-    testDescription: test.description
+    testScore: test?.score,
+    testDescription: test?.description
   };
 };

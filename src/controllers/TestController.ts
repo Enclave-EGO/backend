@@ -9,6 +9,7 @@ import {
 import { checkExistedLessonId } from "~/services/crudDatabase/lesson";
 import { validateTest, validateUpdateTestOptional } from "~/validators/testValidator";
 import { Request, Response, NextFunction } from "express";
+import { ObjectId } from "~/types";
 import catchAsync from "~/utils/catchAsync";
 import AppError from "~/utils/appError";
 
@@ -69,7 +70,7 @@ const TestController = {
 
   deleteTest: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const testId = req.params.testId;
-    const deleteTestArray = [testId];
+    const deleteTestArray = [new ObjectId(testId)];
     const deleteInfo = await handleDeleteTests(deleteTestArray);
 
     return res.json({

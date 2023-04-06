@@ -2,6 +2,8 @@ import mongoose, { Types } from "mongoose";
 import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
 
 export const ObjectId = mongoose.Types.ObjectId;
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {};
 
 export type Error = {
@@ -55,6 +57,11 @@ export interface Lesson {
   courseId: Types.ObjectId;
 }
 
+export interface CheckDidTestBody {
+  userId: string;
+  testId: string;
+}
+
 export interface TestCreateBody {
   lessonId: string;
   timeLimit: number;
@@ -62,7 +69,6 @@ export interface TestCreateBody {
 }
 
 export interface TestCreate {
-  lessonId: Types.ObjectId;
   timeLimit: number;
   description: string;
 }
@@ -119,6 +125,12 @@ export type QuestionUpdateBody = {
   answers: InputAnswerForUpdate[];
 };
 
+export type TestResultBody = {
+  userId: string;
+  testId: string;
+  results: any[];
+};
+
 export type UserPayload = {
   _id: Types.ObjectId;
   role: number;
@@ -140,4 +152,9 @@ export type UserSignIn = {
 export type RegisterForm = {
   userId: Types.ObjectId;
   courseId: Types.ObjectId;
+};
+
+export type RegisterFormBody = {
+  userId: string;
+  courseId: string;
 };

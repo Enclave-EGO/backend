@@ -73,7 +73,7 @@ const QuestionController = {
   }),
 
   getQuestion: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const questionId = String(req.params.questionId);
+    const questionId = req.params.questionId;
     const questionDetail = await getQuestionDetail(questionId);
     return res.json({
       status: "Success",

@@ -114,7 +114,8 @@ export const handleDeleteManyQuestions = async (questionIds: Types.ObjectId[]) =
 
   const promiseResult = await Promise.all(promises);
 
-  const isDeleted = promiseResult.includes(null) ? false : true;
+  // const isDeleted = promiseResult.includes(null) ? false : true;
+  const isDeleted = promiseResult ? false : true;
   return isDeleted;
 };
 
@@ -126,7 +127,7 @@ export const getQuestionsByTests = async (testIds: Types.ObjectId[]) => {
   return listQuestions;
 };
 
-export const getQuestionDetail = async (questionId: Types.ObjectId) => {
+export const getQuestionDetail = async (questionId: string) => {
   const question = await QuestionModel.findOne(
     { _id: questionId },
     { _id: true, content: true, isMultiChoice: true, score: true }

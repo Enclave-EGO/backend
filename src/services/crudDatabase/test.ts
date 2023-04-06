@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { ObjectId } from "~/types";
+import { ObjectId, TestCreateBody } from "~/types";
 import TestModel from "~/models/TestModel";
 import QuestionModel from "~/models/QuestionModel";
 import { getQuestionDetail, getQuestionsByTests, handleDeleteManyQuestions } from "./question";
@@ -11,7 +11,7 @@ export const checkExistedTest = async (testId: string) => {
   return Boolean(isExisted);
 };
 
-export const createNewTest = async (test) => {
+export const createNewTest = async (test: TestCreateBody) => {
   const newTest = await TestModel.create({
     lessonId: new ObjectId(test.lessonId),
     timeLimit: test.timeLimit,
@@ -20,11 +20,10 @@ export const createNewTest = async (test) => {
   return newTest;
 };
 
-export const updateExistedTest = async (testId: string, testInfo) => {
+export const updateExistedTest = async (testId: string, testInfo: TestCreateBody) => {
   const updatedTest = await TestModel.findOneAndUpdate({ _id: new ObjectId(testId) }, testInfo, {
     new: true
   }).lean();
-
   return updatedTest;
 };
 
@@ -44,7 +43,7 @@ export const getTestDetail = async (testId: string) => {
   ]);
 
   const promiseQuestionDetails = questions.map((question) => {
-    return getQuestionDetail(question._id);
+    return getQuestionDetail(String(question._id));
   });
 
   const questionDetails = await Promise.all(promiseQuestionDetails);
@@ -59,7 +58,7 @@ export const getTestsByLesson = async (lessonId: string) => {
   ]);
 
   const listPromiseTestDetails = listTests.map((test) => {
-    return getTestDetail(test._id);
+    return getTestDetail(String(test._id));
   });
 
   const listTestDetails = await Promise.all(listPromiseTestDetails);
@@ -108,7 +107,7 @@ export const updateTestScoreWhenCreateQuestion = async (
 export const updateTestScoreWhenUpdateQuestion = async (
   testId: string,
   questionId: string,
-  newQuestionScore
+  newQuestionScore: number
 ) => {
   // 1. Get old test score and old question score
   const [test, question] = await Promise.all([

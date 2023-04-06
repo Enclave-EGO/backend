@@ -1,9 +1,9 @@
-import { ObjectId } from "~/types";
+import { Types } from "mongoose";
+import { ObjectId, RegisterForm, RegisterFormBody } from "~/types";
 import RegisterModel from "~/models/RegisterModel";
 import CourseModel from "~/models/CourseModel";
-import { Types } from "mongoose";
 
-export const checkRegisteredCourse = async (registerForm) => {
+export const checkRegisteredCourse = async (registerForm: RegisterForm) => {
   const { userId, courseId } = registerForm;
 
   const isRegisteredCourse = await RegisterModel.findOne({
@@ -19,7 +19,7 @@ export const checkRegisterById = async (registerId: string) => {
   return Boolean(output);
 };
 
-export const registerCourse = async (registerForm) => {
+export const registerCourse = async (registerForm: RegisterFormBody) => {
   const { userId, courseId } = registerForm;
 
   const newCourse = new RegisterModel({
@@ -45,7 +45,7 @@ export const deleteManyRegisters = async (registerIds: Types.ObjectId[]) => {
   return output;
 };
 
-export const getRegisterByUserAndCourse = async ({ userId, courseId }) => {
+export const getRegisterByUserAndCourse = async ({ userId, courseId }: RegisterFormBody) => {
   const register = await RegisterModel.findOne({
     userId: new ObjectId(userId),
     courseId: new ObjectId(courseId)
