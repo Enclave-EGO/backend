@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { ObjectId } from "~/types";
 import TestModel from "~/models/TestModel";
 import QuestionModel from "~/models/QuestionModel";
@@ -67,14 +68,14 @@ export const getTestsByLesson = async (lessonId: string) => {
   return output;
 };
 
-export const deleteTestsByIds = async (testIds) => {
+export const deleteTestsByIds = async (testIds: Types.ObjectId[]) => {
   const output = await TestModel.deleteMany({
     _id: { $in: testIds }
   }).lean();
   return output;
 };
 
-export const handleDeleteTests = async (testIds) => {
+export const handleDeleteTests = async (testIds: Types.ObjectId[]) => {
   const listQuestions = await getQuestionsByTests(testIds);
   const listQuestionIds = listQuestions.map((question) => question._id);
 
@@ -83,13 +84,17 @@ export const handleDeleteTests = async (testIds) => {
     handleDeleteManyQuestions(listQuestionIds)
   ]);
 
-  const isDeleted = Boolean(deleteTest.deletedCount) && Boolean(deleteQuestion);
+  // const isDeleted = Boolean(deleteTest.deletedCount) && Boolean(deleteQuestion);
+  const isDeleted = Boolean(deleteTest) && Boolean(deleteQuestion);
   return isDeleted;
 };
 
-export const updateTestScoreWhenCreateQuestion = async (testId: string, newQuestionScore) => {
+export const updateTestScoreWhenCreateQuestion = async (
+  testId: string,
+  newQuestionScore: number
+) => {
   const test = await TestModel.findOne({ _id: new ObjectId(testId) }).lean();
-  const newTestScore = test.score + newQuestionScore;
+  const newTestScore = test?.score + newQuestionScore;
 
   const updatedTest = await TestModel.findOneAndUpdate(
     { _id: new ObjectId(testId) },

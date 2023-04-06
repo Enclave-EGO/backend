@@ -1,12 +1,5 @@
 import AnswerModel from "~/models/AnswerModel";
-import { Types } from "mongoose";
-import { ObjectId } from "~/types";
-
-interface NewAnswer {
-  questionId: Types.ObjectId;
-  content: string;
-  isCorrect: boolean;
-}
+import { AnswerUpdate, NewAnswer, ObjectId } from "~/types";
 
 export const createNewAnswer = async (answer: NewAnswer) => {
   const newAnswer = await AnswerModel.create(answer);
@@ -27,7 +20,7 @@ export const handleCreateNewAnswers = async (questionId: string, answers: NewAns
   return resultArray;
 };
 
-export const updateAnswer = async (answerId: string, answerInfo) => {
+export const updateAnswer = async (answerId: string, answerInfo: NewAnswer) => {
   const updatedAnswer = await AnswerModel.findOneAndUpdate(
     { _id: new ObjectId(answerId) },
     answerInfo,
@@ -36,9 +29,9 @@ export const updateAnswer = async (answerId: string, answerInfo) => {
   return updatedAnswer;
 };
 
-export const handleUpdateAnswers = async (answers) => {
+export const handleUpdateAnswers = async (answers: AnswerUpdate[]) => {
   const promises = answers.map((answer) => {
-    const answerId = answer.answerId;
+    const answerId = String(answer.answerId);
     const answerInfo = {
       content: answer.content,
       isCorrect: answer.isCorrect
@@ -54,6 +47,5 @@ export const deleteAnswersOfQuestion = async (questionId: string) => {
   const deletedInfo = await AnswerModel.deleteMany({
     questionId: new ObjectId(questionId)
   }).lean();
-
   return deletedInfo;
 };

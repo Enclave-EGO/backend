@@ -1,11 +1,11 @@
-import { ObjectId } from "~/types";
+import { Types } from "mongoose";
+import { CourseCreate, CourseUpdate, ObjectId } from "~/types";
 import CourseModel from "~/models/CourseModel";
 
 export const checkExistedCourseId = async (courseId: string) => {
   const isExisted = await CourseModel.exists({
     _id: new ObjectId(courseId)
   }).lean();
-
   return Boolean(isExisted);
 };
 
@@ -25,7 +25,7 @@ export const checkExistedCourseName = async (name: string) => {
   return Boolean(isExisted);
 };
 
-export const createNewCourse = async (course) => {
+export const createNewCourse = async (course: CourseCreate) => {
   const newCourse = await CourseModel.create(course);
   return newCourse;
 };
@@ -43,7 +43,7 @@ export const getCourseById = async (courseId: string) => {
   return course;
 };
 
-export const updateExistedCourse = async (courseId: string, courseInfo) => {
+export const updateExistedCourse = async (courseId: string, courseInfo: CourseUpdate) => {
   const updatedCourse = await CourseModel.findOneAndUpdate(
     { _id: new ObjectId(courseId) },
     courseInfo,
@@ -62,10 +62,9 @@ export const deleteCourseById = async (courseId: string) => {
   return course;
 };
 
-export const deleteManyCourses = async (courseIds) => {
+export const deleteManyCourses = async (courseIds: Types.ObjectId[]) => {
   const deleteInfo = await CourseModel.deleteMany({
     _id: { $in: courseIds }
   }).lean();
-
   return deleteInfo;
 };

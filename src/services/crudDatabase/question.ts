@@ -1,4 +1,11 @@
-import { ObjectId } from "~/types";
+import { Types } from "mongoose";
+import {
+  ObjectId,
+  QuestionCreate,
+  QuestionCreateBody,
+  QuestionUpdate,
+  QuestionUpdateBody
+} from "~/types";
 import QuestionModel from "~/models/QuestionModel";
 import AnswerModel from "~/models/AnswerModel";
 import { updateTestScoreWhenCreateQuestion, updateTestScoreWhenUpdateQuestion } from "./test";
@@ -12,20 +19,12 @@ export const checkExistedQuestion = async (questionId: string) => {
   return Boolean(isExisted);
 };
 
-export const createNewQuestion = async (question) => {
+export const createNewQuestion = async (question: QuestionCreate) => {
   const newQuestion = await QuestionModel.create(question);
   return newQuestion;
 };
 
-type NewQuestion = {
-  testId: typeof ObjectId;
-  content: string;
-  isMultiChoice: boolean;
-  score: number;
-  answers: string[];
-};
-
-export const handleCreateNewQuestion = async (question: NewQuestion) => {
+export const handleCreateNewQuestion = async (question: QuestionCreateBody) => {
   const { testId, content, isMultiChoice, score, answers } = question;
 
   // 1. Create question
@@ -46,7 +45,8 @@ export const handleCreateNewQuestion = async (question: NewQuestion) => {
 
   // 4. Return result (saved question and answers)
   const isCreatedQuestionAndAnswers =
-    updatedTest && savedQuestion && createdAnswers.includes(null) === false;
+    // updatedTest && savedQuestion && createdAnswers.includes(null) === false;
+    updatedTest && savedQuestion && createdAnswers;
   const result = isCreatedQuestionAndAnswers
     ? {
         question: savedQuestion,
@@ -57,7 +57,7 @@ export const handleCreateNewQuestion = async (question: NewQuestion) => {
   return result;
 };
 
-export const updateQuestion = async (questionId: string, newQuestion) => {
+export const updateQuestion = async (questionId: string, newQuestion: QuestionUpdate) => {
   const updatedQuestion = await QuestionModel.findOneAndUpdate(
     { _id: new ObjectId(questionId) },
     newQuestion,
@@ -68,7 +68,7 @@ export const updateQuestion = async (questionId: string, newQuestion) => {
   return updatedQuestion;
 };
 
-export const handleUpdateQuestion = async (questionId: string, question) => {
+export const handleUpdateQuestion = async (questionId: string, question: QuestionUpdateBody) => {
   const { testId, content, isMultiChoice, score, answers } = question;
 
   // 1. Update question, test score and question answers
@@ -109,8 +109,8 @@ export const handleDeleteQuestionById = async (questionId: string) => {
   return isDeleted;
 };
 
-export const handleDeleteManyQuestions = async (questionIds) => {
-  const promises = questionIds.map((questionId) => handleDeleteQuestionById(questionId));
+export const handleDeleteManyQuestions = async (questionIds: Types.ObjectId[]) => {
+  const promises = questionIds.map((questionId) => handleDeleteQuestionById(String(questionId)));
 
   const promiseResult = await Promise.all(promises);
 
@@ -118,23 +118,22 @@ export const handleDeleteManyQuestions = async (questionIds) => {
   return isDeleted;
 };
 
-export const getQuestionsByTests = async (testIds) => {
+export const getQuestionsByTests = async (testIds: Types.ObjectId[]) => {
   const listQuestions = await QuestionModel.find(
     { testId: { $in: testIds } },
     { _id: true }
   ).lean();
-
   return listQuestions;
 };
 
-export const getQuestionDetail = async (questionId: string) => {
+export const getQuestionDetail = async (questionId: Types.ObjectId) => {
   const question = await QuestionModel.findOne(
-    { _id: new ObjectId(questionId) },
+    { _id: questionId },
     { _id: true, content: true, isMultiChoice: true, score: true }
   ).lean();
 
   const answers = await AnswerModel.find(
-    { questionId: new ObjectId(questionId) },
+    { questionId: questionId },
     { _id: true, content: true, isCorrect: true }
   ).lean();
 

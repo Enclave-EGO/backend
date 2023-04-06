@@ -1,7 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
 
 export const ObjectId = mongoose.Types.ObjectId;
+export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {};
 
 export type Error = {
   path: any;
@@ -12,8 +13,6 @@ export type Error = {
   stack: any;
   isOperational: boolean;
 };
-
-export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {};
 
 export type RequestMiddleware = {
   req: Request;
@@ -28,7 +27,45 @@ export type RequestErrorHandlerMiddleware = {
   next: NextFunction;
 };
 
-export type TokenPayload = { _id: typeof ObjectId; role: number };
+export type TokenPayload = {
+  _id: Types.ObjectId;
+  role: number;
+};
+
+export interface CourseCreate {
+  name: string;
+  cost: number;
+  description: string;
+  thumbnail: string;
+  userId: Types.ObjectId;
+}
+
+export interface CourseUpdate {
+  name: string;
+  cost: number;
+  description: string;
+  thumbnail: string;
+  userId: Types.ObjectId;
+}
+
+export interface Lesson {
+  name: string;
+  description: string;
+  videoId: string;
+  courseId: Types.ObjectId;
+}
+
+export interface TestCreateBody {
+  lessonId: string;
+  timeLimit: number;
+  description: string;
+}
+
+export interface TestCreate {
+  lessonId: Types.ObjectId;
+  timeLimit: number;
+  description: string;
+}
 
 export type InputAnswer = {
   content: string;
@@ -36,17 +73,37 @@ export type InputAnswer = {
 };
 
 export type InputAnswerForUpdate = {
-  answerId: string;
+  answerId: Types.ObjectId;
   content: string;
   isCorrect: boolean;
 };
 
-// export type NewAnswer = {
-//   content: string;
-//   isCorrect: boolean;
-// };
+export interface NewAnswer {
+  questionId?: Types.ObjectId;
+  content: string;
+  isCorrect: boolean;
+}
 
-export type NewQuestionBody = {
+export interface AnswerUpdate {
+  answerId: Types.ObjectId;
+  content: string;
+  isCorrect: boolean;
+}
+
+export type QuestionCreate = {
+  testId: Types.ObjectId;
+  content: string;
+  isMultiChoice: boolean;
+  score: number;
+};
+
+export type QuestionUpdate = {
+  content: string;
+  isMultiChoice: boolean;
+  score: number;
+};
+
+export type QuestionCreateBody = {
   testId: string;
   content: string;
   isMultiChoice: boolean;
@@ -54,7 +111,8 @@ export type NewQuestionBody = {
   answers: NewAnswer[];
 };
 
-export type UpdateQuestionBody = {
+export type QuestionUpdateBody = {
+  testId: string;
   content: string;
   isMultiChoice: boolean;
   score: number;
@@ -62,7 +120,7 @@ export type UpdateQuestionBody = {
 };
 
 export type UserPayload = {
-  _id: string;
+  _id: Types.ObjectId;
   role: number;
 };
 
@@ -80,12 +138,6 @@ export type UserSignIn = {
 };
 
 export type RegisterForm = {
-  userId: string;
-  courseId: string;
+  userId: Types.ObjectId;
+  courseId: Types.ObjectId;
 };
-
-export interface NewAnswer {
-  questionId: Types.ObjectId;
-  content: string;
-  isCorrect: boolean;
-}

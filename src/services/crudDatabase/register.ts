@@ -1,6 +1,7 @@
 import { ObjectId } from "~/types";
 import RegisterModel from "~/models/RegisterModel";
 import CourseModel from "~/models/CourseModel";
+import { Types } from "mongoose";
 
 export const checkRegisteredCourse = async (registerForm) => {
   const { userId, courseId } = registerForm;
@@ -37,11 +38,10 @@ export const deleteRegisterById = async (registerId: string) => {
   return output;
 };
 
-export const deleteManyRegisters = async (registerIds) => {
+export const deleteManyRegisters = async (registerIds: Types.ObjectId[]) => {
   const output = await RegisterModel.deleteMany({
     _id: { $in: registerIds }
   }).lean();
-
   return output;
 };
 
@@ -50,7 +50,6 @@ export const getRegisterByUserAndCourse = async ({ userId, courseId }) => {
     userId: new ObjectId(userId),
     courseId: new ObjectId(courseId)
   });
-
   return register;
 };
 

@@ -1,4 +1,5 @@
-import { ObjectId } from "~/types";
+import { Types } from "mongoose";
+import { Lesson, ObjectId } from "~/types";
 import LessonModel from "~/models/LessonModel";
 
 export const checkExistedLesson = async (name: string, videoId: string, courseId: string) => {
@@ -29,7 +30,7 @@ export const checkExistedOtherLessonName = async (lessonId: string, lessonName: 
   return false;
 };
 
-export const createNewLesson = async (lesson) => {
+export const createNewLesson = async (lesson: Lesson) => {
   const newLesson = new LessonModel(lesson);
   const saveLesson = await newLesson.save();
   return saveLesson;
@@ -48,7 +49,7 @@ export const findListLessons = async (courseId: string) => {
   return lessons;
 };
 
-export const updateExistedLesson = async (lessonId: string, lessonInfo) => {
+export const updateExistedLesson = async (lessonId: string, lessonInfo: Lesson) => {
   const updatedLesson = await LessonModel.findOneAndUpdate(
     { _id: new ObjectId(lessonId) },
     lessonInfo,
@@ -67,7 +68,7 @@ export const deleteLessonById = async (lessonId: string) => {
   return lesson;
 };
 
-export const deleteManyLessons = async (lessonIds) => {
+export const deleteManyLessons = async (lessonIds: Types.ObjectId[]) => {
   const deleteInfo = await LessonModel.deleteMany({
     _id: { $in: lessonIds }
   }).lean();
