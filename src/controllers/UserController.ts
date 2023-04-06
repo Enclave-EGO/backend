@@ -4,16 +4,16 @@ import {
   createNewUser,
   checkUserSignIn,
   checkValidToken
-} from "../services/crudDatabase/user";
-import { generateAccessToken } from "../services/authentication/index";
-import { validateUser, validateSignIn } from "../validators/userValidator";
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/appError";
+} from "~/services/crudDatabase/user";
+import { generateAccessToken } from "~/services/authentication";
+import { validateUser, validateSignIn } from "~/validators/userValidator";
+import { RequestMiddleware } from "~/types";
+import catchAsync from "~/utils/catchAsync";
+import AppError from "~/utils/appError";
 
 const UserController = {
-  createUser: catchAsync(async (req, res, next) => {
+  createUser: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const { status, error } = await validateUser(req);
-
     if (status === "Fail") return next(new AppError(error, 400));
 
     const { password, username, name, email, role } = req.body;
@@ -34,7 +34,6 @@ const UserController = {
     };
 
     const output = await createNewUser(newUser);
-
     const payload = { _id: output._id, role: role };
     const token = await generateAccessToken(payload);
 
@@ -45,13 +44,13 @@ const UserController = {
     });
   }),
 
-  signIn: catchAsync(async (req, res, next) => {
+  signIn: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const { status, error } = await validateSignIn(req);
     if (status === "Fail") return next(new AppError(error, 400));
 
-    const { password, username } = req.body;
-
+    const { username, password } = req.body;
     const user = { username, password };
+
     const output = await checkUserSignIn(user);
     if (output === null) {
       return res.json({
@@ -68,10 +67,9 @@ const UserController = {
     }
   }),
 
-  checkValidToken: catchAsync(async (req, res, next) => {
+  checkValidToken: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const token = req.body.token;
     const isValidToken = await checkValidToken(token);
-
     return res.json({
       status: "Success",
       error: null,

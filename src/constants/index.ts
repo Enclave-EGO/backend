@@ -1,8 +1,6 @@
 import dotenv from "dotenv";
-import mongoose from "mongoose";
 dotenv.config();
 
-export const ObjectId = mongoose.Types.ObjectId;
 export const MONGO_URI = process.env.MONGO_URI || "";
 export const EXPIRES_IN = process.env.EXPIRES_IN || 30;
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || "";

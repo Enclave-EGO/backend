@@ -1,7 +1,8 @@
-import { returnValidationResult } from "./index";
+import { Request } from "express";
 import { body } from "express-validator";
+import { returnValidationResult } from "./index";
 
-const validateTestTimeLimit = async (req, isOptional = false) => {
+const validateTestTimeLimit = async (req: Request, isOptional = false) => {
   await body("timeLimit")
     .optional({
       checkFalsy: false,
@@ -14,7 +15,7 @@ const validateTestTimeLimit = async (req, isOptional = false) => {
     .run(req);
 };
 
-const validateTestScore = async (req, isOptional = false) => {
+const validateTestScore = async (req: Request, isOptional = false) => {
   await body("score")
     .optional({
       checkFalsy: isOptional,
@@ -27,7 +28,7 @@ const validateTestScore = async (req, isOptional = false) => {
     .run(req);
 };
 
-const validateTestDescription = async (req, isOptional = false) => {
+const validateTestDescription = async (req: Request, isOptional = false) => {
   await body("description")
     .optional({
       checkFalsy: isOptional,
@@ -41,14 +42,17 @@ const validateTestDescription = async (req, isOptional = false) => {
     .run(req);
 };
 
-export const validateTest = async (req) => {
-  await Promise.all([validateTestTimeLimit(req), validateTestDescription(req), validateTestScore(req)]);
+export const validateTest = async (req: Request) => {
+  await Promise.all([
+    validateTestTimeLimit(req),
+    validateTestDescription(req),
+    validateTestScore(req)
+  ]);
   return returnValidationResult(req);
 };
 
-export const validateUpdateTestOptional = async (req) => {
+export const validateUpdateTestOptional = async (req: Request) => {
   const isOptional = true;
-
   await Promise.all([
     validateTestTimeLimit(req, isOptional),
     validateTestDescription(req, isOptional),

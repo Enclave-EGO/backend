@@ -1,20 +1,20 @@
-import { ObjectId } from "../../constants/index";
-import UserModel from "../../models/UserModel";
-import { generateAccessToken, hashPassword, comparePassword, decodeToken } from "../authentication/index";
+import { ObjectId } from "~/types";
+import UserModel from "~/models/UserModel";
+import { generateAccessToken, hashPassword, comparePassword, decodeToken } from "~/authentication";
 
-export const checkExistedUserId = async (userId) => {
+export const checkExistedUserId = async (userId: string) => {
   const isExistedUser = await UserModel.exists({
     _id: new ObjectId(userId)
   });
   return Boolean(isExistedUser);
 };
 
-export const checkExistedUsername = async (username) => {
+export const checkExistedUsername = async (username: string) => {
   const user = await UserModel.findOne({ username });
   return Boolean(user);
 };
 
-export const checkExistedEmail = async (email) => {
+export const checkExistedEmail = async (email: string) => {
   const user = await UserModel.findOne({ email });
   return Boolean(user);
 };
@@ -61,7 +61,7 @@ export const checkUserSignIn = async (user) => {
   return null;
 };
 
-export const checkValidToken = async (token) => {
+export const checkValidToken = async (token: string) => {
   const decodeTokenValue = await decodeToken(token);
   const tokenExpireTime = decodeTokenValue.exp;
   const currentTimestamp = Math.floor(Date.now() / 1000);

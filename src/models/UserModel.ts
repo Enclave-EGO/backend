@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { Role } from "../utils/index";
-import { DEFAULT_USER_AVATAR } from "../constants/index";
+import { Role } from "~/utils";
+import { DEFAULT_USER_AVATAR } from "~/constants";
 
 const UserSchema = new mongoose.Schema(
   {

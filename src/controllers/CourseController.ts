@@ -8,14 +8,15 @@ import {
   checkExistedCourseId,
   checkExistedCourseName,
   checkExistedOtherCourseName
-} from "../services/crudDatabase/course";
-import { checkExistedUserId } from "../services/crudDatabase/user";
-import { validateCourse, validateUpdateCourse } from "../validators/courseValidator";
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/appError";
+} from "~/services/crudDatabase/course";
+import { checkExistedUserId } from "~/services/crudDatabase/user";
+import { validateCourse, validateUpdateCourse } from "~/validators/courseValidator";
+import { RequestMiddleware } from "~/types";
+import catchAsync from "~/utils/catchAsync";
+import AppError from "~/utils/appError";
 
 const CourseController = {
-  createCourse: catchAsync(async (req, res, next) => {
+  createCourse: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const { status, error } = await validateCourse(req);
     const { name, userId } = req.body;
 
@@ -37,10 +38,9 @@ const CourseController = {
     });
   }),
 
-  getCourses: catchAsync(async (req, res) => {
+  getCourses: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const userId = req.query.userId;
     const courses = await findListCourses(userId);
-
     return res.json({
       status: "Success",
       error: null,
@@ -48,10 +48,9 @@ const CourseController = {
     });
   }),
 
-  getCourseById: catchAsync(async (req, res) => {
+  getCourseById: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const courseId = req.params.courseId;
     const course = await getCourseById(courseId);
-
     return res.json({
       status: "Success",
       error: null,
@@ -59,7 +58,7 @@ const CourseController = {
     });
   }),
 
-  updateCourse: catchAsync(async (req, res, next) => {
+  updateCourse: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const courseId = req.params.courseId;
     const name = req.body.name;
 
@@ -70,13 +69,10 @@ const CourseController = {
       checkExistedCourseId(courseId),
       checkExistedOtherCourseName(courseId, name)
     ]);
-
     if (isExistedCourseId === false) return next(new AppError("Course ID is not existed", 404));
-
     if (isExistedOtherCourseName) return next(new AppError("Course name is existed", 400));
 
     const course = await updateExistedCourse(courseId, req.body);
-
     return res.json({
       status: "Success",
       error: null,
@@ -84,10 +80,9 @@ const CourseController = {
     });
   }),
 
-  deleteCourseById: catchAsync(async (req, res) => {
+  deleteCourseById: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const courseId = req.params.courseId;
     const course = await deleteCourseById(courseId);
-
     return res.json({
       status: "Success",
       error: null,
@@ -95,7 +90,7 @@ const CourseController = {
     });
   }),
 
-  deleteManyCourses: catchAsync(async (req, res) => {
+  deleteManyCourses: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const courseIds = req.body.courseIds;
     const deleteInfo = await deleteManyCourses(courseIds);
     const deletedCount = deleteInfo.deletedCount;

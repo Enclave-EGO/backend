@@ -5,14 +5,15 @@ import {
   checkExistedTest,
   updateExistedTest,
   handleDeleteTests
-} from "../services/crudDatabase/test";
-import { checkExistedLessonId } from "../services/crudDatabase/lesson";
-import { validateTest, validateUpdateTestOptional } from "../validators/testValidator";
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/appError";
+} from "~/services/crudDatabase/test";
+import { checkExistedLessonId } from "~/services/crudDatabase/lesson";
+import { validateTest, validateUpdateTestOptional } from "~/validators/testValidator";
+import { RequestMiddleware } from "~/types";
+import catchAsync from "~/utils/catchAsync";
+import AppError from "~/utils/appError";
 
 const TestController = {
-  createTest: catchAsync(async (req, res, next) => {
+  createTest: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const { status, error } = await validateTest(req);
     const lessonId = req.body.lessonId;
 
@@ -22,7 +23,6 @@ const TestController = {
     if (isExistedLessonId === false) return next(new AppError("Lesson Id is not existed", 404));
 
     const test = await createNewTest(req.body);
-
     return res.json({
       status: "Success",
       error: null,
@@ -30,10 +30,9 @@ const TestController = {
     });
   }),
 
-  getTestsByLesson: catchAsync(async (req, res) => {
+  getTestsByLesson: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const lessonId = req.query.lessonId;
     const listTests = await getTestsByLesson(lessonId);
-
     return res.json({
       status: "Success",
       error: null,
@@ -41,10 +40,9 @@ const TestController = {
     });
   }),
 
-  getTestById: catchAsync(async (req, res) => {
+  getTestById: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const testId = req.params.testId;
     const testDetail = await getTestDetail(testId);
-
     return res.json({
       status: "Success",
       error: null,
@@ -52,7 +50,7 @@ const TestController = {
     });
   }),
 
-  updateTest: catchAsync(async (req, res, next) => {
+  updateTest: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const testId = req.params.id;
 
     const { status, error } = await validateUpdateTestOptional(req);
@@ -62,7 +60,6 @@ const TestController = {
     if (isExistedTestId === false) return next(new AppError("Test Id is not existed", 404));
 
     const test = await updateExistedTest(testId, req.body);
-
     return res.json({
       status: "Success",
       error: null,
@@ -70,7 +67,7 @@ const TestController = {
     });
   }),
 
-  deleteTest: catchAsync(async (req, res) => {
+  deleteTest: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const testId = req.params.testId;
     const deleteTestArray = [testId];
     const deleteInfo = await handleDeleteTests(deleteTestArray);
@@ -82,10 +79,9 @@ const TestController = {
     });
   }),
 
-  deleteManyTests: catchAsync(async (req, res) => {
+  deleteManyTests: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const testIds = req.body.testIds;
     const deleteInfo = await handleDeleteTests(testIds);
-
     return res.json({
       status: "Success",
       error: null,

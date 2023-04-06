@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ObjectId } from "../constants/index";
+import { ObjectId } from "~/types";
 
 const QuestionSchema = new mongoose.Schema(
   {

@@ -1,8 +1,8 @@
 import express from "express";
-import CourseController from "../controllers/CourseController";
-import { jwtGuard } from "../middlewares/authentication/jwtGuard";
-import { Roles } from "../middlewares/authentication/roleGuard";
-import { Role } from "../utils/index";
+import CourseController from "~/controllers/CourseController";
+import { jwtGuard } from "~/middlewares/authentication/jwtGuard";
+import { Roles } from "~/middlewares/authentication/roleGuard";
+import { Role } from "~/utils";
 
 const router = express.Router();
 

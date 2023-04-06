@@ -1,6 +1,6 @@
 import passport from "passport";
 import pkg from "passport-jwt";
-import { JWT_SECRET_KEY } from "../../constants/index";
+import { JWT_SECRET_KEY } from "~/constants";
 const { Strategy, ExtractJwt } = pkg;
 
 passport.use(

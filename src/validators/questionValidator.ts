@@ -1,7 +1,8 @@
-import { returnValidationResult } from "./index";
+import { Request } from "express";
 import { body } from "express-validator";
+import { returnValidationResult } from "./index";
 
-const validateQuestionTestId = async (req, isOptional = false) => {
+const validateQuestionTestId = async (req: Request, isOptional = false) => {
   await body("testId")
     .optional({
       checkFalsy: false,
@@ -15,7 +16,7 @@ const validateQuestionTestId = async (req, isOptional = false) => {
     .run(req);
 };
 
-const validateQuestionContent = async (req, isOptional = false) => {
+const validateQuestionContent = async (req: Request, isOptional = false) => {
   await body("content")
     .optional({
       checkFalsy: false,
@@ -29,7 +30,7 @@ const validateQuestionContent = async (req, isOptional = false) => {
     .run(req);
 };
 
-const validateQuestionIsMultiChoice = async (req, isOptional = false) => {
+const validateQuestionIsMultiChoice = async (req: Request, isOptional = false) => {
   await body("isMultiChoice")
     .optional({
       checkFalsy: false,
@@ -43,7 +44,7 @@ const validateQuestionIsMultiChoice = async (req, isOptional = false) => {
     .run(req);
 };
 
-const validateQuestionScore = async (req, isOptional = false) => {
+const validateQuestionScore = async (req: Request, isOptional = false) => {
   await body("score")
     .optional({
       checkFalsy: false,
@@ -56,7 +57,7 @@ const validateQuestionScore = async (req, isOptional = false) => {
     .run(req);
 };
 
-const validateQuestionAnswers = async (req, isOptional = false) => {
+const validateQuestionAnswers = async (req: Request, isOptional = false) => {
   await body("answers")
     .optional({
       checkFalsy: false,
@@ -69,7 +70,7 @@ const validateQuestionAnswers = async (req, isOptional = false) => {
     .run(req);
 };
 
-export const validateCreateQuestion = async (req) => {
+export const validateCreateQuestion = async (req: Request) => {
   await Promise.all([
     validateQuestionTestId(req),
     validateQuestionContent(req),
@@ -80,9 +81,8 @@ export const validateCreateQuestion = async (req) => {
   return returnValidationResult(req);
 };
 
-export const validateUpdateQuestion = async (req) => {
+export const validateUpdateQuestion = async (req: Request) => {
   const isOptional = true;
-
   await Promise.all([
     validateQuestionTestId(req, isOptional),
     validateQuestionContent(req, isOptional),

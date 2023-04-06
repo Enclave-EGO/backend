@@ -5,14 +5,15 @@ import {
   handleDeleteQuestionById,
   handleDeleteManyQuestions,
   getQuestionDetail
-} from "../services/crudDatabase/question";
-import { checkExistedTest } from "../services/crudDatabase/test";
-import { validateCreateQuestion, validateUpdateQuestion } from "../validators/questionValidator";
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/appError";
+} from "~/services/crudDatabase/question";
+import { checkExistedTest } from "~/services/crudDatabase/test";
+import { validateCreateQuestion, validateUpdateQuestion } from "~/validators/questionValidator";
+import { RequestMiddleware } from "~/types";
+import catchAsync from "~/utils/catchAsync";
+import AppError from "~/utils/appError";
 
 const QuestionController = {
-  createQuestion: catchAsync(async (req, res, next) => {
+  createQuestion: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const { status, error } = await validateCreateQuestion(req);
     const testId = req.body.testId;
 
@@ -22,7 +23,6 @@ const QuestionController = {
     if (isExistedTestId === false) return next(new AppError("Test ID is not existed", 404));
 
     const course = await handleCreateNewQuestion(req.body);
-
     return res.json({
       status: "Success",
       error: null,
@@ -30,7 +30,7 @@ const QuestionController = {
     });
   }),
 
-  updateQuestion: catchAsync(async (req, res, next) => {
+  updateQuestion: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const questionId = req.params.questionId;
     const testId = req.body.testId;
 
@@ -52,10 +52,9 @@ const QuestionController = {
     });
   }),
 
-  deleteQuestion: catchAsync(async (req, res) => {
+  deleteQuestion: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const questionId = req.params.questionId;
     const isDeleted = await handleDeleteQuestionById(questionId);
-
     return res.json({
       status: "Success",
       error: null,
@@ -63,10 +62,9 @@ const QuestionController = {
     });
   }),
 
-  deleteQuestions: catchAsync(async (req, res) => {
+  deleteQuestions: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const questionIds = req.body.questionIds;
     const isDeleted = await handleDeleteManyQuestions(questionIds);
-
     return res.json({
       status: "Success",
       error: null,
@@ -74,11 +72,9 @@ const QuestionController = {
     });
   }),
 
-  getQuestion: catchAsync(async (req, res) => {
+  getQuestion: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const questionId = req.params.questionId;
-
     const questionDetail = await getQuestionDetail(questionId);
-
     return res.json({
       status: "Success",
       error: null,

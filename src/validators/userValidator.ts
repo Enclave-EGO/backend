@@ -1,7 +1,8 @@
-import { returnValidationResult } from "./index";
+import { Request } from "express";
 import { body } from "express-validator";
+import { returnValidationResult } from "./index";
 
-const validateUsername = async (req) => {
+const validateUsername = async (req: Request) => {
   await body("username")
     .trim()
     .notEmpty()
@@ -13,7 +14,7 @@ const validateUsername = async (req) => {
     .run(req);
 };
 
-const validatePassword = async (req) => {
+const validatePassword = async (req: Request) => {
   await body("password")
     .trim()
     .notEmpty()
@@ -25,7 +26,7 @@ const validatePassword = async (req) => {
     .run(req);
 };
 
-const validateNameUser = async (req) => {
+const validateNameUser = async (req: Request) => {
   await body("name")
     .trim()
     .notEmpty()
@@ -35,7 +36,7 @@ const validateNameUser = async (req) => {
     .run(req);
 };
 
-const validateEmail = async (req) => {
+const validateEmail = async (req: Request) => {
   await body("email")
     .trim()
     .notEmpty()
@@ -45,12 +46,17 @@ const validateEmail = async (req) => {
     .run(req);
 };
 
-export const validateUser = async (req) => {
-  await Promise.all([validateUsername(req), validatePassword(req), validateNameUser(req), validateEmail(req)]);
+export const validateUser = async (req: Request) => {
+  await Promise.all([
+    validateUsername(req),
+    validatePassword(req),
+    validateNameUser(req),
+    validateEmail(req)
+  ]);
   return returnValidationResult(req);
 };
 
-export const validateSignIn = async (req) => {
+export const validateSignIn = async (req: Request) => {
   await Promise.all([validateUsername(req), validatePassword(req)]);
   return returnValidationResult(req);
 };

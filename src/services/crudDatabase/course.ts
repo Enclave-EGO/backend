@@ -1,7 +1,7 @@
-import { ObjectId } from "../../constants/index";
-import CourseModel from "../../models/CourseModel";
+import { ObjectId } from "~/types";
+import CourseModel from "~/models/CourseModel";
 
-export const checkExistedCourseId = async (courseId) => {
+export const checkExistedCourseId = async (courseId: string) => {
   const isExisted = await CourseModel.exists({
     _id: new ObjectId(courseId)
   }).lean();
@@ -10,7 +10,7 @@ export const checkExistedCourseId = async (courseId) => {
 };
 
 // Check if exists course by name. Except this course.
-export const checkExistedOtherCourseName = async (courseId, courseName) => {
+export const checkExistedOtherCourseName = async (courseId: string, courseName: string) => {
   const course = await CourseModel.findOne({
     name: courseName
   }).lean();
@@ -20,7 +20,7 @@ export const checkExistedOtherCourseName = async (courseId, courseName) => {
   else return false;
 };
 
-export const checkExistedCourseName = async (name) => {
+export const checkExistedCourseName = async (name: string) => {
   const isExisted = await CourseModel.exists({ name: name }).lean();
   return Boolean(isExisted);
 };
@@ -30,28 +30,32 @@ export const createNewCourse = async (course) => {
   return newCourse;
 };
 
-export const findListCourses = async (userId) => {
+export const findListCourses = async (userId: string) => {
   const queryCondition = userId ? { userId: new ObjectId(userId) } : {};
   const courses = await CourseModel.find(queryCondition).lean();
   return courses;
 };
 
-export const getCourseById = async (courseId) => {
+export const getCourseById = async (courseId: string) => {
   const course = await CourseModel.findOne({
     _id: new ObjectId(courseId)
   }).lean();
   return course;
 };
 
-export const updateExistedCourse = async (courseId, courseInfo) => {
-  const updatedCourse = await CourseModel.findOneAndUpdate({ _id: new ObjectId(courseId) }, courseInfo, {
-    new: true
-  }).lean();
+export const updateExistedCourse = async (courseId: string, courseInfo) => {
+  const updatedCourse = await CourseModel.findOneAndUpdate(
+    { _id: new ObjectId(courseId) },
+    courseInfo,
+    {
+      new: true
+    }
+  ).lean();
 
   return updatedCourse;
 };
 
-export const deleteCourseById = async (courseId) => {
+export const deleteCourseById = async (courseId: string) => {
   const course = await CourseModel.findOneAndDelete({
     _id: new ObjectId(courseId)
   }).lean();

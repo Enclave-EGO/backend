@@ -1,12 +1,12 @@
-import { ObjectId } from "../../constants/index";
-import AnswerModel from "../../models/AnswerModel";
+import { ObjectId } from "~/types";
+import AnswerModel from "~/models/AnswerModel";
 
 export const createNewAnswer = async (answer) => {
   const newAnswer = await AnswerModel.create(answer);
   return newAnswer;
 };
 
-export const handleCreateNewAnswers = async (questionId, answers) => {
+export const handleCreateNewAnswers = async (questionId: string, answers) => {
   const promises = answers.map((answer) => {
     const newAnswer = {
       questionId: new ObjectId(questionId),
@@ -20,20 +20,22 @@ export const handleCreateNewAnswers = async (questionId, answers) => {
   return resultArray;
 };
 
-export const updateAnswer = async (answerId, answerInfo) => {
-  const updatedAnswer = await AnswerModel.findOneAndUpdate({ _id: new ObjectId(answerId) }, answerInfo, { new: true });
+export const updateAnswer = async (answerId: string, answerInfo) => {
+  const updatedAnswer = await AnswerModel.findOneAndUpdate(
+    { _id: new ObjectId(answerId) },
+    answerInfo,
+    { new: true }
+  );
   return updatedAnswer;
 };
 
 export const handleUpdateAnswers = async (answers) => {
   const promises = answers.map((answer) => {
     const answerId = answer.answerId;
-
     const answerInfo = {
       content: answer.content,
       isCorrect: answer.isCorrect
     };
-
     return updateAnswer(answerId, answerInfo);
   });
 
@@ -41,7 +43,7 @@ export const handleUpdateAnswers = async (answers) => {
   return resultArray;
 };
 
-export const deleteAnswersOfQuestion = async (questionId) => {
+export const deleteAnswersOfQuestion = async (questionId: string) => {
   const deletedInfo = await AnswerModel.deleteMany({
     questionId: new ObjectId(questionId)
   }).lean();

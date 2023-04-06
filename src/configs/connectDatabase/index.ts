@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { MONGO_URI } from "../../constants/index";
+import { MONGO_URI } from "~/constants";
 
 const connectDatabase = () => {
   mongoose

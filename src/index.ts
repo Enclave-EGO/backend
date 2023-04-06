@@ -5,8 +5,9 @@ import swaggerUI from "swagger-ui-express";
 import cookieParse from "cookie-parser";
 import routing from "./routes/index";
 import connectDatabase from "./configs/connectDatabase/index";
-import { swaggerSpecs } from "./configs/swagger/index";
+import { swaggerSpecs } from "./configs/swaggerUI/index";
 import { PORT, HOST_URL, SWAGGER_URL } from "./constants/index";
+
 const app: Express = express();
 
 // Config Swagger
@@ -19,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParse());
 
-// Connect DB & Routing
+// Connect database and routing
 connectDatabase();
 routing(app);
 

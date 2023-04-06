@@ -1,10 +1,10 @@
-import AnswerModel from "../../models/AnswerModel";
-import TestResultModel from "../../models/TestResultModel";
-import QuestionModel from "../../models/QuestionModel";
-import TestModel from "../../models/TestModel";
-import { ObjectId } from "../../constants/index";
+import { ObjectId } from "~/types";
+import AnswerModel from "~/models/AnswerModel";
+import TestResultModel from "~/models/TestResultModel";
+import QuestionModel from "~/models/QuestionModel";
+import TestModel from "~/models/TestModel";
 
-export const getAnswersOfQuestion = async (questionId) => {
+export const getAnswersOfQuestion = async (questionId: string) => {
   const answers = await AnswerModel.find(
     { questionId: new ObjectId(questionId), isCorrect: true },
     { _id: true },
@@ -15,13 +15,17 @@ export const getAnswersOfQuestion = async (questionId) => {
   return output;
 };
 
-export const getScoreQuestion = async (questionId, answers) => {
-  const questionDetail = await QuestionModel.findOne({ _id: new ObjectId(questionId) }, { score: true }).lean();
+export const getScoreQuestion = async (questionId: string, answers) => {
+  const questionDetail = await QuestionModel.findOne(
+    { _id: new ObjectId(questionId) },
+    { score: true }
+  ).lean();
 
   const correctAnswer = await getAnswersOfQuestion(questionId);
 
   // Get a score by Comparing the array of correct answers with the array of user answers
-  const score = JSON.stringify(correctAnswer) === JSON.stringify(answers) ? questionDetail.score : 0;
+  const score =
+    JSON.stringify(correctAnswer) === JSON.stringify(answers) ? questionDetail.score : 0;
 
   return score;
 };
@@ -64,7 +68,7 @@ export const checkDidTest = async ({ userId, testId }) => {
   return Boolean(isExisted);
 };
 
-export const getTestResult = async (userId, testId) => {
+export const getTestResult = async (userId: string, testId: string) => {
   const test = await TestModel.findOne({ _id: new ObjectId(testId) });
 
   const testResult = await TestResultModel.findOne({

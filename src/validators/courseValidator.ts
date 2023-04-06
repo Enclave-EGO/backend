@@ -1,7 +1,8 @@
-import { returnValidationResult } from "./index";
+import { Request } from "express";
 import { body } from "express-validator";
+import { returnValidationResult } from "./index";
 
-const validateCourseName = async (req, isOptional = false) => {
+const validateCourseName = async (req: Request, isOptional = false) => {
   await body("name")
     .optional({
       checkFalsy: false,
@@ -15,7 +16,7 @@ const validateCourseName = async (req, isOptional = false) => {
     .run(req);
 };
 
-const validateCourseCost = async (req, isOptional = false) => {
+const validateCourseCost = async (req: Request, isOptional = false) => {
   await body("cost")
     .optional({
       checkFalsy: false,
@@ -28,7 +29,7 @@ const validateCourseCost = async (req, isOptional = false) => {
     .run(req);
 };
 
-const validateCourseDescription = async (req, isOptional = false) => {
+const validateCourseDescription = async (req: Request, isOptional = false) => {
   await body("description")
     .optional({
       checkFalsy: false,
@@ -42,7 +43,7 @@ const validateCourseDescription = async (req, isOptional = false) => {
     .run(req);
 };
 
-const validateCourseThumbnail = async (req, isOptional = false) => {
+const validateCourseThumbnail = async (req: Request, isOptional = false) => {
   await body("thumbnail")
     .optional({
       checkFalsy: false,
@@ -51,12 +52,14 @@ const validateCourseThumbnail = async (req, isOptional = false) => {
     .trim()
     .notEmpty()
     .withMessage("Course thumbnail is required")
-    .matches(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/)
+    .matches(
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+    )
     .withMessage("Course thumbnail is invalid")
     .run(req);
 };
 
-const validateCourseUserId = async (req) => {
+const validateCourseUserId = async (req: Request) => {
   await body("userId")
     .trim()
     .notEmpty()
@@ -66,7 +69,7 @@ const validateCourseUserId = async (req) => {
     .run(req);
 };
 
-export const validateCourse = async (req) => {
+export const validateCourse = async (req: Request) => {
   await Promise.all([
     validateCourseName(req),
     validateCourseCost(req),
@@ -77,9 +80,8 @@ export const validateCourse = async (req) => {
   return returnValidationResult(req);
 };
 
-export const validateUpdateCourse = async (req) => {
+export const validateUpdateCourse = async (req: Request) => {
   const isOptional = true;
-
   await Promise.all([
     validateCourseName(req, isOptional),
     validateCourseCost(req, isOptional),

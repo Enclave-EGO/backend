@@ -1,6 +1,6 @@
-import RegisterModel from "../../models/RegisterModel";
-import CourseModel from "../../models/CourseModel";
-import { ObjectId } from "../../constants/index";
+import { ObjectId } from "~/types";
+import RegisterModel from "~/models/RegisterModel";
+import CourseModel from "~/models/CourseModel";
 
 export const checkRegisteredCourse = async (registerForm) => {
   const { userId, courseId } = registerForm;
@@ -13,7 +13,7 @@ export const checkRegisteredCourse = async (registerForm) => {
   return Boolean(isRegisteredCourse);
 };
 
-export const checkRegisterById = async (registerId) => {
+export const checkRegisterById = async (registerId: string) => {
   const output = await RegisterModel.findOne({ _id: new ObjectId(registerId) });
   return Boolean(output);
 };
@@ -30,7 +30,7 @@ export const registerCourse = async (registerForm) => {
   return output;
 };
 
-export const deleteRegisterById = async (registerId) => {
+export const deleteRegisterById = async (registerId: string) => {
   const output = await RegisterModel.findOneAndDelete({
     _id: new ObjectId(registerId)
   }).lean();
@@ -54,7 +54,7 @@ export const getRegisterByUserAndCourse = async ({ userId, courseId }) => {
   return register;
 };
 
-export const getRegisteredCoursesByUser = async (userId) => {
+export const getRegisteredCoursesByUser = async (userId: string) => {
   const registeredCourses = await RegisterModel.find({
     userId: new ObjectId(userId)
   });
@@ -68,7 +68,7 @@ export const getRegisteredCoursesByUser = async (userId) => {
   return courses;
 };
 
-export const getNotRegisteredCoursesByUser = async (userId) => {
+export const getNotRegisteredCoursesByUser = async (userId: string) => {
   const registeredCourses = await RegisterModel.find({
     userId: new ObjectId(userId)
   });

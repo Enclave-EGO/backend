@@ -1,4 +1,5 @@
-import AppError from "../utils/appError";
+import { RequestMiddleware, RequestErrorHandlerMiddleware } from "~/types";
+import AppError from "~/utils/appError";
 
 const handleCastErrorDB = (err) => {
   const message = `Invalid ${err.path}: ${err.value}.`;
@@ -14,9 +15,10 @@ const handleDuplicateFieldsDB = (err) => {
 
 const handleJWTError = () => new AppError("Invalid token. Please log in again!", 401);
 
-const handleJWTExpiredError = () => new AppError("Your token has expired! Please log in again.", 401);
+const handleJWTExpiredError = () =>
+  new AppError("Your token has expired! Please log in again.", 401);
 
-const sendErrorDev = (err, req, res) => {
+const sendErrorDev = ({ err, req, res }: RequestErrorHandlerMiddleware) => {
   return res.status(err.statusCode).json({
     status: err.status,
     error: err,
@@ -25,7 +27,7 @@ const sendErrorDev = (err, req, res) => {
   });
 };
 
-const sendErrorProd = (err, req, res) => {
+const sendErrorProd = ({ err, req, res }: RequestErrorHandlerMiddleware) => {
   if (err.isOperational) {
     return res.status(err.statusCode).json({
       status: err.status,
@@ -34,8 +36,8 @@ const sendErrorProd = (err, req, res) => {
     });
   }
 
-  console.error("ERROR 💥", err);
   // Send generic message
+  console.error("ERROR 💥", err);
   return res.status(500).json({
     status: "error",
     error: "Something went very wrong!",
@@ -43,7 +45,7 @@ const sendErrorProd = (err, req, res) => {
   });
 };
 
-export default (err, req, res, next) => {
+export default ({ err, req, res, next }: RequestErrorHandlerMiddleware) => {
   const isProduction = process.env.NODE_ENV === "production";
 
   err.statusCode = err.statusCode || 500;

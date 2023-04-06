@@ -8,14 +8,15 @@ import {
   checkExistedLessonId,
   checkExistedOtherLessonName,
   updateExistedLesson
-} from "../services/crudDatabase/lesson";
-import { checkExistedCourseId } from "../services/crudDatabase/course";
-import { validateLesson, validateUpdateLesson } from "../validators/lessonValidator";
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/appError";
+} from "~/services/crudDatabase/lesson";
+import { checkExistedCourseId } from "~/services/crudDatabase/course";
+import { validateLesson, validateUpdateLesson } from "~/validators/lessonValidator";
+import { RequestMiddleware } from "~/types";
+import catchAsync from "~/utils/catchAsync";
+import AppError from "~/utils/appError";
 
 const LessonController = {
-  createLesson: catchAsync(async (req, res, next) => {
+  createLesson: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const { status, error } = await validateLesson(req);
     const { name, description, videoId, courseId } = req.body;
 
@@ -33,11 +34,9 @@ const LessonController = {
     return res.json({ status: "Success", error: null, data: saveLesson });
   }),
 
-  // [GET] View list lessons (by courseID)
-  getLessons: catchAsync(async (req, res) => {
+  getLessons: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const courseId = req.query.courseId;
     const lessons = await findListLessons(courseId);
-
     return res.json({
       status: "Success",
       error: null,
@@ -45,9 +44,8 @@ const LessonController = {
     });
   }),
 
-  getLesson: catchAsync(async (req, res) => {
+  getLesson: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const lesson = await findLessonById(req.params.id);
-
     return res.json({
       status: "Success",
       error: null,
@@ -55,7 +53,7 @@ const LessonController = {
     });
   }),
 
-  updateLesson: catchAsync(async (req, res, next) => {
+  updateLesson: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const lessonId = req.params.id;
     const name = req.body.name;
 
@@ -66,13 +64,10 @@ const LessonController = {
       checkExistedLessonId(lessonId),
       checkExistedOtherLessonName(lessonId, name)
     ]);
-
     if (isExistedLessonId === false) return next(new AppError("Lesson ID is not existed", 404));
-
     if (isExistedOtherLessonName) return next(new AppError("Lesson name is existed", 400));
 
     const lesson = await updateExistedLesson(lessonId, req.body);
-
     return res.json({
       status: "Success",
       error: null,
@@ -80,10 +75,9 @@ const LessonController = {
     });
   }),
 
-  deleteLesson: catchAsync(async (req, res) => {
+  deleteLesson: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const lessonId = req.params.id;
     const lesson = await deleteLessonById(lessonId);
-
     return res.json({
       status: "Success",
       error: null,
@@ -91,7 +85,7 @@ const LessonController = {
     });
   }),
 
-  deleteLessons: catchAsync(async (req, res) => {
+  deleteLessons: catchAsync(async ({ req, res, next }: RequestMiddleware) => {
     const lessonIds = req.body.lessonIds;
     const deleteInfo = await deleteManyLessons(lessonIds);
     const deletedCount = deleteInfo.deletedCount;
