@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from "express";
 import {
   checkExistedQuestion,
   handleCreateNewQuestion,
@@ -5,12 +6,11 @@ import {
   handleDeleteQuestionById,
   handleDeleteManyQuestions,
   getQuestionDetail
-} from "~/services/crudDatabase/question";
-import { checkExistedTest } from "~/services/crudDatabase/test";
-import { validateCreateQuestion, validateUpdateQuestion } from "~/validators/questionValidator";
-import { Request, Response, NextFunction } from "express";
-import catchAsync from "~/utils/catchAsync";
-import AppError from "~/utils/appError";
+} from "../services/crudDatabase/question";
+import { checkExistedTest } from "../services/crudDatabase/test";
+import { validateCreateQuestion, validateUpdateQuestion } from "../validators/questionValidator";
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/appError";
 
 const QuestionController = {
   createQuestion: catchAsync(async (req: Request, res: Response, next: NextFunction) => {

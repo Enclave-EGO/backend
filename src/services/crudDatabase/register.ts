@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
-import { ObjectId, RegisterForm, RegisterFormBody } from "~/types";
-import RegisterModel from "~/models/RegisterModel";
-import CourseModel from "~/models/CourseModel";
+import { ObjectId, RegisterForm, RegisterFormBody } from "../../types";
+import RegisterModel from "../../models/RegisterModel";
+import CourseModel from "../../models/CourseModel";
 
 export const checkRegisteredCourse = async (registerForm: RegisterForm) => {
   const { userId, courseId } = registerForm;

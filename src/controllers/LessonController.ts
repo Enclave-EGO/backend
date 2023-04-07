@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from "express";
 import {
   checkExistedLesson,
   createNewLesson,
@@ -8,12 +9,11 @@ import {
   checkExistedLessonId,
   checkExistedOtherLessonName,
   updateExistedLesson
-} from "~/services/crudDatabase/lesson";
-import { checkExistedCourseId } from "~/services/crudDatabase/course";
-import { validateLesson, validateUpdateLesson } from "~/validators/lessonValidator";
-import { Request, Response, NextFunction } from "express";
-import catchAsync from "~/utils/catchAsync";
-import AppError from "~/utils/appError";
+} from "../services/crudDatabase/lesson";
+import { checkExistedCourseId } from "../services/crudDatabase/course";
+import { validateLesson, validateUpdateLesson } from "../validators/lessonValidator";
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/appError";
 
 const LessonController = {
   createLesson: catchAsync(async (req: Request, res: Response, next: NextFunction) => {

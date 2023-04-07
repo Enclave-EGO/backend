@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { ObjectId } from "~/types";
-import { DEFAULT_COURSE_THUMBNAIL } from "~/constants";
+import { ObjectId } from "../types";
+import { DEFAULT_COURSE_THUMBNAIL } from "../constants";
 
 const CourseSchema = new mongoose.Schema(
   {

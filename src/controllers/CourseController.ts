@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from "express";
 import {
   createNewCourse,
   findListCourses,
@@ -8,12 +9,11 @@ import {
   checkExistedCourseId,
   checkExistedCourseName,
   checkExistedOtherCourseName
-} from "~/services/crudDatabase/course";
-import { checkExistedUserId } from "~/services/crudDatabase/user";
-import { validateCourse, validateUpdateCourse } from "~/validators/courseValidator";
-import { Request, Response, NextFunction } from "express";
-import catchAsync from "~/utils/catchAsync";
-import AppError from "~/utils/appError";
+} from "../services/crudDatabase/course";
+import { checkExistedUserId } from "../services/crudDatabase/user";
+import { validateCourse, validateUpdateCourse } from "../validators/courseValidator";
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/appError";
 
 const CourseController = {
   createCourse: catchAsync(async (req: Request, res: Response, next: NextFunction) => {

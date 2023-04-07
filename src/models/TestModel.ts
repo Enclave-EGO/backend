@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ObjectId } from "~/types";
+import { ObjectId } from "../types";
 
 const TestSchema = new mongoose.Schema(
   {

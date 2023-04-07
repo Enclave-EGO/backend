@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
-import { Lesson, ObjectId } from "~/types";
-import LessonModel from "~/models/LessonModel";
+import { Lesson, ObjectId } from "../../types";
+import LessonModel from "../../models/LessonModel";
 
 export const checkExistedLesson = async (name: string, videoId: string, courseId: string) => {
   const [isExistedName, isExistedVideo] = await Promise.all([

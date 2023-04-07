@@ -1,11 +1,11 @@
-import { ObjectId, UserSignIn, UserSignUp } from "~/types";
-import UserModel from "~/models/UserModel";
+import { ObjectId, UserSignIn, UserSignUp } from "../../types";
+import UserModel from "../../models/UserModel";
 import {
   generateAccessToken,
   hashPassword,
   comparePassword,
   decodeToken
-} from "~/services/authentication";
+} from "../../services/authentication";
 
 export const checkExistedUserId = async (userId: string) => {
   const isExistedUser = await UserModel.exists({

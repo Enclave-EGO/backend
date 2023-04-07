@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from "express";
 import {
   createNewTest,
   getTestDetail,
@@ -5,13 +6,12 @@ import {
   checkExistedTest,
   updateExistedTest,
   handleDeleteTests
-} from "~/services/crudDatabase/test";
-import { checkExistedLessonId } from "~/services/crudDatabase/lesson";
-import { validateTest, validateUpdateTestOptional } from "~/validators/testValidator";
-import { Request, Response, NextFunction } from "express";
-import { ObjectId } from "~/types";
-import catchAsync from "~/utils/catchAsync";
-import AppError from "~/utils/appError";
+} from "../services/crudDatabase/test";
+import { checkExistedLessonId } from "../services/crudDatabase/lesson";
+import { validateTest, validateUpdateTestOptional } from "../validators/testValidator";
+import { ObjectId } from "../types";
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/appError";
 
 const TestController = {
   createTest: catchAsync(async (req: Request, res: Response, next: NextFunction) => {

@@ -5,9 +5,9 @@ import {
   QuestionCreateBody,
   QuestionUpdate,
   QuestionUpdateBody
-} from "~/types";
-import QuestionModel from "~/models/QuestionModel";
-import AnswerModel from "~/models/AnswerModel";
+} from "../../types";
+import QuestionModel from "../../models/QuestionModel";
+import AnswerModel from "../../models/AnswerModel";
 import { updateTestScoreWhenCreateQuestion, updateTestScoreWhenUpdateQuestion } from "./test";
 import { handleCreateNewAnswers, handleUpdateAnswers, deleteAnswersOfQuestion } from "./answer";
 

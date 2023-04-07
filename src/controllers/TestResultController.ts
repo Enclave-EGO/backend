@@ -1,9 +1,9 @@
-import { checkDidTest, createTestResult, getTestResult } from "~/services/crudDatabase/testResult";
-import { checkExistedTest } from "~/services/crudDatabase/test";
-import { checkExistedUserId } from "~/services/crudDatabase/user";
 import { Request, Response, NextFunction } from "express";
-import catchAsync from "~/utils/catchAsync";
-import AppError from "~/utils/appError";
+import { checkExistedTest } from "../services/crudDatabase/test";
+import { checkExistedUserId } from "../services/crudDatabase/user";
+import { checkDidTest, createTestResult, getTestResult } from "../services/crudDatabase/testResult";
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/appError";
 
 const TestResultController = {
   getTestResult: catchAsync(async (req: Request, res: Response, next: NextFunction) => {

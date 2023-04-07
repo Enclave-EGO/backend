@@ -1,10 +1,7 @@
 import mongoose, { Types } from "mongoose";
-import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
+import { Request, Response, NextFunction } from "express";
 
 export const ObjectId = mongoose.Types.ObjectId;
-
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {};
 
 export type Error = {
   path: any;

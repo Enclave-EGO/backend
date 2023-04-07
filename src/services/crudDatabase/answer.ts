@@ -1,5 +1,5 @@
-import AnswerModel from "~/models/AnswerModel";
-import { AnswerUpdate, NewAnswer, ObjectId } from "~/types";
+import AnswerModel from "../../models/AnswerModel";
+import { AnswerUpdate, NewAnswer, ObjectId } from "../../types";
 
 export const createNewAnswer = async (answer: NewAnswer) => {
   const newAnswer = await AnswerModel.create(answer);

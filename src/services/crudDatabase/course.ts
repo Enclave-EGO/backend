@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
-import { CourseCreate, CourseUpdate, ObjectId } from "~/types";
-import CourseModel from "~/models/CourseModel";
+import { CourseCreate, CourseUpdate, ObjectId } from "../../types";
+import CourseModel from "../../models/CourseModel";
 
 export const checkExistedCourseId = async (courseId: string) => {
   const isExisted = await CourseModel.exists({

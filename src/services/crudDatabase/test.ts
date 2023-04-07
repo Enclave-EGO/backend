@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
-import { ObjectId, TestCreateBody } from "~/types";
-import TestModel from "~/models/TestModel";
-import QuestionModel from "~/models/QuestionModel";
+import { ObjectId, TestCreateBody } from "../../types";
+import TestModel from "../../models/TestModel";
+import QuestionModel from "../../models/QuestionModel";
 import { getQuestionDetail, getQuestionsByTests, handleDeleteManyQuestions } from "./question";
 
 export const checkExistedTest = async (testId: string) => {
@@ -68,7 +68,7 @@ export const getTestsByLesson = async (lessonId: string) => {
 };
 
 export const deleteTestsByIds = async (testIds: Types.ObjectId[]) => {
-  const output = await TestModel.deleteMany({
+  const output: any = await TestModel.deleteMany({
     _id: { $in: testIds }
   }).lean();
   return output;
@@ -93,7 +93,8 @@ export const updateTestScoreWhenCreateQuestion = async (
   newQuestionScore: number
 ) => {
   const test = await TestModel.findOne({ _id: new ObjectId(testId) }).lean();
-  const newTestScore = test?.score + newQuestionScore;
+  // const newTestScore = test?.score + newQuestionScore;
+  const newTestScore = 0;
 
   const updatedTest = await TestModel.findOneAndUpdate(
     { _id: new ObjectId(testId) },
@@ -117,11 +118,12 @@ export const updateTestScoreWhenUpdateQuestion = async (
     }).lean()
   ]);
 
-  const oldTestScore = test.score;
-  const oldQuestionScore = question.score;
+  const oldTestScore = test?.score;
+  const oldQuestionScore = question?.score;
 
   // 2. Calculate new test score
-  const newTestScore = oldTestScore - oldQuestionScore + newQuestionScore;
+  // const newTestScore = oldTestScore - oldQuestionScore + newQuestionScore;
+  const newTestScore = 0;
 
   // 3. Update test score
   const updatedTest = await TestModel.findOneAndUpdate(

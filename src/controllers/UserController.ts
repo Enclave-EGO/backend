@@ -1,15 +1,15 @@
+import { Request, Response, NextFunction } from "express";
 import {
   checkExistedEmail,
   checkExistedUsername,
   createNewUser,
   checkUserSignIn,
   checkValidToken
-} from "~/services/crudDatabase/user";
-import { generateAccessToken } from "~/services/authentication";
-import { validateUser, validateSignIn } from "~/validators/userValidator";
-import { Request, Response, NextFunction } from "express";
-import catchAsync from "~/utils/catchAsync";
-import AppError from "~/utils/appError";
+} from "../services/crudDatabase/user";
+import { generateAccessToken } from "../services/authentication";
+import { validateUser, validateSignIn } from "../validators/userValidator";
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/appError";
 
 const UserController = {
   createUser: catchAsync(async (req: Request, res: Response, next: NextFunction) => {

@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from "express";
 import {
   checkRegisterById,
   checkRegisteredCourse,
@@ -7,11 +8,10 @@ import {
   getRegisterByUserAndCourse,
   getRegisteredCoursesByUser,
   getNotRegisteredCoursesByUser
-} from "~/services/crudDatabase/register";
-import { checkExistedCourseId } from "~/services/crudDatabase/course";
-import { Request, Response, NextFunction } from "express";
-import catchAsync from "~/utils/catchAsync";
-import AppError from "~/utils/appError";
+} from "../services/crudDatabase/register";
+import { checkExistedCourseId } from "../services/crudDatabase/course";
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/appError";
 
 const RegisterController = {
   registerNewCourse: catchAsync(async (req: Request, res: Response, next: NextFunction) => {

@@ -1,4 +1,4 @@
-import { RequestMiddleware } from "~/types";
+import { RequestMiddleware } from "../../types";
 
 // Check if the user's role is allowed
 // permittedRoles: permitted roles array

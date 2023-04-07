@@ -1,8 +1,8 @@
 import express from "express";
-import QuestionController from "~/controllers/QuestionController";
-import { jwtGuard } from "~/middlewares/authentication/jwtGuard";
-import { Roles } from "~/middlewares/authentication/roleGuard";
-import { Role } from "~/utils";
+import QuestionController from "../controllers/QuestionController";
+import { jwtGuard } from "../middlewares/authentication/jwtGuard";
+import { Roles } from "../middlewares/authentication/roleGuard";
+import { Role } from "../utils";
 
 const router = express.Router();
 
